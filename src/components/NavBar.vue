@@ -1,23 +1,26 @@
 <template>
     <header class="text-gray-600 body-font">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-            <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-               <img src="logo.jpg" alt="" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full">
+            <router-link to="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                <img src="logo.jpg" alt="" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full">
                 <span class="ml-3 text-xl text-theme-accent uppercase">overshot</span>
-            </a>
+            </router-link>
             <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
 
                 <div class="mr-5" v-for="link in links">
-                    <a :href="link.url" class="hover:text-theme-accent text-theme-secondary uppercase">{{ link.name }}</a>
+                    <router-link :to="link.url" class="hover:text-theme-accent text-theme-secondary uppercase">{{ link.name
+                    }}</router-link>
                 </div>
             </nav>
-            <button
-                class="inline-flex text-theme-secondary items-center bg-theme-accent border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-            </button>
+            <router-link to="/signin">
+                <button
+                    class="inline-flex text-theme-secondary items-center bg-theme-accent border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Log In
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </router-link>
         </div>
     </header>
 </template>
@@ -25,14 +28,14 @@
 export default {
     data: () => {
         return {
-            links : [
+            links: [
                 {
-                    name : 'first link',
-                    url : '#'
+                    name: 'first link',
+                    url: '/about'
                 },
                 {
-                    name : 'second link',
-                    url : '#'
+                    name: 'second link',
+                    url: '#'
                 }
             ]
         }
