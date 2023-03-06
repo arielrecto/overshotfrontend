@@ -3,8 +3,6 @@
         sm:bg-[length:760px_390px] 
         lg:bg-[length:1020px_500px] 
         xl:bg-auto" :style="'background-image:' + 'url(' + data.banner + ')'">
-        <NavBar></NavBar>
-
         <section class="text-gray-600 body-font">
             <div
                 class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
