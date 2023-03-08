@@ -1,26 +1,23 @@
 <template>
-  <section class="text-gray-600 body-font">
-    <h1 class="text-3xl font-bold flex justify-center text-theme-accent p-5 my-16">Our Drinks</h1>
-    <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-wrap -m-4">
-        <div v-for="product in products" class="lg:w-1/4 md:w-1/2 p-4 w-full">
-          <a class="block relative h-48 rounded overflow-hidden">
-            <img alt="ecommerce" class="object-cover object-center w-full h-full block" :src="product.image">
-          </a>
-          <div class="mt-4">
-            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
-            <h2 class="text-gray-900 title-font text-lg font-medium">{{ product.name }}</h2>
-            <p class="mt-1 text-theme-accent">₱{{ product.price }}</p>
+  <div class="flex flex-col w-full min-h-screen my-5 p-5">
+    <h1 class="w-full flex justify-center text-3xl font-semibold text-theme-accent p-5 capitalize">our drinks</h1>
+    <div class="flex overflow-x-scroll w-full p-5 snap-mandatory snap-x">
+      <div class="bg-theme-primary drop-shadow-lg hover:bg-theme-secondary duration-700 rounded-xl  mx-5" v-for="product in products">
+        <div class="flex flex-col h-auto w-80 duration-700 hover:w-96 p-5 snap-center ">
+          <div class="flex justify-center">
+            <img :src="product.image" class="h-auto w-64" alt="Item One">
           </div>
+          <h1 class="capitalize text-lg font-semibold p-2 border-b border-theme-accent">{{ product.name }}</h1>
+          <h2 class="flex flex-row-reverse text-theme-accent">₱ {{ product.price }}</h2>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
 
-import item3 from '../assets/item2.jpg'
+import item3 from '../assets/item5.jpg'
 
 export default {
 
@@ -47,6 +44,18 @@ export default {
         },
         {
           id: 4,
+          name: 'itemOne',
+          price: '3000',
+          image: item3
+        },
+        {
+          id: 5,
+          name: 'itemOne',
+          price: '3000',
+          image: item3
+        },
+        {
+          id: 5,
           name: 'itemOne',
           price: '3000',
           image: item3

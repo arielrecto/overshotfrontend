@@ -1,28 +1,26 @@
 <template>
-    <header class="text-gray-600 body-font">
-        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-            <router-link to="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                <img src="logo.jpg" alt="" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full">
-                <span class="ml-3 text-xl text-theme-accent uppercase">overshot</span>
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
+            <router-link to="/" href="https://flowbite.com" class="flex items-center">
+                <img src="/logo.jpg" class="h-6 mr-3 sm:h-9 rounded-full" alt="Overshot Logo" />
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-theme-accent">Overshot</span>
             </router-link>
-            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-
-                <div class="mr-5" v-for="link in links">
-                    <router-link :to="link.url" class="hover:text-theme-accent text-theme-secondary uppercase">{{ link.name
-                    }}</router-link>
-                </div>
-            </nav>
-            <router-link to="/signin">
-                <button
-                    class="inline-flex text-theme-secondary items-center bg-theme-accent border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Log In
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
-                </button>
-            </router-link>
+            <div class="flex items-center">
+                <router-link to="/signin" class="hover:bg-theme-primary hover:text-theme-accent duration-700 bg-theme-accent px-4 py-2 rounded-lg text-theme-primary font-bold text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">Login</router-link>
+            </div>
         </div>
-    </header>
+    </nav>
+    <nav class="bg-gray-50 dark:bg-gray-700 bg-theme-secondary rounded-b-lg my-2">
+        <div class="max-w-screen-xl px-4 py-3 mx-auto md:px-6">
+            <div class="flex items-center">
+                <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium" v-for="link in links">
+                    <li>
+                        <router-link :to="link.url" class="text-gray-900 dark:text-white hover:underline" aria-current="page">{{ link.name }}</router-link>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </template>
 <script>
 export default {
@@ -30,12 +28,16 @@ export default {
         return {
             links: [
                 {
-                    name: 'first link',
-                    url: '/about'
+                    name: 'Home',
+                    url: '/'
                 },
                 {
-                    name: 'second link',
+                    name: 'Product',
                     url: '#'
+                },
+                {
+                    name: 'Company',
+                    url: '/about'
                 }
             ]
         }
