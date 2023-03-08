@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col w-full min-h-screen my-5 p-5">
     <h1 class="w-full flex justify-center text-3xl font-semibold text-theme-accent p-5 capitalize">our drinks</h1>
-    <div class="flex overflow-x-scroll w-full p-5 snap-mandatory snap-x">
+    <div class="flex 
+    scrollbar-thin scrollbar-thumb-theme-accent scrollbar-track-orange-200
+    scrollbar-thumb-rounded-full scrollbar-track-rounded-full
+    overflow-x-scroll w-full p-5 snap-mandatory snap-x">
       <div class="bg-theme-primary drop-shadow-lg hover:bg-theme-secondary duration-700 rounded-xl  mx-5" v-for="product in products">
         <div class="flex flex-col h-auto w-80 duration-700 hover:w-96 p-5 snap-center ">
           <div class="flex justify-center">
