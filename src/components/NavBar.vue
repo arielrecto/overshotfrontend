@@ -15,7 +15,7 @@
             <div class="flex items-center">
                 <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium" v-for="link in links">
                     <li>
-                        <router-link :to="link.url" class="text-gray-900 dark:text-white hover:underline" aria-current="page">{{ link.name }}</router-link>
+                        <router-link :to="link.url" class="text-gray-900 dark:text-white hover:underline hover:bg-theme-primary hover:text-theme-secondary hover:font-bold hover:p-3 hover:rounded-lg duration-700" aria-current="page">{{ link.name }}</router-link>
                     </li>
                 </ul>
             </div>

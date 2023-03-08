@@ -2,12 +2,12 @@
     <footer class="text-gray-600 body-font bg-theme-secondary">
         <div class="bg-gray-100 bg-theme-accent">
             <div class="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
-                <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+                <a class="flex title-font font-medium items-center md:justify-start justify-center text-theme-primary">
                     <img src="logo.jpg" alt="" srcset="" class="w-10 h-10 text-white p-2 rounded-full">
                     <span class="ml-3 text-xl uppercase">overshot</span>
                 </a>
-                <p class="text-sm text-gray-500 sm:ml-6 sm:mt-0 mt-4">© 2023 Wonderpets —
-                    <a href="https://twitter.com/knyttneve" rel="noopener noreferrer" class="text-gray-600 ml-1"
+                <p class="text-sm text-theme-primaryFocus sm:ml-6 sm:mt-0 mt-4">© 2023 Wonderpets —
+                    <a href="https://twitter.com/knyttneve" rel="noopener noreferrer" class="text-theme-primaryFocus ml-1"
                         target="_blank">@arielrecto</a>
                 </p>
                 <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">

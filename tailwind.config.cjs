@@ -11,9 +11,12 @@ module.exports = {
   theme: {
     colors: {
       theme: {
-        primary: '#FEFBE9',
-        secondary: '#E1EEDD',
-        accent: '#F0A04B',
+        primary: '#f1f0ee',
+        primaryFocus : '#747474',
+        secondary : '#f4ac6f',
+        secondaryFocus : '#7c4b23',
+        accent: '#0a0808',
+        
       },
       white: colors.white,
       gray: colors.gray,
@@ -23,7 +26,8 @@ module.exports = {
       slate: colors.slate,
       zinc: colors.zinc,
       neutral: colors.neutral,
-      red: colors.red
+      red: colors.red,
+      amber: colors.amber
     },
     extend: {},
   },
