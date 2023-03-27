@@ -27,13 +27,14 @@ module.exports = {
       zinc: colors.zinc,
       neutral: colors.neutral,
       red: colors.red,
-      amber: colors.amber
+      amber: colors.amber,
+      green : colors.green
     },
     extend: {},
   },
   plugins: [
     require('flowbite'),
-    require('tailwind-scrollbar'),
+    require('tailwind-scrollbar')({nocompatible : true}),
   ],
   variants: {
     scrollbar: ['rounded']

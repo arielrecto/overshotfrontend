@@ -1,10 +1,32 @@
+<script>
+
+import item from '../assets/banner3.jpeg'
+
+
+ const images = [
+    {
+        id: 1,
+        link: item
+    },
+    {
+        id: 2,
+        link: item
+    },
+    {
+        id: 2,
+        link: item
+    }
+]
+</script>
+
+
 <template>
     <div class="m-0 p-0 h-auto my-10">
         <div id="default-carousel" class="relative" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
                 <!-- Item 1 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item v-for="image in images">
+                <div class="hidden duration-700 ease-in-out" data-carousel-item v-for="image in images" :key="image.id">
                     <img :src="image.link" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                         alt="...">
                 </div>
@@ -40,33 +62,5 @@
                 </span>
             </button>
         </div>
-</div>
+    </div>
 </template>
-
-<script>
-
-import item from '../assets/banner3.jpeg'
-
-export default {
-    data: () => {
-        return {
-            images: [
-                {
-                    id : 1,
-                    link : item
-                },
-                {
-                    id : 2,
-                    link : item
-                },
-                {
-                    id : 2,
-                    link : item
-                }
-            ]
-        }
-    }
-}
-</script>
-
-<style></style>

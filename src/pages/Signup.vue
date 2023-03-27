@@ -1,3 +1,61 @@
+<script setup>
+import { ref } from "vue";
+import NavBar from "../components/NavBar.vue";
+import register from '../authentication/register.js'
+
+const formData = ref({
+    name : null,
+    email : null,
+    password : null,
+    password_confirmation : null
+})
+
+const passwordIsmatch = () => {
+
+    if(formData.value.password === formData.value.password_confirmation) {
+
+        return "<p class='text-green-400'> Password is Match </p>"
+
+    }
+
+    return "<p class='text-red-400'> Password isn't Match </p>"
+}
+</script>
+
 <template>
-    sign up page
+    <div class="min-h-screen bg-theme-primary">
+        <div class="flex flex-col">
+            <NavBar />
+            <div class="w-full my-20 sm:flex sm:justify-center">
+                <form @submit.prevent="register(formData)" class="flex flex-col space-y-5 p-5 sm:w-5/6 lg:w-1/3 sm:bg-gray-100 sm:rounded-lg sm:drop-shadow-lg">
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex justify-center">
+                            <img src="logo.jpg" class="rounded-full h-auto w-20 items-center" alt="" srcset="">
+                        </div>
+                        <h1 class="text-center text-2xl font-semibold">Register</h1>
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <label for="name">Display Name</label>
+                        <input v-model="formData.name" type="text" class="p-2"> 
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <label for="email">Email</label>
+                        <input v-model="formData.email" type="email" class="p-2">
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <label for="password">Password</label>
+                        <input v-model="formData.password" type="password" class="p-2">
+                    </div>
+                    <span v-if="formData.password && formData.password_confirmation" v-html="passwordIsmatch()">
+                    </span>
+                    <div class="flex flex-col w-full">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input v-model="formData.password_confirmation" type="password" class="p-2">
+                    </div>
+                    <button class="bg-theme-secondary p-2 rounded-lg hover:focus hover:font-bold">Submit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </template>

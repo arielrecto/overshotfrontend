@@ -1,9 +1,10 @@
 <template>
-        <router-view></router-view>
+    <router-view></router-view>
 </template>
 
 
 <script setup>
+
 import { onMounted } from 'vue';
 import {
     initAccordions,
@@ -18,9 +19,10 @@ import {
     initTabs,
     initTooltips
 } from 'flowbite'
-
 onMounted(() => {
-    initCarousels()
+    initCarousels(),
+        initDrawers()
 })
+
 
 </script>

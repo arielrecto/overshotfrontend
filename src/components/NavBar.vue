@@ -10,7 +10,7 @@
             </div>
         </div>
     </nav>
-    <nav class="bg-gray-50 dark:bg-gray-700 bg-theme-secondary rounded-b-lg my-2">
+    <nav class="bg-gray-50 dark:bg-gray-700 bg-theme-secondary rounded-b-lg">
         <div class="max-w-screen-xl px-4 py-3 mx-auto md:px-6">
             <div class="flex items-center">
                 <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium" v-for="link in links">

@@ -1,0 +1,75 @@
+<script setup>
+import axios from 'axios';
+import router from '../../../Routes.js';
+
+import logout from '../../../authentication/logout.js'
+
+const chart = {
+    series: [{
+        name: "Milk Tea",
+        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }],
+    chartOptions: {
+        chart: {
+            height: 500,
+            type: 'line',
+            zoom: {
+                enabled: false
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight',
+            colors: '#f4ac6f'
+        },
+        title: {
+            text: 'Product Trends by Month',
+            align: 'left',
+            colors: '#f4ac6f'
+        },
+        grid: {
+            row: {
+                colors: ['#f4ac6f', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        }
+    },
+}
+
+</script>
+
+<template>
+    <div class="p-4 sm:ml-64">
+        <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700">
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="flex items-center col-span-3 h-24 rounded bg-gray-50 dark:bg-gray-800">
+                    <h1 class=" flex-auto capitalize text-3xl font-semibold">
+                        Hello admin
+                    </h1>
+                    <span class="p-2 capitalize">
+                        <button class="p-2" @click="logout">logout </button>
+                    </span>
+                </div>
+            </div>
+            <div class="flex h-96 mb-4 rounded bg-gray-50 dark:bg-gray-800">
+                <apexchart class="w-1/2 p-5" type="line" :options="chart.chartOptions" :series="chart.series"></apexchart>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+                    <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
+                </div>
+                <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+                    <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
+                </div>
+                <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+                    <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
