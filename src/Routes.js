@@ -10,6 +10,9 @@ import Inventory from './pages/Admin/pages/Inventory.vue'
 import AdminPOS from './pages/Admin/pages/PointOfSale.vue'
 import pipeline from "./middleware/pipeline.js";
 import auth from "./middleware/auth.js";
+import LandingPage from "./pages/Admin/pages/LandingPage.vue";
+import UserPage from "./pages/User/pages/index.vue"
+import OrderPage from "./pages/User/pages/OrderPage.vue"
 
 
 
@@ -54,12 +57,30 @@ const routes = [
             },
             {
                 path : 'inventory',
+                name : 'inventory',
                 component : Inventory   
             },
             {
                 path : 'point-of-sale',
+                name : 'post of sale',
                 component : AdminPOS
+            },
+            {
+                path : 'landing-page-setting',
+                name : 'landing page setting',
+                component : LandingPage
             }
+        ]
+    },
+    {
+        path : '/user',
+        component : UserPage,
+        name : 'user',
+        children : [
+           {
+            path : 'order',
+            component : OrderPage
+           }
         ]
     }
 ]

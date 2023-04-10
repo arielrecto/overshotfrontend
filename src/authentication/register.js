@@ -6,10 +6,8 @@ async function register(data) {
     console.log(data);
 
     const response = await axios.post("/register", data);
-
-    console.log(response);
+    
     localStorage.setItem("token", response.data.token);
-    localStorage.setItem("user", response.data.user.email);
 
     router.push({ name: "overview" });
   } catch (error) {

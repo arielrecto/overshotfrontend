@@ -8,12 +8,7 @@ import router from '../Routes.js'
         const config = {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }
-        const user = {
-            email : localStorage.getItem('user')
-        }
-
-        console.log(config)
-        const response = await axios.post('/logout', user, config)
+        const response = await axios.post('/logout', {},config)
 
         if(response.status === 200) {
 
@@ -21,7 +16,7 @@ import router from '../Routes.js'
 
         }
 
-        if(!localStorage.getItem(['token', 'user'])) {
+        if(!localStorage.getItem(['token'])) {
 
             router.push({name : 'admin'});
 
@@ -29,7 +24,7 @@ import router from '../Routes.js'
 
         console.log(response.data)
     } catch (error) {
-        console.log(errer.response.data.message)
+        console.log(error.response.data.message)
     }
 
 

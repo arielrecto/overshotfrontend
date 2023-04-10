@@ -28,7 +28,6 @@ const login = async () => {
       const response = await axios.post('/login', formData.value);
   
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', response.data.user.email)
   
       router.push({name : 'overview'})
   

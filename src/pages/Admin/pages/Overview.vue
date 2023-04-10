@@ -1,8 +1,14 @@
 <script setup>
-import axios from 'axios';
-import router from '../../../Routes.js';
 
 import logout from '../../../authentication/logout.js'
+import {useUserStore} from '../../../stores/useUserStore'
+import { onMounted } from 'vue'
+
+const userStore = useUserStore()
+
+onMounted(() => {
+    userStore.fetchUser()
+})
 
 const chart = {
     series: [{
