@@ -13,8 +13,8 @@ import auth from "./middleware/auth.js";
 import LandingPage from "./pages/Admin/pages/LandingPage.vue";
 import UserPage from "./pages/User/pages/index.vue"
 import OrderPage from "./pages/User/pages/OrderPage.vue"
-
-
+import ForgetPassword from "./ForgetPassword.vue";
+import HelpPage from "./HelpPage.vue";
 
 
 const routes = [
@@ -39,8 +39,17 @@ const routes = [
         component : Signup
     },
     {
+        path : '/forgetPassword',
+        component : ForgetPassword
+
+    },
+    {
         path : '/dashboard',
         redirect : '/admin'
+    },
+    {
+        path : '/helpPage',
+        component : HelpPage
     },
     {
         path : '/admin',
@@ -105,6 +114,7 @@ router.beforeEach((to, from, next)=> {
         next
     }
 
+    
 
     return middleware[0]({
         ...context, next : pipeline(context, middleware, 1)

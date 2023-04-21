@@ -38,7 +38,12 @@ export default {
                 {
                     name: 'Company',
                     url: '/about'
+                },
+                {
+                    name: 'FAQ',
+                    url: '/HelpPage'
                 }
+                        
             ]
         }
     }

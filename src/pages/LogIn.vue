@@ -83,6 +83,7 @@ const login = async () => {
               Password?</router-link> -->
 
           <router-link to="/signup" class="text-theme-accent">Create New Account</router-link>
+          <router-link to="/forgetPassword" class="text-theme-accent">Forget Password</router-link>
         </div>
       </form>
     </div>

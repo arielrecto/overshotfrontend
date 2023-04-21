@@ -4,6 +4,7 @@ import ContactSectionVue from '../components/ContactSection.vue'
 import FooterSectionVue from '../components/FooterSection.vue'
 import HeaderSectionVue from '../components/HeaderSection.vue'
 import ProductSectionVue from '../components/ProductSection.vue'
+import HelpSectionVue from '../components/ProductSection.vue'
 import NavBarVue from '../components/NavBar.vue'
 import PromotionSectionVue from '../components/PromotionSection.vue'
 </script>
@@ -14,8 +15,9 @@ import PromotionSectionVue from '../components/PromotionSection.vue'
         <NavBarVue/>
         <HeaderSectionVue/>
         <ProductSectionVue />
-        <ProductSectionVue />
+        <PromotionSectionVue />
         <ContactSectionVue />
+        <HelpSectionVue  />
         <FooterSectionVue />
     </div>
   </div>
