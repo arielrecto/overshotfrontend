@@ -1,14 +1,13 @@
 <script setup>
 
-import logout from '../../../authentication/logout.js'
-import {useUserStore} from '../../../stores/useUserStore'
+
+import { useAuthStore } from '../../../stores/useAuthStore';
 import { onMounted } from 'vue'
 
-const userStore = useUserStore()
+const authUser = useAuthStore();
 
-onMounted(() => {
-    userStore.fetchUser()
-})
+console.log(authUser.user);
+
 
 const chart = {
     series: [{
@@ -58,7 +57,7 @@ const chart = {
                         Hello admin
                     </h1>
                     <span class="p-2 capitalize">
-                        <button class="p-2" @click="logout">logout </button>
+                        <button class="p-2" @click="authUser.logout">logout </button>
                     </span>
                 </div>
             </div>

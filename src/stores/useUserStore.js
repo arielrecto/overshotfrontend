@@ -1,5 +1,5 @@
-import axios from "axios";
 import { defineStore } from "pinia";
+import Api from '../Server/index.js';
 
 export const useUserStore = defineStore("userStore", {
   state: () => ({
@@ -8,13 +8,7 @@ export const useUserStore = defineStore("userStore", {
   actions: {
     async fetchUser() {
       try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers : {
-            'Authorization' : `Bearer ${token}` 
-          }
-        }
-        const response = await axios.get('/users', config);
+        const response = await Api().get('/user');
         console.log(response.data)
       } catch (error) {
         console.log(error.response.data)
