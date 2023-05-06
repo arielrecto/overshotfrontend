@@ -2,11 +2,11 @@
 
 
 import { useAuthStore } from '../../../stores/useAuthStore';
+import AdminNavBar from '../../../components/AdminNavBar.vue';
 import { onMounted } from 'vue'
-
 const authUser = useAuthStore();
 
-console.log(authUser.user);
+// console.log(authUser.user);
 
 
 const chart = {
@@ -51,16 +51,9 @@ const chart = {
 <template>
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700">
-            <div class="grid grid-cols-3 gap-4 mb-4">
-                <div class="flex items-center col-span-3 h-24 rounded bg-gray-50 dark:bg-gray-800">
-                    <h1 class=" flex-auto capitalize text-3xl font-semibold">
-                        Hello admin
-                    </h1>
-                    <span class="p-2 capitalize">
-                        <button class="p-2" @click="authUser.logout">logout </button>
-                    </span>
-                </div>
-            </div>
+            
+            <AdminNavBar></AdminNavBar>
+
             <div class="flex h-96 mb-4 rounded bg-gray-50 dark:bg-gray-800">
                 <apexchart class="w-1/2 p-5" type="line" :options="chart.chartOptions" :series="chart.series"></apexchart>
             </div>

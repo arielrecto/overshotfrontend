@@ -34,7 +34,7 @@ module.exports = {
   },
   plugins: [
     require('flowbite'),
-    require('tailwind-scrollbar')({nocompatible : true}),
+    // require('tailwind-scrollbar')({nocompatible : true}),
   ],
   variants: {
     scrollbar: ['rounded']

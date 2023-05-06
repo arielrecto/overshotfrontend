@@ -1,9 +1,11 @@
 <script setup>
+import { useAuthStore } from "../../../stores/useAuthStore";
 
+const authUser = useAuthStore();
+const {logout} = authUser;
 </script>
 
 <template>
-    client page
     <router-view></router-view>
 </template>
 

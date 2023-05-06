@@ -6,27 +6,27 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     isAuthenticated: false,
     userRole: null,
-    status: null,
-    errorMessage: null,
-    user: null,
+    user : null,
+    status : null,
+    error : null
   }),
   actions: {
     async login(formData) {
       try {
         const response = await Api().post("/login", formData);
-        localStorage.setItem("token", response.data.token);
-        this.isAuthenticated = true;
-        this.user = response.data.user;
-        this.userRole = response.data.role;
-        this.status = response.status;
 
-        console.log(this.user.name);
-        switch (this.userRole[0]) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user' , JSON.stringify(response.data.user));
+        this.isAuthenticated = true;
+        this.userRole = response.data.role[0]
+        this.user = response.data.user;
+
+        switch (this.userRole) {
           case "admin":
             router.push({ name: "overview" });
             break;
           case "client":
-            router.push({ path: `client/${this.user.name}` });
+            router.push({ path: `client/${this.user.name}/order` });
             break;
           case "employee":
             return next();
@@ -71,9 +71,21 @@ export const useAuthStore = defineStore("auth", {
         console.log(response)
 
       } catch (error) {
-
-
       }
     },
+
+    async register(data) {
+      try {
+
+        const response = await Api().post('/register', data);
+
+
+        this.status = response.status;
+
+      } catch (error){
+        this.status = error.response.status;
+        this.error = error.response.data;
+      }
+    }
   },
 });
