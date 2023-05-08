@@ -16,14 +16,14 @@ onMounted(() => {
 </script>
 <template>
     <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700">
+        <div class="p-4 border-2 border-gray-200 rounded-lg">
             <AdminNavBar></AdminNavBar>
             <div class="w-full p-2">
                 <h1 class="w-full text-center text-3xl font-semibold">Supplies</h1>
                 <div>
                     <div class="relative overflow-x-auto my-10">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
                                         Id
@@ -47,9 +47,9 @@ onMounted(() => {
                             </thead>
                             <tbody>
                                 <tr v-for="supply in supplies.data" :key="supply.id"
-                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    class="bg-white border-b">
                                     <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         {{ supply.id }}
                                     </th>
                                     <td class="px-6 py-4">

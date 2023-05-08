@@ -6,7 +6,7 @@ const authUser = useAuthStore();
 
 <template>
   <div class="grid grid-cols-3 gap-4 mb-4">
-    <div class="flex items-center col-span-3 h-24 rounded bg-gray-50 dark:bg-gray-800">
+    <div class="flex items-center col-span-3 h-24 rounded bg-gray-100">
       <h1 class=" flex-auto capitalize text-3xl font-semibold p-2">
         Admin - {{ admin.name }}
       </h1>

@@ -46,7 +46,7 @@ const error = ref('');
           <input v-model="formData.password" required type="password"
             class="border border-neutral-900 focus rounded-lg sm:p-2" />
         </div>
-        <button class="w-full bg-neutral-900 rounded-lg p-2 text-sm lg:text-lg lg:font-semibold text-theme-primary">
+        <button class="w-full bg-neutral-900 rounded-lg p-2 text-sm lg:text-lg lg:font-semibold text-orange-300">
           Log In
         </button>
         <div class="flex space-x-14 justify-center font-sans text-sm">

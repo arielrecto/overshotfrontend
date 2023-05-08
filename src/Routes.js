@@ -119,14 +119,19 @@ const routes = [
     component: UserPage,
     name: "client",
     meta: {
-      middleware: [auth],
+      // middleware: [auth],
     },
     children: [
       {
         path: "order",
         component: OrderPage,
-        name: "orderpage",
+        name: "orderpage"
       },
+      {
+        path : 'profile',
+        component : Profile,
+        name : 'profile'
+      }
     ],
   },
   {

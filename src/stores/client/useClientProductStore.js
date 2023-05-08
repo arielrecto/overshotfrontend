@@ -25,6 +25,20 @@ export const useClientProductStore = defineStore('clientProdcutStore', {
             } catch (error) {
 
             }
+        },
+        async order (data) {
+
+
+            try {
+
+            const response = await Api().post('/client/products', data);
+
+            console.log(response.data);
+
+            } catch (error) {
+
+
+            }
         }
 
     }

@@ -37,8 +37,8 @@ const submitSupplyDAta = async () => {
     if (status.value == 200) {
         swal.fire({
             position: 'top-end',
-            type: 'success',
-            title: 'Your work has been saved',
+            icon: 'success',
+            title: 'Item Added Successfully',
             showConfirmButton: false,
             timer: 1500
         })
@@ -46,7 +46,7 @@ const submitSupplyDAta = async () => {
     }
     if(error.value){
         swal.fire({
-          type: 'error',
+          icon: 'error',
           title: 'Server Error',
           text: 'Something went wrong!',
         });
