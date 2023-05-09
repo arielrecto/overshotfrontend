@@ -88,7 +88,9 @@ const submitRegister = async () => {
                         <label for="confirm_password">Confirm Password</label>
                         <input v-model="formData.password_confirmation" type="password" class="p-2">
                     </div>
-                    <button class="bg-orange-300 p-2 rounded-lg hover:focus hover:font-bold">Submit</button>
+                    <div class="flex justify-center">
+                    <button class="flex justify-center  bg-orange-300 p-2 rounded-lg hover:focus hover:font-bold">Submit</button>
+                </div>
                 </form>
             </div>
 
