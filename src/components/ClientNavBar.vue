@@ -5,6 +5,7 @@ import { onMounted } from 'vue';
 import { useAuthStore } from '../stores/useAuthStore';
 
 const authStore = useAuthStore();
+const {logout} = authStore;
 const client = JSON.parse(localStorage.getItem('user'));
 
 </script>
@@ -12,7 +13,7 @@ const client = JSON.parse(localStorage.getItem('user'));
 <template>
     <nav class="bg-orange-200 drop-shadow-lg border-gray-200">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="https://flowbite.com/" class="flex items-center">
+            <a href="#" class="flex items-center">
                 <img src="/logo.jpg" class="h-8 mr-3" alt="Overshot Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap">Overshot</span>
             </a>
@@ -42,7 +43,7 @@ const client = JSON.parse(localStorage.getItem('user'));
                                 role="menuitem">
                                 <div class="flex items-center space-x-2">
                                     <i class="ri-logout-circle-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
-                                   <p class="p-2">Logout</p>
+                                   <p class="p-2" @click="logout">Logout</p>
                                 </div>
                             </a>
                         </li>

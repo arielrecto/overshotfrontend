@@ -16,13 +16,21 @@ import UserPage from "./pages/User/pages/index.vue";
 import OrderPage from "./pages/User/pages/OrderPage.vue";
 import Profile from "./pages/User/pages/Profile.vue";
 import adminGuard from "./middleware/adminGuard.js";
-import EmployeePage from "./pages/Employee/index.vue";
+import EmployeeIndex from "./pages/Employee/index.vue";
+import EmployeeParentPage from "./pages/Employee/EmployeeParentPage.vue";
 import InventoryParent from "./pages/Admin/pages/Inventory/InventoryParent.vue";
 import InventoryIndex from "./pages/Admin/pages/Inventory/Index.vue";
 import CreateSupply from "./pages/Admin/pages/Inventory/CreateSupply.vue";
 import ProductParent from "./pages/Admin/pages/Product/ProductParent.vue";
 import ProductIndex from "./pages/Admin/pages/Product/Index.vue";
-import CreateProduct from './pages/Admin/pages/Product/CreateProduct.vue'
+import CreateProduct from "./pages/Admin/pages/Product/CreateProduct.vue";
+import AdminEmployeeParentPage from "./pages/Admin/pages/Employee/EmployeeParentPage.vue";
+import AdminEmployeeIndex from "./pages/Admin/pages/Employee/Index.vue";
+import PointOfSale from "./pages/Employee/PointOfSale.vue";
+import EmployeeOrder from './pages/Employee/OrderPage.vue';
+import TransactionParent from './pages/Admin/pages/Transaction/TransactionParent.vue';
+import TransactionIndex from './pages/Admin/pages/Transaction/Index.vue';
+import NotFound from "./pages/NotFound.vue";
 
 const routes = [
   {
@@ -96,22 +104,33 @@ const routes = [
             component: ProductIndex,
           },
           {
-            path : "create-product",
-            name : "createProduct",
-            component : CreateProduct
-          }
+            path: "create-product",
+            name: "createProduct",
+            component: CreateProduct,
+          },
         ],
       },
       {
-        path: "point-of-sale",
-        name: "post of sale",
-        component: AdminPOS,
+        path: "employee",
+        component: AdminEmployeeParentPage,
+        children: [
+          {
+            path: "",
+            component: AdminEmployeeIndex,
+            name: "admin-employee-index",
+          },
+        ],
       },
       {
-        path: "landing-page-setting",
-        name: "landing page setting",
-        component: LandingPage,
-      },
+        path : "transaction", 
+        component : TransactionParent,
+        children : [
+          {
+            path : "",
+            component : TransactionIndex
+          }
+        ]
+      }
     ],
   },
   {
@@ -119,28 +138,49 @@ const routes = [
     component: UserPage,
     name: "client",
     meta: {
-      // middleware: [auth],
+      middleware: [auth],
     },
     children: [
       {
         path: "order",
         component: OrderPage,
-        name: "orderpage"
+        name: "orderpage",
       },
       {
-        path : 'profile',
-        component : Profile,
-        name : 'profile'
-      }
+        path: "profile",
+        component: Profile,
+        name: "profile",
+      },
     ],
   },
   {
     path: "/employee/:name",
-    name: "employee",
-    component: EmployeePage,
+    component: EmployeeParentPage,
     meta: {
       middleware: [auth],
     },
+    children: [
+      {
+        path: "",
+        name: "employee-index",
+        component: EmployeeIndex,
+      },
+      {
+        path: "pos",
+        name: "point-of-sale",
+        component: PointOfSale,
+      },
+      {
+        path : "orders",
+        name : 'employee-orders',
+        component : EmployeeOrder
+      },
+    ],
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "404-not-found",
+    component: NotFound,
   },
 ];
 

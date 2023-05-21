@@ -7,14 +7,15 @@ import Loading from '../../../components/Loading.vue';
 
 
 const clientProductStore = useClientProductStore();
-const { fetchProduct } = clientProductStore;
-const { getAllProducts, isLoading } = storeToRefs(clientProductStore);
+const { fetchProduct, addOrderInServer, fetchUserOrder } = clientProductStore;
+const { getAllProducts, isLoading, status, orders } = storeToRefs(clientProductStore);
 const swal = inject('$swal');
 
 const isOpen = ref(false);
 const selectedProducts = ref([]);
 const order = ref({
   products: null,
+  quantity: null,
   total: null,
   payment: null,
 });
@@ -30,9 +31,9 @@ const addSelectProducts = (product) => {
     name: product.name,
     description: product.description,
     price: product.price,
-    quantity: 1,
-    image  : {
-      image_url : product.image.image_url
+    pieces: 1,
+    image: {
+      image_url: product.image.image_url
     }
   }
   console.log(productData);
@@ -44,7 +45,7 @@ const addSelectProducts = (product) => {
 const total = computed(() => {
 
   if (selectedProducts.value.length !== 0) {
-    return selectedProducts.value.map((item) => item.price).reduce((a, c) => parseFloat(a) + parseFloat(c));
+    return selectedProducts.value.map((item) => item.price * item.pieces).reduce((a, c) => parseFloat(a) + parseFloat(c));
   }
 
   return 0;
@@ -52,15 +53,30 @@ const total = computed(() => {
 
 const changeProductQuantity = (id) => {
 
-  const index = selectedProducts.value.indexOf(item => item.id == id);
+  const index = selectedProducts.value.findIndex((item) => {
+    return item.id == id;
+  })
 
-  console.log(index)
+  const item = selectedProducts.value[index];
 
-  // return {
+  console.log(item);
 
-  //   add () {}
+  return {
 
-  // }
+    add() {
+
+      return item.pieces++
+
+    },
+    substruct() {
+
+      if (item.quantity == 0) {
+        return 0;
+      }
+      return item.pieces--;
+    }
+
+  }
 
 }
 
@@ -86,6 +102,7 @@ const placeOrder = () => {
 
   if (selectedProducts.value.length !== 0) {
     order.value.products = selectedProducts.value;
+    order.value.quantity = selectedProducts.value.length
     order.value.total = total;
   }
 
@@ -94,12 +111,35 @@ const placeOrder = () => {
 
 const submitOrder = async () => {
 
-  console.log(order.value)
+
+  if (order.value.payment == null) {
+    return
+  }
+
+  await addOrderInServer(order.value);
+
+  if (status.value === 200) {
+    swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Product Added Successfully',
+      showConfirmButton: false,
+      timer: 1500
+    })
+    selectedProducts.value = [];
+    order.value = {
+      products: null,
+      quantity: null,
+      total: null,
+      payment: null,
+    };
+  }
 
 }
 
 onMounted(() => {
   fetchProduct();
+  fetchUserOrder();
 });
 
 
@@ -130,7 +170,7 @@ onMounted(() => {
             </div>
             <div class="w-full p-2 flex flex-row-reverse" v-show="checkIfProductisAdded(product.id)">
               <button @click="addSelectProducts(product)" class="bg-orange-300 px-4 py-2 
-                    rounded-lg hover:font-semibold hover:bg-orange-200 duration-500">Add to Cart </button>
+                          rounded-lg hover:font-semibold hover:bg-orange-200 duration-500">Add to Cart </button>
             </div>
           </div>
         </div>
@@ -140,12 +180,12 @@ onMounted(() => {
       enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100"
       leave-to-class="transform opacity-0">
       <div v-show="isOpen"
-        class="fixed left-[10rem] top-[7rem] h-5/6 w-[32rem] bg-gray-100 p-5 rounded-lg drop-shadow-lg">
+        class="fixed left-[68rem] top-[7rem] h-5/6 w-[32rem] bg-gray-100 p-5 rounded-lg drop-shadow-lg">
         <div class="flex flex-col w-full" v-show="!order.products">
           <div class="w-full border-b-2 border-theme-secondary -my-2">
             <h1 class="text-center text-3xl font-bold p-4">Order</h1>
           </div>
-          <div class="capitalize w-full flex space-x-[12rem] py-2">
+          <div class="capitalize w-full flex space-x-[12rem] py-2" v-if="selectedProducts.length !== 0">
             <h1 class="p-4 font-semibold">total: ₱{{ total }}</h1>
             <h1 class="p-4 font-semibold">total item: {{ selectedProducts.length }}</h1>
           </div>
@@ -157,10 +197,12 @@ onMounted(() => {
                 <h1 class="text-3xl font-bold">{{ productSelect.name }}</h1>
                 <p v-html="productSelect.description" class="px-2"></p>
                 <div class="w-full flex space-x-[8rem]">
-                  <p>Quantity : {{ productSelect.quantity }}</p>
+                  <p>Quantity : {{ productSelect.pieces }}</p>
                   <span class="flex space-x-2">
-                    <button class="bg-orange-300 rounded-lg px-2 py-1" @click="changeProductQuantity(productSelect.id)">+</button>
-                    <button class="bg-orange-300 rounded-lg px-2 py-1">-</button>
+                    <button class="bg-orange-300 rounded-lg px-2 py-1"
+                      @click="changeProductQuantity(productSelect.id).add()">+</button>
+                    <button class="bg-orange-300 rounded-lg px-2 py-1"
+                      @click="changeProductQuantity(productSelect.id).substruct()">-</button>
                   </span>
                 </div>
                 <div class="w-full p-2 flex flex-row-reverse">
@@ -172,11 +214,48 @@ onMounted(() => {
                   class="px-2 font-bold text-lg rounded-full">x</button>
               </div>
             </div>
-            <div v-if="selectedProducts.length === 0" class="h-40 w-auto bg-gray-50 p-4 rounded-lg my-5 flex space-x-2">
-              <h1 class="text-center text-3xl font-semibold w-full py-10">No Item</h1>
+            <div v-if="selectedProducts.length === 0" class="p-4 rounded-lg my-5 flex space-x-2">
+
+              <div class="relative overflow-y-auto h-[20rem]">
+                <table class="w-full text-sm text-left text-gray-500">
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-6 py-3">
+                        Product name
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        quantity
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Total Item
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="bg-white border-b" v-for="order in orders" :key="order.id">
+                      <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        {{ order.order_num }}
+                      </th>
+                      <td class="px-6 py-4">
+                        {{ order.quantity }}
+                      </td>
+                      <td class="px-6 py-4">
+                        {{ order.total }}
+                      </td>
+                      <td class="px-6 py-4">
+                        {{ order.status }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
             </div>
           </div>
-          <div class="w-full">
+          <div class="w-full" v-if="selectedProducts.length !== 0">
             <button @click="placeOrder" class="w-full px-4 py-2 rounded-lg bg-orange-300">Place Order</button>
           </div>
         </div>
@@ -185,8 +264,8 @@ onMounted(() => {
           <h1 class="w-full text-center text-3xl font-bold">Payment</h1>
 
           <div class="relative overflow-y-auto h-64">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                 <tr>
                   <th scope="col" class="px-6 py-3">
                     Product name
@@ -194,16 +273,21 @@ onMounted(() => {
                   <th scope="col" class="px-6 py-3">
                     Price
                   </th>
+                  <th scope="col" class="px-6 py-3">
+                    Quantity
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="orderproduct in order.products"
-                  :key="orderproduct.id">
-                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <tr class="bg-white border-b" v-for="orderproduct in order.products" :key="orderproduct.id">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ orderproduct.name }}
                   </th>
                   <td class="px-6 py-4">
                     ₱ {{ orderproduct.price }}
+                  </td>
+                  <td class="px-6 py-4">
+                    {{ orderproduct.quantity }}
                   </td>
                 </tr>
               </tbody>
@@ -214,16 +298,15 @@ onMounted(() => {
           <h2 class="w-full flex gap-2 text-lg text-theme-secondary">₱<span>{{ order.total }}</span></h2>
           <form @submit.prevent="" class="flex flex-col space-y-5 p-2">
             <div class="flex">
-              <span
-                class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 
+                      border-gray-300 rounded-l-md">
                 ₱
               </span>
-              <input type="text" id="website-admin"
-                class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="amount">
+              <input type="text" id="website-admin" v-model="order.payment" class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 
+                      block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5" placeholder="amount">
             </div>
             <div clss="flex">
-              <button @click="submitOrder" class="w-full p-2 rounded-lg bg-theme-secondary">Proceed..</button>
+              <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
             </div>
           </form>
         </div>
@@ -236,13 +319,13 @@ onMounted(() => {
         </p>
       </div>
       <button v-show="!isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
-             hover:bg-orange-200 hover:font-semibold duration-500
-             hover:drop-shadow-xl">
+                   hover:bg-orange-200 hover:font-semibold duration-500
+                   hover:drop-shadow-xl">
         <i class="ri-shopping-cart-2-line text-3xl"></i>
       </button>
       <button v-show="isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
-             hover:bg-orange-200 hover:font-semibold duration-500
-             hover:drop-shadow-xl">
+                   hover:bg-orange-200 hover:font-semibold duration-500
+                   hover:drop-shadow-xl">
         <i class="ri-close-line text-3xl"></i>
       </button>
     </div>

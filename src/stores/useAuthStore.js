@@ -26,10 +26,10 @@ export const useAuthStore = defineStore("auth", {
             router.push({ name: "overview" });
             break;
           case "client":
-            router.push({ path: `client/${this.user.name}/order` });
+            router.push({ path: `client/${this.user.slug_name}/order` });
             break;
           case "employee":
-            return next();
+            router.push({path : `employee/${this.user.slug_name}/`})
             break;
           default:
             return next("/login");

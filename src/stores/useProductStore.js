@@ -6,7 +6,11 @@ export const useProductStore = defineStore("productStore", {
     products: [],
     isLoading: false,
     status: null,
-    error : null
+    error : null,
+    otherinfo : {
+      categories : [],
+      size : []
+    },
   }),
   actions: {
     async addProduct(data) {
@@ -22,12 +26,41 @@ export const useProductStore = defineStore("productStore", {
     },
     async getAllProducts() {
       try {
+        this.isLoading = true;
         const response = await Api().get("/admin/products");
-
+        this.isLoading = false;
         console.log(response.data);
 
         this.products = response.data;
       } catch (error) {}
     },
+    async fetchOtherInfo () {
+  
+      
+      const response = await Api().get("/admin/products/otherinfo");
+
+      
+     this.otherinfo.categories = response.data.category
+    }, 
+    async addCategory (data){
+      try {
+          const response = await Api().post('/admin/category', data);
+          this.otherinfo.categories = response.data.categories
+          this.status = response.status 
+
+      } catch (error) {
+        
+      }
+    },
+    async addSize (data) {
+      try {
+
+          console.log(data);
+
+        
+      } catch (error) {
+        
+      }
+    }
   },
 });

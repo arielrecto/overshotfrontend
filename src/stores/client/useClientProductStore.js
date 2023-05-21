@@ -4,7 +4,9 @@ import Api from '../../Server/index.js';
 export const useClientProductStore = defineStore('clientProdcutStore', {
     state : () => ({
         products : [],
-        isLoading : false
+        isLoading : false,
+        status : null,
+        orders : []
     }),
     getters :{
         getAllProducts(state){
@@ -26,19 +28,33 @@ export const useClientProductStore = defineStore('clientProdcutStore', {
 
             }
         },
-        async order (data) {
+        async addOrderInServer (data) {
 
 
             try {
 
-            const response = await Api().post('/client/products', data);
-
-            console.log(response.data);
+            const response = await Api().post('/client/orders', data);
+            this.orders = response.data.orders;
+            this.status = response.status;
+            // this.orders = response.data.orders;
 
             } catch (error) {
 
 
             }
+        },
+        async fetchUserOrder (){
+
+            try {
+                
+                const response = await Api().get('/client/orders');
+
+                this.orders = response.data.orders;
+
+            } catch (error) {
+                
+            }
+
         }
 
     }

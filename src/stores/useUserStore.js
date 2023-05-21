@@ -3,16 +3,33 @@ import Api from '../Server/index.js';
 
 export const useUserStore = defineStore("userStore", {
   state: () => ({
-    user: [],
+    employees : [],
+    isLoading : false,
+    status : null,
+    message : ''
   }),
   actions: {
-    async fetchUser() {
+    async getAllEmployeeInServer () {
       try {
-        const response = await Api().get('/user');
-        console.log(response.data)
+        this.isLoading = true;
+        const reponse = await Api().get('/admin/employee');
+        this.employees = reponse.data.employees
+        this.isLoading = false 
       } catch (error) {
-        console.log(error.response.data)
+        console.log(error);
       }
     },
+    async addEmployee (data) {
+      try {
+        const response = await Api().post('/admin/employee', data)
+  
+        console.log(response.data)
+        this.employees = response.data.employees
+        this.message = response.data.message
+        this.status = response.status
+      } catch (error) {
+        console.log(error.response)
+      }
+    }
   },
 });

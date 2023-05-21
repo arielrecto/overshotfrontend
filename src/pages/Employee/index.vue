@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    employee page
+        Coming Soon
 </template>
