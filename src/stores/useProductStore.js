@@ -8,8 +8,7 @@ export const useProductStore = defineStore("productStore", {
     status: null,
     error : null,
     otherinfo : {
-      categories : [],
-      size : []
+      categories : []
     },
   }),
   actions: {
@@ -49,14 +48,15 @@ export const useProductStore = defineStore("productStore", {
           this.status = response.status 
 
       } catch (error) {
-        
+        this.status = error.response.status
       }
     },
     async addSize (data) {
       try {
 
-          console.log(data);
-
+          const response = await Api().post('/admin/category/sizes', data);
+          this.otherinfo.categories = response.data.categories
+          this.status = response.status
         
       } catch (error) {
         

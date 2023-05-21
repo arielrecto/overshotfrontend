@@ -32,8 +32,11 @@ const client = JSON.parse(localStorage.getItem('user'));
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 role="menuitem">
                                 <div class="flex items-center space-x-2">
+
+                                    <router-link :to="`/client/${client.slug_name}/profile`" class="flex items-center space-x-2">
                                     <i class="ri-user-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
                                     <p class="p-2">Profile</p>
+                                    </router-link>
                                 </div>
                             </a>
                         </li>

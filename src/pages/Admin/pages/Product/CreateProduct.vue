@@ -13,7 +13,9 @@ const product = ref({
   data: {
     name: '',
     description: '',
-    price: ''
+    price: '',
+    category : '',
+    sizes : [], 
   }
 });
 
@@ -32,8 +34,10 @@ const sizes = ref([{
   id: 1,
   name: null
 }])
-
 const sizesCetegory = ref('');
+const productCategory = ref('');
+const productSizesPrice = ref([]);
+
 
 const uploadImage = (e) => {
 
@@ -87,6 +91,9 @@ const sumbitProductData = async () => {
 
 
   product.value.data.description = editor.value.getHTML();
+  product.value.data.category = productCategory.value;
+  product.value.data.sizes = productSizesPrice.value;
+
   await addProduct(product.value);
   if (status.value === 200) {
     swal.fire({
@@ -116,11 +123,11 @@ const openOtherInfoButton = ref({
   addCategory: {
     toggle: false,
     openToggle() {
-      openOtherInfoButton.value.addLevel.toggle = false
+      openOtherInfoButton.value.addSize.toggle = false
       this.toggle = !this.toggle
     }
   },
-  addLevel: {
+  addSize: {
     toggle: false,
     openToggle() {
       openOtherInfoButton.value.addCategory.toggle = false
@@ -130,6 +137,7 @@ const openOtherInfoButton = ref({
 });
 
 
+console.log(otherinfo.value)
 
 
 const addNewCategory = async () => {
@@ -186,13 +194,14 @@ const removeSizesFields = (id) => {
 const addNewSizes = async () => {
 
   const data = {
-    category: sizesCetegory,
-    sizes: sizes
+    category: sizesCetegory.value,
+    sizes: sizes.value
   }
 
   await addSize(data);
 
 
+  console.log(data);
 
   if (status.value === 200) {
     swal.fire({
@@ -204,13 +213,22 @@ const addNewSizes = async () => {
     })
 
     categoryName.value = ''
-    openOtherInfoButton.value.addCategory.toggle = false;
+    openOtherInfoButton.value.addSize.toggle = false;
+    size.value = []
+
   }
+}
+
+const categoryOtherInfo = (e) => {
 
 
+  const name = e.target.value;
 
 
+  const data = otherinfo.value.categories.find(item => item.name === productCategory.value);
 
+  data.sizes.forEach(item => productSizesPrice.value.push({name: item.name, price : null}))
+  
 }
 
 
@@ -261,7 +279,7 @@ onUnmounted(() => {
         <div class="p-2 h-auto w-1/2 " v-if="!imageSrc && !croppedImage">
           <div class="flex items-center h-full justify-center w-full">
             <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer
-                                                             bg-gray-50">
+                                                                 bg-gray-50">
               <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -302,15 +320,15 @@ onUnmounted(() => {
 
 
             <a class="bg-orange-300 drop-shadow-sm font-semibold px-4 py-2 rounded-lg hover:bg-orange-400
-                                                 hover:text-white hover:font-bold duration-500"
+                                                     hover:text-white hover:font-bold duration-500"
               @click="openOtherInfoButton.addCategory.openToggle">Add Category </a>
 
 
             <a class="bg-orange-300 drop-shadow-sm font-semibold px-4 py-2 rounded-lg hover:bg-orange-400
-                                                 hover:text-white hover:font-bold duration-500"
-              @click="openOtherInfoButton.addLevel.openToggle">Add Level </a>
+                                                     hover:text-white hover:font-bold duration-500"
+              @click="openOtherInfoButton.addSize.openToggle">Add Sizes </a>
             <a class="bg-orange-300 drop-shadow-sm font-semibold px-4 py-2 rounded-lg hover:bg-orange-400
-                                                 hover:text-white hover:font-bold duration-500">Add Size</a>
+                                                     hover:text-white hover:font-bold duration-500">Add Level</a>
           </div>
           <div class="w-full p-2 flex justify-center">
 
@@ -332,12 +350,12 @@ onUnmounted(() => {
               enter-active-class="transition duration-300" leave-active-class="transition duration-300">
 
               <div class="w-1/2 p-2 bg-gray-100 rounded-lg drop-shadow-md flex flex-col space-y-5"
-                v-if="openOtherInfoButton.addLevel.toggle">
-                <label for="category" class="font-semibold text-md"> add Level</label>
+                v-if="openOtherInfoButton.addSize.toggle">
+                <label for="category" class="font-semibold text-md"> add Sizes</label>
 
                 <label class="text-sm">Select Category</label>
                 <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                     focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5">
+                         focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5" v-model="sizesCetegory">
 
                   <template v-for="category in otherinfo.categories" :key="category.id">
                     <option :value="category.name">{{ category.name }}</option>
@@ -361,8 +379,8 @@ onUnmounted(() => {
 
 
                 </div>
-                <button
-                  class="px-4 py-2 rounded-r-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white">Add</button>
+                <a class="px-4 py-2 rounded-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white"
+                  @click="addNewSizes">Add</a>
               </div>
             </transition>
 
@@ -374,14 +392,29 @@ onUnmounted(() => {
 
               <label for="Categories" class="block mb-2 text-sm font-medium text-gray-900">Select Categories</label>
               <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                     focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-
+                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="productCategory" @change="categoryOtherInfo($event)">
                 <template v-for="category in otherinfo.categories" :key="category.id">
                   <option :value="category.name">{{ category.name }}</option>
                 </template>
-
-
               </select>
+
+              <div class="w-full">
+                <div class="flex flex-col gap-4 w-1/2" v-if="productCategory">
+
+                  <div class="flex space-x-16 py-2">
+                    <h1>Sizes</h1>
+                    <h1>price</h1>
+                  </div>
+                  <div v-for="size in productSizesPrice" :key="size.id" class="flex gap-4">
+                    <div class="mb-6 flex gap-2 w-full">
+                      <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900">{{ size.name }}</label>
+                      <input type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                           focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                        " v-model="size.price">
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>

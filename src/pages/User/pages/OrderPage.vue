@@ -20,6 +20,8 @@ const order = ref({
   payment: null,
 });
 
+const productPrice = ref('');
+
 const open = () => {
   isOpen.value = !isOpen.value
 }
@@ -109,6 +111,27 @@ const placeOrder = () => {
   console.log(order.value);
 }
 
+
+const changePriceBySize = (e, item) => {
+
+const name = e.target.value;
+
+if (name === 'none') {
+
+
+  productPrice.value = ''
+  e.target.value = null
+
+  return 
+
+}
+
+const size = item.sizes.find(item => item.name === name)
+
+productPrice.value = size.pivot.price
+
+}
+
 const submitOrder = async () => {
 
 
@@ -163,14 +186,28 @@ onMounted(() => {
               <img alt="ecommerce" class="object-cover object-center w-full h-full block" :src="product.image.image_url">
             </a>
             <div class="mt-4">
-              <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
+              <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY : <span>{{
+                product.categories[0].name }}</span></h3>
               <h2 class="text-gray-900 title-font text-lg font-medium">{{ product.name }}</h2>
               <span v-html="product.description"></span>
-              <p class="mt-1">₱ {{ product.price }}</p>
+              <div>
+                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Select Size</label>
+                <select id="countries"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 
+                  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 
+                  block w-full p-2.5 
+                  " @change="changePriceBySize($event, product)">
+                  <option selected value="none">Select Size</option>
+                  <template v-for="size in product.sizes" :key="size.id">
+                    <option :value="size.name">{{ size.name }}</option>
+                  </template>
+                </select>
+              </div>
+              <p class="mt-1">₱ {{ productPrice === '' ? product.price : productPrice }}</p>
             </div>
             <div class="w-full p-2 flex flex-row-reverse" v-show="checkIfProductisAdded(product.id)">
               <button @click="addSelectProducts(product)" class="bg-orange-300 px-4 py-2 
-                          rounded-lg hover:font-semibold hover:bg-orange-200 duration-500">Add to Cart </button>
+                            rounded-lg hover:font-semibold hover:bg-orange-200 duration-500">Add to Cart </button>
             </div>
           </div>
         </div>
@@ -299,11 +336,11 @@ onMounted(() => {
           <form @submit.prevent="" class="flex flex-col space-y-5 p-2">
             <div class="flex">
               <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 
-                      border-gray-300 rounded-l-md">
+                        border-gray-300 rounded-l-md">
                 ₱
               </span>
               <input type="text" id="website-admin" v-model="order.payment" class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 
-                      block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5" placeholder="amount">
+                        block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5" placeholder="amount">
             </div>
             <div clss="flex">
               <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
@@ -319,15 +356,14 @@ onMounted(() => {
         </p>
       </div>
       <button v-show="!isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
-                   hover:bg-orange-200 hover:font-semibold duration-500
-                   hover:drop-shadow-xl">
+                     hover:bg-orange-200 hover:font-semibold duration-500
+                     hover:drop-shadow-xl">
         <i class="ri-shopping-cart-2-line text-3xl"></i>
       </button>
       <button v-show="isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
-                   hover:bg-orange-200 hover:font-semibold duration-500
-                   hover:drop-shadow-xl">
+                     hover:bg-orange-200 hover:font-semibold duration-500
+                     hover:drop-shadow-xl">
         <i class="ri-close-line text-3xl"></i>
       </button>
     </div>
-  </div>
-</template>
+</div></template>
