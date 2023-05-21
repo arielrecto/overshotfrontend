@@ -116,12 +116,14 @@ const openOtherInfoButton = ref({
   addCategory: {
     toggle: false,
     openToggle() {
+      openOtherInfoButton.value.addLevel.toggle = false
       this.toggle = !this.toggle
     }
   },
   addLevel: {
     toggle: false,
     openToggle() {
+      openOtherInfoButton.value.addCategory.toggle = false
       this.toggle = !this.toggle
     }
   }
