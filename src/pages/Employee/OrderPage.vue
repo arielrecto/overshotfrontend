@@ -7,13 +7,15 @@ import Loading from '../../components/Loading.vue';
 
 const orderStore = useOrderStore();
 
-const { fetchOrdersPendingStatus, sendOrderTransaction } = orderStore;
+const { fetchOrdersPendingStatus, sendOrderTransaction, fetchPaymentInfo } = orderStore;
 
-const { isLoading, getOrders, getOrderData, getSupplies } = storeToRefs(orderStore);
+const { isLoading, getOrders, getOrderData, getSupplies, paymentInfo } = storeToRefs(orderStore);
 
 const orderPreviewData = ref(null);
 
 const orderModal = ref(false);
+
+const paymentModal = ref(false);
 
 const openOrderModel = () => {
 
@@ -103,6 +105,17 @@ const submitOrderTransaction = async () => {
 
 }
 
+const openPaymentModal = async (data) => {
+
+
+
+    await fetchPaymentInfo(data.id)
+
+
+    console.log(paymentInfo.value.image)
+    paymentModal.value = !paymentModal.value
+
+}
 
 onMounted(() => {
     fetchOrdersPendingStatus();
@@ -219,14 +232,16 @@ onMounted(() => {
                             {{ orderPreviewData.total }}
                         </h1>
                     </div>
-                    <div class="p-2">
+                    <div class="p-2 flex space-x-10">
                         <h1>
                             <span>
-                                Total paid:
+                                Payment Type :
                             </span>
-                            ₱
-                            {{ orderPreviewData.payment.amount }}
+                            {{ orderPreviewData.payment.type }}
                         </h1>
+                        <div>
+                            <button  class="hover:bg-orange-300 px-4 py-2 rounded-lg duration-700" @click="openPaymentModal(orderPreviewData.payment)">View </button>
+                        </div>
                     </div>
 
                     <div class="relative overflow-y-auto h-[13rem]">
@@ -235,6 +250,9 @@ onMounted(() => {
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
                                         Product Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Size
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Quantity
@@ -250,6 +268,11 @@ onMounted(() => {
                                     <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
                                         {{ product.name }}
                                     </th>
+                                    <td class="px-6 py-4">
+                                        <div class="flex">
+                                            {{ product.pivot.size }}
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4">
                                         {{ product.pivot.quantity }}
                                     </td>
@@ -374,6 +397,23 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="left-[30rem] top-[5rem] h-[30rem] w-[20rem] z-10 absolute bg-gray-100 drop-shadow-lg p-2"
+            v-show="paymentModal">
+
+            <div class="w-full flex flex-row-reverse pr-5">
+                <button @click="openPaymentModal">
+                    x
+                </button>
+            </div>
+            <div class="w-full flex">
+                <h1>Receipt Code : <span></span></h1>
+            </div>
+
+            <div class="flex justify-center p-2">
+                <img :src="paymentInfo.image" alt="" srcset="" class="h-96">
+            </div>
+
         </div>
     </div>
 </template>

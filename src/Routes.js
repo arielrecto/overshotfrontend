@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard.vue";
 import Overview from "./pages/Admin/pages/Overview.vue";
 import AdminPOS from "./pages/Admin/pages/PointOfSale.vue";
 import pipeline from "./middleware/pipeline.js";
+import ProductView from './pages/ProductsView.vue';
 import auth from "./middleware/auth.js";
 import LandingPage from "./pages/Admin/pages/LandingPage.vue";
 import ForgetPassword from "./ForgetPassword.vue";
@@ -31,6 +32,7 @@ import EmployeeOrder from './pages/Employee/OrderPage.vue';
 import TransactionParent from './pages/Admin/pages/Transaction/TransactionParent.vue';
 import TransactionIndex from './pages/Admin/pages/Transaction/Index.vue';
 import NotFound from "./pages/NotFound.vue";
+import orderTracking from './pages/User/pages/Tracking.vue';
 
 const routes = [
   {
@@ -64,6 +66,10 @@ const routes = [
   {
     path: "/dashboard",
     redirect: "/admin",
+  },
+  {
+    path : '/products',
+    component : () => ProductView
   },
   {
     path: "/admin",
@@ -151,6 +157,11 @@ const routes = [
         component: Profile,
         name: "profile",
       },
+      {
+        path : "tracking",
+        name : 'order-tracking',
+        component : orderTracking
+      }
     ],
   },
   {

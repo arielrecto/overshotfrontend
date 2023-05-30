@@ -1,6 +1,6 @@
 <template>
-    <footer class="text-gray-600 body-font bg-theme-secondary">
-        <div class="bg-gray-100 bg-theme-accent">
+    <footer class="text-gray-600 body-font">
+        <div class="bg-orange-300">
             <div class="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
                 <a class="flex title-font font-medium items-center md:justify-start justify-center text-theme-primary">
                     <img src="logo.jpg" alt="" srcset="" class="w-10 h-10 text-white p-2 rounded-full">

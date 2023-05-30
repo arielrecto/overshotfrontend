@@ -10,7 +10,7 @@ import EmployeeSideBar from '../../components/EmployeeSideBar.vue';
     <EmployeeNavbarVue></EmployeeNavbarVue>
     <div class="flex gap-2">
       <employee-side-bar></employee-side-bar>
-      <div class="sm:ml-28 mt-[4rem]">
+      <div class="sm:ml-28 mt-[4rem] w-full">
         <router-view></router-view>
       </div>
     </div>

@@ -6,6 +6,9 @@ export const useOrderStore = defineStore('useOrderStore', {
         orders : [],
         supplies : [],
         isLoading : false,
+        paymentInfo : {
+            image : null
+        }
     }),
 
     getters :{
@@ -61,6 +64,19 @@ export const useOrderStore = defineStore('useOrderStore', {
                 const response = await Api().post('/employee/transaction/order', data);
 
                 this.orders = response.data.orders;
+
+            } catch (error) {
+                
+            }
+
+        },
+        async fetchPaymentInfo (id) {
+
+            try {
+                
+                const response = await Api().get(`employee/order/payment/${id}/info`);
+
+                this.paymentInfo.image = response.data.payment.image.url
 
             } catch (error) {
                 
