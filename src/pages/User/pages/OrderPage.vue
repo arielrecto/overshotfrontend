@@ -4,6 +4,7 @@ import { computed, inject, onMounted, ref } from 'vue';
 import ClientNavBarVue from '../../../components/ClientNavBar.vue';
 import { useClientProductStore } from '../../../stores/client/useClientProductStore';
 import Loading from '../../../components/Loading.vue';
+import clientBreadCrumb from '../../../components/clientBreadCrumb.vue';
 
 
 const clientProductStore = useClientProductStore();
@@ -229,22 +230,27 @@ onMounted(() => {
 
 <template>
   <div class="w-full min-h-screen relative">
-  <div class="sticky top-0 z-10">
-    <ClientNavBarVue></ClientNavBarVue>
-  </div>
+    <div class="sticky top-0 z-10">
+      <ClientNavBarVue></ClientNavBarVue>
+    </div>
     <div class="text-gray-600 body-font">
+    <div class="flex w-full justify-center p-2">
+
+      <clientBreadCrumb></clientBreadCrumb>
+      
+    </div>
       <nav class="flex capitalize p-5 border-b-2 justify-center" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
           <li class="inline-flex items-center border-r-2 border-gray-100">
             <a href="#" class="inline-flex items-center text-lg font-light 
-                 hover:text-orange-300 text-gray-500 px-4 " @click="filter().reset">
+                   hover:text-orange-300 text-gray-500 px-4 " @click="filter().reset">
               All
             </a>
           </li>
           <li class="inline-flex items-center border-r-2 border-gray-100" v-for="category in categories"
             :key="category.id">
             <a href="#" class="inline-flex items-center text-lg font-light 
-               hover:text-orange-300 text-gray-500  px-4" @click="filter().byCategory(category.name)">
+                 hover:text-orange-300 text-gray-500  px-4" @click="filter().byCategory(category.name)">
               {{ category.name }}
             </a>
           </li>
@@ -329,7 +335,8 @@ onMounted(() => {
                 </p>
                 <div class="flex gap-2">
                   <template v-for="size in productSelect.sizes" :key="size">
-                    <button class="text-xs hover:bg-orange-300 p-2 rounded-lg duration-700" @click="selectSize(size, productSelect)">
+                    <button class="text-xs hover:bg-orange-300 p-2 rounded-lg duration-700"
+                      @click="selectSize(size, productSelect)">
                       {{ size.name }}
                     </button>
                   </template>
@@ -454,13 +461,13 @@ onMounted(() => {
 
 
             <!-- <div class="flex">
-                                                              <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 
-                                                                        border-gray-300 rounded-l-md">
-                                                                ₱
-                                                              </span>
-                                                              <input type="text" id="website-admin" v-model="order.payment" class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 
-                                                                        block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5" placeholder="amount">
-                                                            </div> -->
+                                                                <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 
+                                                                          border-gray-300 rounded-l-md">
+                                                                  ₱
+                                                                </span>
+                                                                <input type="text" id="website-admin" v-model="order.payment" class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 
+                                                                          block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5" placeholder="amount">
+                                                              </div> -->
 
             <div class="flex">
               <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
@@ -497,8 +504,8 @@ onMounted(() => {
                   <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Small
                     input</label>
                   <input type="text" id="small-input" class="block w-full p-2 text-gray-900 border border-gray-300 
-                                    rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 
-                                    " v-model="order.payment.receipt_code" placeholder="Enter Code">
+                                      rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 
+                                      " v-model="order.payment.receipt_code" placeholder="Enter Code">
                 </div>
               </div>
 
@@ -507,8 +514,8 @@ onMounted(() => {
 
               <label class="block mb-2 text-sm font-medium text-gray-900 " for="small_size">Gcash Receipt Image</label>
               <input @change="fileUploader($event)" class="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer 
-                                      bg-gray-50  focus:outline-none p-2
-                                      " id="small_size" type="file">
+                                        bg-gray-50  focus:outline-none p-2
+                                        " id="small_size" type="file">
             </div>
 
             <div class="flex">
@@ -525,20 +532,19 @@ onMounted(() => {
 
 
     <div class="fixed z-10 top-[11rem] left-2">
-      <div class="w-full flex flex-row-reverse text-sm absolute font-bold text-white">
-        <p class="bg-red-400 rounded-full px-2 py-0" v-show="selectedProducts.length !== 0">{{ selectedProducts.length }}
-        </p>
-      </div>
-      <button v-show="!isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
-                                                                     hover:bg-orange-200 hover:font-semibold duration-500
-                                                                     hover:drop-shadow-xl">
-        <i class="ri-shopping-cart-2-line text-3xl"></i>
-      </button>
-      <button v-show="isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
-                                                                     hover:bg-orange-200 hover:font-semibold duration-500
-                                                                     hover:drop-shadow-xl">
-        <i class="ri-close-line text-3xl"></i>
-      </button>
+    <div class="w-full flex flex-row-reverse text-sm absolute font-bold text-white">
+      <p class="bg-red-400 rounded-full px-2 py-0" v-show="selectedProducts.length !== 0">{{ selectedProducts.length }}
+      </p>
     </div>
+    <button v-show="!isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
+                                                                     hover:bg-orange-200 hover:font-semibold duration-500
+                                                                     hover:drop-shadow-xl">
+      <i class="ri-shopping-cart-2-line text-3xl"></i>
+    </button>
+    <button v-show="isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
+                                                                     hover:bg-orange-200 hover:font-semibold duration-500
+                                                                     hover:drop-shadow-xl">
+      <i class="ri-close-line text-3xl"></i>
+    </button>
   </div>
-</template>
+</div></template>

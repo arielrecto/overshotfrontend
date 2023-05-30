@@ -148,7 +148,7 @@ const routes = [
     },
     children: [
       {
-        path: "order",
+        path: "products",
         component: OrderPage,
         name: "orderpage",
       },
@@ -158,7 +158,7 @@ const routes = [
         name: "profile",
       },
       {
-        path : "tracking",
+        path : "orders",
         name : 'order-tracking',
         component : orderTracking
       }

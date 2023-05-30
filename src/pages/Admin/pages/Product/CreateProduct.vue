@@ -249,7 +249,7 @@ onUnmounted(() => {
 <template>
   <div class="p-4 sm:ml-64 capitalize">
     <AdminNavBarVue></AdminNavBarVue>
-    <form @submit.prevent="sumbitProductData()" ref="productForm" enctype="multipart/form-data"
+    <div ref="productForm"
       class="w-full h-auto bg-gray-50 flex flex-col">
 
       <div class="flex space-x-5">
@@ -340,8 +340,8 @@ onUnmounted(() => {
 
                 <div>
                   <input type="text" class="py-2 w-5/6" v-model="categoryName">
-                  <a @click="addNewCategory(categoryName)"
-                    class="px-4 py-2 rounded-r-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white">Add</a>
+                  <button @click="addNewCategory(categoryName)"
+                    class="px-4 py-2 rounded-r-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white">Add</button>
                 </div>
               </div>
             </transition>
@@ -379,8 +379,8 @@ onUnmounted(() => {
 
 
                 </div>
-                <a class="px-4 py-2 rounded-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white"
-                  @click="addNewSizes">Add</a>
+                <button class="px-4 py-2 rounded-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white"
+                  @click="addNewSizes">Add</button>
               </div>
             </transition>
 
@@ -421,8 +421,8 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="p-5 flex flex-row-reverse">
-        <button class="bg-orange-300 px-4 py-2 capitalize rounded-lg drop-shadow-lg">submit</button>
+        <button class="bg-orange-300 px-4 py-2 capitalize rounded-lg drop-shadow-lg" @click="sumbitProductData()">submit</button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
