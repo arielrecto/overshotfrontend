@@ -28,10 +28,11 @@ export const useProductStore = defineStore("productStore", {
         this.isLoading = true;
         const response = await Api().get("/admin/products");
         this.isLoading = false;
-        console.log(response.data);
 
-        this.products = response.data;
-      } catch (error) {}
+        this.products = response.data.products;
+      } catch (error) {
+        console.log(error)
+      }
     },
     async fetchOtherInfo () {
   
@@ -59,7 +60,16 @@ export const useProductStore = defineStore("productStore", {
           this.status = response.status
         
       } catch (error) {
-        
+        console.log(error)
+      }
+    },
+    async addLevels (data) {
+      try {
+        const response = await Api().post('/admin/category/levels', data);
+           this.otherinfo.categories = response.data.categories
+          this.status = response.status 
+      } catch (error) {
+        console.log(error)
       }
     }
   },

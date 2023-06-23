@@ -25,7 +25,7 @@ const openProduct = ref({
     <li>
         <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
             <router-link to="/admin/overview" class="flex items-center"
-                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100">
+                exact-active-class="p-2 text-base font-normal text-gray-800 rounded-lg bg-orange-300">
                 <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900 ">
                     <i class="ri-line-chart-line text-xl"></i>
                 </div>
@@ -36,7 +36,7 @@ const openProduct = ref({
     <li>
         <div class=" p-2 text-base font-normal text-gray-900 rounded-lg">
             <router-link to="/admin/inventory/" class="flex items-center"
-                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100">
+                exact-active-class="p-2 text-base font-normal text-gray-800 rounded-lg bg-orange-300">
                 <div class="w-6 h-6 transition duration-75">
                     <i class="ri-hard-drive-line text-xl"></i>
                 </div>
@@ -53,7 +53,7 @@ const openProduct = ref({
                 <div v-if="openMore.open" class="p-2 text-base font-normal text-gray-900 rounded-lg">
                     <div class="my-2">
                         <router-link to="/admin/inventory/create-supply" class="flex items-center"
-                            exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100">
+                            exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
                             <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900">
                                 <i class="ri-add-line text-xl"></i>
                             </div>
@@ -67,7 +67,7 @@ const openProduct = ref({
     <li>
         <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
             <router-link to="/admin/products/" class="flex items-center"
-                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100">
+                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
                 <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900">
                     <i class="ri-shopping-basket-line text-xl"></i>
                 </div>
@@ -84,7 +84,7 @@ const openProduct = ref({
                 <div v-if="openProduct.open" class="p-2 text-base font-normal text-gray-900 rounded-lg">
                     <div class="my-2">
                     <router-link to="/admin/products/create-product" class="flex items-center"
-                        exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100">
+                        exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
                             <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900">
                                 <i class="ri-add-line text-xl"></i>
                             </div>
@@ -98,7 +98,7 @@ const openProduct = ref({
     <li>
         <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
             <router-link to="/admin/employee" class="flex items-center"
-                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100">
+                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
                 <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900">
                 <i class="ri-group-line text-xl"></i>
             </div>
@@ -115,7 +115,7 @@ const openProduct = ref({
     <li>
         <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
             <router-link to="/admin/transaction" class="flex items-center"
-                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100">
+                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
                 <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900">
                     <i class="ri-exchange-line text-xl"></i>
                 </div>

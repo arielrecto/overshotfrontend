@@ -1,24 +1,86 @@
+<script setup>
+
+
+
+const barChart =  {
+          
+          series: [{
+            name: 'Net Profit',
+            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+          }, {
+            name: 'Revenue',
+            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+          }, {
+            name: 'Free Cash Flow',
+            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+          }],
+          chartOptions: {
+            chart: {
+              type: 'bar',
+              height: 350
+            },
+            plotOptions: {
+              bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                endingShape: 'rounded'
+              },
+            },
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              show: true,
+              width: 2,
+              colors: ['transparent']
+            },
+            xaxis: {
+              categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
+            yaxis: {
+              title: {
+                text: '$ (thousands)'
+              }
+            },
+            fill: {
+              opacity: 1
+            },
+            tooltip: {
+              y: {
+                formatter: function (val) {
+                  return "$ " + val + " thousands"
+                }
+              }
+            }
+          }, 
+        }
+
+</script>
+
 <template>
-    <section class="text-gray-600 body-font">
-        <div class="container px-5 py-24 mx-auto">
-            <div class="flex flex-wrap -m-4 text-center">
-                <div class="p-4 sm:w-1/4 w-1/2">
-                    <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">2.7K</h2>
-                    <p class="leading-relaxed">Users</p>
-                </div>
-                <div class="p-4 sm:w-1/4 w-1/2">
-                    <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">1.8K</h2>
-                    <p class="leading-relaxed">Subscribes</p>
-                </div>
-                <div class="p-4 sm:w-1/4 w-1/2">
-                    <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">35</h2>
-                    <p class="leading-relaxed">Downloads</p>
-                </div>
-                <div class="p-4 sm:w-1/4 w-1/2">
-                    <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">4</h2>
-                    <p class="leading-relaxed">Products</p>
+   <div class="w-full z-0">
+        <div class="grid grid-cols-3 gap-4 h-28">
+            <div class="bg-white p-2 rounded-lg drop-shadow-lg flex justify-center">
+                <div class="w-1/2 p-5 flex space-x-5">
+                    <div class="px-4 py-4 rounded-full bg-orange-200 hover:bg-orange-300 hover:scale-105 duration-500">
+                        <img src="../assets/icons/user-line.png" alt="" srcset="" class="h-5">
+                     </div>
+                    <div class="flex flex-col gap-2">
+                        <h1 class="text-xl font-semibold border-b-2 border-gray-100 tracking-widest">
+                            3000
+                        </h1>
+                        <p class="capitalize text-xs text-gray-400">
+                            employees 
+                        </p>
+                    </div>
                 </div>
             </div>
+            <div>
+                <apexchart type="bar" height="150" :options="barChart.chartOptions" :series="barChart.series"></apexchart>
+            </div>
+            <div>
+                3
+            </div>
         </div>
-    </section>
+   </div>
 </template>

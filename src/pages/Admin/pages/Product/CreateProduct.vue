@@ -14,14 +14,15 @@ const product = ref({
     name: '',
     description: '',
     price: '',
-    category : '',
-    sizes : [], 
+    category: '',
+    sizes: [],
+    levels : []
   }
 });
 
 const productStore = useProductStore();
 const { status, otherinfo } = storeToRefs(productStore);
-const { addProduct, fetchOtherInfo, addCategory, addSize } = productStore;
+const { addProduct, fetchOtherInfo, addCategory, addSize, addLevels } = productStore;
 const productForm = ref(null);
 const swal = inject('$swal');
 const editor = ref(null);
@@ -37,7 +38,8 @@ const sizes = ref([{
 const sizesCetegory = ref('');
 const productCategory = ref('');
 const productSizesPrice = ref([]);
-
+const productLevels = ref('');
+const productLevelsPercent = ref([]);
 
 const uploadImage = (e) => {
 
@@ -93,19 +95,26 @@ const sumbitProductData = async () => {
   product.value.data.description = editor.value.getHTML();
   product.value.data.category = productCategory.value;
   product.value.data.sizes = productSizesPrice.value;
+  product.value.data.levels = productLevelsPercent.value
+
+
+  console.log(product.value);
 
   await addProduct(product.value);
   if (status.value === 200) {
     swal.fire({
-      position: 'top-end',
+      position: 'center',
       icon: 'success',
       title: 'Product Added Successfully',
       showConfirmButton: false,
       timer: 1500
     })
+    window.location.reload()
     productForm.value.reset();
     croppedImage.value = null;
     editor.value = null;
+    productLevels.value = []
+    productSizesPrice.value = []
     URL.revokeObjectURL(imageSrc);
     product.value = {
       image: '',
@@ -124,6 +133,7 @@ const openOtherInfoButton = ref({
     toggle: false,
     openToggle() {
       openOtherInfoButton.value.addSize.toggle = false
+      openOtherInfoButton.value.addLevels.toggle = false
       this.toggle = !this.toggle
     }
   },
@@ -131,6 +141,16 @@ const openOtherInfoButton = ref({
     toggle: false,
     openToggle() {
       openOtherInfoButton.value.addCategory.toggle = false
+      openOtherInfoButton.value.addLevels.toggle = false
+      this.toggle = !this.toggle
+    }
+  },
+  addLevels: {
+    toggle: false,
+    openToggle() {
+      openOtherInfoButton.value.addCategory.toggle = false
+      openOtherInfoButton.value.addSize.toggle = false
+
       this.toggle = !this.toggle
     }
   }
@@ -151,7 +171,7 @@ const addNewCategory = async () => {
 
   if (status.value === 200) {
     swal.fire({
-      position: 'top-end',
+      position: 'center',
       icon: 'success',
       title: 'Category Added Successfully',
       showConfirmButton: false,
@@ -205,7 +225,7 @@ const addNewSizes = async () => {
 
   if (status.value === 200) {
     swal.fire({
-      position: 'top-end',
+      position: 'center',
       icon: 'success',
       title: 'Sizes Added Successfully',
       showConfirmButton: false,
@@ -219,17 +239,49 @@ const addNewSizes = async () => {
   }
 }
 
+const addNewLevels = async () => {
+
+  const data = {
+    category: sizesCetegory.value,
+    levels: productLevels.value
+  }
+
+
+  await addLevels(data);
+
+  if (status.value === 200) {
+    swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'levels Added Successfully',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
+    categoryName.value = ''
+    openOtherInfoButton.value.addLevels.toggle = false;
+    productLevels.value = ''
+
+  }
+}
+
 const categoryOtherInfo = (e) => {
 
+
+
+  productSizesPrice.value = [];
+  productLevelsPercent.value = []
 
   const name = e.target.value;
 
 
-  const data = otherinfo.value.categories.find(item => item.name === productCategory.value);
+  const data = otherinfo.value.categories.find(item => item.name === name);
 
-  data.sizes.forEach(item => productSizesPrice.value.push({name: item.name, price : null}))
-  
+  data.sizes.forEach(item => productSizesPrice.value.push({ name: item.name, price: null }))
+  data.levels.forEach(item => productLevelsPercent.value.push({ name: item.name, percent: null }))  
+
 }
+
 
 
 onMounted(() => {
@@ -249,8 +301,7 @@ onUnmounted(() => {
 <template>
   <div class="p-4 sm:ml-64 capitalize">
     <AdminNavBarVue></AdminNavBarVue>
-    <div ref="productForm"
-      class="w-full h-auto bg-gray-50 flex flex-col">
+    <div ref="productForm" class="w-full h-auto bg-gray-50 flex flex-col">
 
       <div class="flex space-x-5">
         <div v-if="imageSrc" class="p-2 h-auto w-1/2 ">
@@ -279,7 +330,7 @@ onUnmounted(() => {
         <div class="p-2 h-auto w-1/2 " v-if="!imageSrc && !croppedImage">
           <div class="flex items-center h-full justify-center w-full">
             <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer
-                                                                 bg-gray-50">
+                                                                       bg-gray-50">
               <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -320,15 +371,16 @@ onUnmounted(() => {
 
 
             <a class="bg-orange-300 drop-shadow-sm font-semibold px-4 py-2 rounded-lg hover:bg-orange-400
-                                                     hover:text-white hover:font-bold duration-500"
+                                                           hover:text-white hover:font-bold duration-500"
               @click="openOtherInfoButton.addCategory.openToggle">Add Category </a>
 
 
             <a class="bg-orange-300 drop-shadow-sm font-semibold px-4 py-2 rounded-lg hover:bg-orange-400
-                                                     hover:text-white hover:font-bold duration-500"
+                                                           hover:text-white hover:font-bold duration-500"
               @click="openOtherInfoButton.addSize.openToggle">Add Sizes </a>
             <a class="bg-orange-300 drop-shadow-sm font-semibold px-4 py-2 rounded-lg hover:bg-orange-400
-                                                     hover:text-white hover:font-bold duration-500">Add Level</a>
+                                                           hover:text-white hover:font-bold duration-500"
+              @click="openOtherInfoButton.addLevels.openToggle">Add Level</a>
           </div>
           <div class="w-full p-2 flex justify-center">
 
@@ -355,7 +407,7 @@ onUnmounted(() => {
 
                 <label class="text-sm">Select Category</label>
                 <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                         focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5" v-model="sizesCetegory">
+                               focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5" v-model="sizesCetegory">
 
                   <template v-for="category in otherinfo.categories" :key="category.id">
                     <option :value="category.name">{{ category.name }}</option>
@@ -379,11 +431,36 @@ onUnmounted(() => {
 
 
                 </div>
-                <button class="px-4 py-2 rounded-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white"
+                <button
+                  class="px-4 py-2 rounded-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white"
                   @click="addNewSizes">Add</button>
               </div>
             </transition>
 
+            <transition enter-from-class="opacity-0" leave-to-class="opacity-0"
+              enter-active-class="transition duration-300" leave-active-class="transition duration-300">
+
+              <div class="w-1/2 p-2 bg-gray-100 rounded-lg drop-shadow-md flex flex-col gap-5"
+                v-if="openOtherInfoButton.addLevels.toggle">
+
+                <label for="category" class="font-semibold text-md"> add Level</label>
+
+                <label class="text-sm">Select Category</label>
+                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                               focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5" v-model="sizesCetegory">
+
+                  <template v-for="category in otherinfo.categories" :key="category.id">
+                    <option :value="category.name">{{ category.name }}</option>
+                  </template>
+
+                </select>
+                <div>
+                  <input type="text" class="py-2 w-5/6" v-model="productLevels">
+                  <button @click="addNewLevels()"
+                    class="px-4 py-2 rounded-r-lg bg-orange-300 hover:font-semibold hover:bg-orange-400 hover:text-white">Add</button>
+                </div>
+              </div>
+            </transition>
 
           </div>
 
@@ -392,36 +469,52 @@ onUnmounted(() => {
 
               <label for="Categories" class="block mb-2 text-sm font-medium text-gray-900">Select Categories</label>
               <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="productCategory" @change="categoryOtherInfo($event)">
+                               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="productCategory"
+                @change="categoryOtherInfo($event)">
                 <template v-for="category in otherinfo.categories" :key="category.id">
                   <option :value="category.name">{{ category.name }}</option>
                 </template>
               </select>
 
-              <div class="w-full">
+              <div class="w-full flex gap-2">
                 <div class="flex flex-col gap-4 w-1/2" v-if="productCategory">
 
-                  <div class="flex space-x-16 py-2">
+                  <div class="grid grid-cols-2">
                     <h1>Sizes</h1>
                     <h1>price</h1>
                   </div>
                   <div v-for="size in productSizesPrice" :key="size.id" class="flex gap-4">
-                    <div class="mb-6 flex gap-2 w-full">
-                      <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900">{{ size.name }}</label>
+                    <div class="grid grid-cols-2">
+                      <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900">{{ size.name
+                      }}</label>
                       <input type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                           focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-                        " v-model="size.price">
+                                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                              " v-model="size.price">
                     </div>
                   </div>
                 </div>
+                <div>
+                  <template v-for="level in productLevelsPercent" :key="level.id">
+                    <div class="mb-6 flex gap-2 w-full">
+                      <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900">{{ level.name
+                      }}</label>
+                      <input type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                              " v-model="level.percent">
+                    </div>
+                  </template>
+                </div>
               </div>
-
+              <div class="w-full">
+                <ClientNavBar></ClientNavBar>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="p-5 flex flex-row-reverse">
-        <button class="bg-orange-300 px-4 py-2 capitalize rounded-lg drop-shadow-lg" @click="sumbitProductData()">submit</button>
+        <button class="bg-orange-300 px-4 py-2 capitalize rounded-lg drop-shadow-lg"
+          @click="sumbitProductData()">submit</button>
       </div>
     </div>
   </div>

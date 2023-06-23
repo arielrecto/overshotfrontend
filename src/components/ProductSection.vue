@@ -25,7 +25,7 @@ onMounted(() => {
       <div v-for="product in products" :key="product.name"
         class="w-80 rounded-md cursor-pointer shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 duration-500 m-2">
 
-        <router-link to="/client/1/order">
+        <router-link to="/products">
           <img :src="product.image.image_url" alt="" />
         </router-link>
         <div class="p-4 bg-white">

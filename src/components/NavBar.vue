@@ -41,15 +41,6 @@ export default {
                     name: 'Product',
                     url: '/products'
                 },
-                {
-                    name: 'Company',
-                    url: '/about'
-                },
-                {
-                    name: 'FAQ',
-                    url: '/HelpPage'
-                }
-                        
             ]
         }
     }

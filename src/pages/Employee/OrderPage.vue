@@ -1,7 +1,7 @@
 <script setup>
 
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { useOrderStore } from '../../stores/Employee/useOrderStore.js';
 import Loading from '../../components/Loading.vue';
 
@@ -9,9 +9,10 @@ const orderStore = useOrderStore();
 
 const { fetchOrdersPendingStatus, sendOrderTransaction, fetchPaymentInfo } = orderStore;
 
-const { isLoading, getOrders, getOrderData, getSupplies, paymentInfo } = storeToRefs(orderStore);
+const { isLoading, getOrders, getOrderData, getSupplies, paymentInfo, status } = storeToRefs(orderStore);
 
 const orderPreviewData = ref(null);
+const swal = inject('$swal');
 
 const orderModal = ref(false);
 
@@ -102,6 +103,22 @@ const submitOrderTransaction = async () => {
     }
 
     await sendOrderTransaction(data);
+
+    if (status.value == 200) {
+        swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Order Process Success',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        orderPreviewData.value = null;
+
+        orderModal.value = false;
+
+        paymentModal.value = false;
+
+    }
 
 }
 
@@ -240,7 +257,8 @@ onMounted(() => {
                             {{ orderPreviewData.payment.type }}
                         </h1>
                         <div>
-                            <button  class="hover:bg-orange-300 px-4 py-2 rounded-lg duration-700" @click="openPaymentModal(orderPreviewData.payment)">View </button>
+                            <button class="hover:bg-orange-300 px-4 py-2 rounded-lg duration-700"
+                                @click="openPaymentModal(orderPreviewData.payment)">View </button>
                         </div>
                     </div>
 

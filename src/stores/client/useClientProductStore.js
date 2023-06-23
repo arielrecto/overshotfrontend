@@ -8,6 +8,7 @@ export const useClientProductStore = defineStore("clientProdcutStore", {
     status: null,
     orders: [],
     categories : [],
+    supplies : [],
     category : ''
   }),
   getters: {
@@ -27,6 +28,7 @@ export const useClientProductStore = defineStore("clientProdcutStore", {
         const response = await Api().get("/client/products");
         this.products = response.data.products;
         this.categories = response.data.categories;
+        this.supplies = response.data.supplies
         console.log(response.data);
         this.isLoading = false;
       } catch (error) {}

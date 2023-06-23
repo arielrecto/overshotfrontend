@@ -7,9 +7,9 @@
                 </router-link>
                
                 <div class="flex gap-2">
-                    <img src="/public/genshin-impact-emote.gif" alt="" srcset="" class="rounded-full h-24">
+                    <img src="/genshin-impact-emote.gif" alt="" srcset="" class="rounded-full h-24">
                     <h1 class="p-5 h-24 text-3xl ">
-                        404 Not Found
+                        404 Page Not Found
                     </h1>
                 </div>
             </div>

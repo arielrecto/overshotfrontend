@@ -1,8 +1,9 @@
 <script setup>
 import { useAuthStore } from "../../../stores/useAuthStore";
 
+
 const authUser = useAuthStore();
-const {logout} = authUser;
+const { logout } = authUser;
 </script>
 
 <template>

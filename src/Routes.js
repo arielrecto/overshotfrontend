@@ -32,7 +32,7 @@ import EmployeeOrder from './pages/Employee/OrderPage.vue';
 import TransactionParent from './pages/Admin/pages/Transaction/TransactionParent.vue';
 import TransactionIndex from './pages/Admin/pages/Transaction/Index.vue';
 import NotFound from "./pages/NotFound.vue";
-import orderTracking from './pages/User/pages/Tracking.vue';
+import Orders from './pages/User/pages/Orders.vue';
 
 const routes = [
   {
@@ -153,15 +153,15 @@ const routes = [
         name: "orderpage",
       },
       {
-        path: "profile",
-        component: Profile,
-        name: "profile",
+        path : "orders",
+        name : 'orders',
+        component : Orders
       },
       {
-        path : "orders",
-        name : 'order-tracking',
-        component : orderTracking
-      }
+        path: "profile",
+        name: "profile",
+        component: Profile,
+      },
     ],
   },
   {

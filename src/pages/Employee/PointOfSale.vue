@@ -1,13 +1,13 @@
 <script setup>
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref } from 'vue';
 import { usePosStore } from '../../stores/Employee/usePosStore.js';
 import Loading from '../../components/Loading.vue';
 
 const posStore = usePosStore();
-const { isLoading, getSupplies, getProducts, data, category } = storeToRefs(posStore);
+const { isLoading, getSupplies, getProducts, data, category, status } = storeToRefs(posStore);
 const { fetchItemData, posTransactionData } = posStore;
-
+const swal = inject('$swal');
 const transaction = ref({
     supplies: [],
     products: [],
@@ -165,6 +165,23 @@ const sendTransaction = async () => {
     }
 
     await posTransactionData(transaction.value)
+
+    if (status.value == 200) {
+        swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Order Process Success',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        
+        transaction.value.supplies = [];
+
+        transaction.value.products = [];
+
+        paymentModal.value = false;
+
+    }
 
 }
 

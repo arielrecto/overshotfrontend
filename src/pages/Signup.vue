@@ -115,8 +115,8 @@ const submitRegister = async () => {
     await register(data);
 
     if (status.value == 200) {
+        
         swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: 'Register Success',
             showConfirmButton: false,

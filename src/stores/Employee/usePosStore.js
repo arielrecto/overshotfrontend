@@ -10,6 +10,7 @@ export const usePosStore = defineStore("posStore", {
     },
     isLoading: false,
     category: "",
+    status : null
   }),
 
   getters: {
@@ -45,7 +46,10 @@ export const usePosStore = defineStore("posStore", {
         const response = await Api().post("/employee/transaction/pos", data);
         this.data.supplies = response.data.supplies;
         this.data.products = response.data.products;
-      } catch (error) {}
+        this.status = response.status
+      } catch (error) {
+        console.log(error.response.data.message)
+      }
     },
   },
 });

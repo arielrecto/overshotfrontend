@@ -1,87 +1,77 @@
 import { defineStore } from "pinia";
-import Api from '../../Server/index.js';
+import Api from "../../Server/index.js";
 
-export const useOrderStore = defineStore('useOrderStore', {
-    state : () => ({
-        orders : [],
-        supplies : [],
-        isLoading : false,
-        paymentInfo : {
-            image : null
-        }
-    }),
-
-    getters :{
-        getOrders (state) {
-            return state.orders;
-        },
-        getOrderData (state) {
-
-
-            const orders = state.orders.map((items)=> {return items});
-
-            return (id) => orders.find((item) => item.id === id);
-        },
-        getSupplies(state){
-
-            return state.supplies;
-        }  
+export const useOrderStore = defineStore("useOrderStore", {
+  state: () => ({
+    orders: [],
+    supplies: [],
+    isLoading: false,
+    status: null,
+    paymentInfo: {
+      image: null,
     },
+  }),
 
-    actions : {
+  getters: {
+    getOrders(state) {
+      return state.orders;
+    },
+    getOrderData(state) {
+      const orders = state.orders.map((items) => {
+        return items;
+      });
 
-       async fetchOrdersPendingStatus () {
+      return (id) => orders.find((item) => item.id === id);
+    },
+    getSupplies(state) {
+      return state.supplies;
+    },
+  },
 
-            try {
-                this.isLoading = true;
+  actions: {
+    async fetchOrdersPendingStatus() {
+      try {
+        this.isLoading = true;
 
-                const response = await Api().get('/employee/orders');
-                this.orders = response.data.orders;
-                this.supplies = response.data.supplies;
-                this.isLoading = false;
+        const response = await Api().get("/employee/orders");
+        this.orders = response.data.orders;
+        this.supplies = response.data.supplies;
+        this.isLoading = false;
 
-                console.log(response.data)
+        console.log(response.data);
+      } catch (error) {}
+    },
+    async fetchOrderProducts(id) {
+      try {
+        const response = await Api().get(`employee/orders/${id}`);
 
-            } catch (error) {
-                
-            }
-        },
-        async fetchOrderProducts(id){
-            try {
-                
-                const response = await Api().get(`employee/orders/${id}`);
+        console.log(response.data);
+      } catch (error) {}
+    },
+    async sendOrderTransaction(data) {
+      try {
+        const response = await Api().post("/employee/transaction/order", data);
 
-                console.log(response.data);
+        this.orders = response.data.orders;
 
-            } catch (error) {
-                
-            }
-        },
-        async sendOrderTransaction (data){
+        this.status = response.status;
 
-            try {
-                
-                const response = await Api().post('/employee/transaction/order', data);
+      } catch (error) {
+        swal.fire({
+          position: "center",
+          icon: "success",
+          title: `${error.response.data.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    },
+    async fetchPaymentInfo(id) {
+      try {
+        const response = await Api().get(`employee/order/payment/${id}/info`);
 
-                this.orders = response.data.orders;
-
-            } catch (error) {
-                
-            }
-
-        },
-        async fetchPaymentInfo (id) {
-
-            try {
-                
-                const response = await Api().get(`employee/order/payment/${id}/info`);
-
-                this.paymentInfo.image = response.data.payment.image.url
-
-            } catch (error) {
-                
-            }
-
-        }
-    }
+        this.paymentInfo.image = response.data.payment.image.url;
+      } catch (error) {}
+    },
+  },
 });

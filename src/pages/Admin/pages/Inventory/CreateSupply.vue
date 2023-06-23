@@ -15,7 +15,8 @@ const supplies = ref([
         name: '',
         amount: '',
         unit: '',
-        quantity: ''
+        quantity: '',
+        category: ''
     }
 ])
 const addNewField = () => {
@@ -23,7 +24,8 @@ const addNewField = () => {
         name: '',
         amount: '',
         unit: '',
-        quantity: ''
+        quantity: '',
+        category: ''
     }
 
     supplies.value.push(field)
@@ -36,19 +38,21 @@ const submitSupplyDAta = async () => {
 
     if (status.value == 200) {
         swal.fire({
-            position: 'top-end',
+            position: 'center',
             icon: 'success',
             title: 'Item Added Successfully',
             showConfirmButton: false,
             timer: 1500
         })
+
+        window.location.reload();
         supplyForm.value.reset();
     }
-    if(error.value){
+    if (error.value) {
         swal.fire({
-          icon: 'error',
-          title: 'Server Error',
-          text: 'Something went wrong!',
+            icon: 'error',
+            title: 'Server Error',
+            text: 'Something went wrong!',
         });
 
         console.log(error.value);
@@ -86,6 +90,16 @@ const submitSupplyDAta = async () => {
                         <label for="name">quantity</label>
                         <input required type="text" v-model="supply.quantity"
                             class="p-2 focus:outline-orange-100 rounded-lg">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="name">Select Category</label>
+                        <select id="countries_disabled"  v-model="supply.category" class="bg-orange-50 border border-orange-300 text-gray-600 text-xs rounded-lg
+                            focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 
+                                           ">
+                            <option value="Add On">Add On</option>
+                            <option value="Ingredients">Ingredients</option>
+                            <option value="Flavors">Flavors</option>
+                        </select>
                     </div>
                 </div>
                 <button class="bg-orange-200 p-2 rounded-lg w-1/2">
