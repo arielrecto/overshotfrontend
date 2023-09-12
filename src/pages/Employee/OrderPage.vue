@@ -134,6 +134,14 @@ const openPaymentModal = async (data) => {
 
 }
 
+const convertDate = (date) => {
+
+    const dateObj = new Date(date);
+    const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    return formattedDate;
+}
+
 onMounted(() => {
     fetchOrdersPendingStatus();
 })
@@ -218,22 +226,22 @@ onMounted(() => {
                         <span>Order number : </span>
                         {{ orderPreviewData.order_num }}
                     </h1>
-                    <div class="flex space-x-40 p-2">
-                        <h1>
-                            <span>Name : </span>
+                    <div class="flex p-2 w-full">
+                        <h1 class="flex-grow text-sm">
+                            <span class="text-gray-600">Name : </span>
                             {{ orderPreviewData.user.name }}
                         </h1>
 
-                        <h1>
-                            <span>
+                        <h1 class="w-1/2 flex flex-row-reverse text-sm">
+                            {{ convertDate(orderPreviewData.created_at) }}
+                            <span class="text-gray-600">
                                 Date :
                             </span>
-
                         </h1>
                     </div>
                     <div class="p-2">
-                        <h1>
-                            <span>
+                        <h1 class="text-sm">
+                            <span class="text-gray-600">
                                 Total Item :
                             </span>
 
@@ -241,25 +249,24 @@ onMounted(() => {
                         </h1>
                     </div>
                     <div class="p-2">
-                        <h1>
-                            <span>
+                        <h1 class="text-sm">
+                            <span class="text-gray-600">
                                 Total payment :
                             </span>
                             ₱
                             {{ orderPreviewData.total }}
                         </h1>
                     </div>
-                    <div class="p-2 flex space-x-10">
-                        <h1>
-                            <span>
+                    <div class="p-2 flex space-x-2">
+                        <h1 class="text-sm">
+                            <span class="text-gray-600">
                                 Payment Type :
                             </span>
                             {{ orderPreviewData.payment.type }}
                         </h1>
-                        <div>
-                            <button class="hover:bg-orange-300 px-4 py-2 rounded-lg duration-700"
-                                @click="openPaymentModal(orderPreviewData.payment)">View </button>
-                        </div>
+                        <button class="pb-2 rounded-lg hover:scale-110 duration-700 text-sm"
+                            @click="openPaymentModal(orderPreviewData.payment)">View </button>
+
                     </div>
 
                     <div class="relative overflow-y-auto h-[13rem]">
@@ -424,9 +431,9 @@ onMounted(() => {
                     x
                 </button>
             </div>
-            <div class="w-full flex">
+            <!-- <div class="w-full flex">
                 <h1>Receipt Code : <span></span></h1>
-            </div>
+            </div> -->
 
             <div class="flex justify-center p-2">
                 <img :src="paymentInfo.image" alt="" srcset="" class="h-96">

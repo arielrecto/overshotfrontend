@@ -44,7 +44,7 @@ const client = JSON.parse(localStorage.getItem('user'));
                             <router-link :to="`/client/${client.slug_name}/products`"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                 <div class="flex items-center space-x-2">
-                                    <i class="ri-user-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
+                                    <i class="ri-shopping-cart-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
                                     <p class="p-2">Products</p>
                                 </div>
                             </router-link>
@@ -53,7 +53,7 @@ const client = JSON.parse(localStorage.getItem('user'));
                             <router-link :to="`/client/${client.slug_name}/orders`"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                 <div class="flex items-center space-x-2">
-                                    <i class="ri-user-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
+                                    <i class="ri-shopping-cart-2-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
                                     <p class="p-2">Orders</p>
                                 </div>
                             </router-link>

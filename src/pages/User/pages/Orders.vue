@@ -122,7 +122,7 @@ onMounted(() => {
                                     <template v-for="product in order.products" :key="product.id">
                                         <div class="grid grid-cols-5 bg-white border-l-4 border-black p-2">
                                             <div class="bg-white px-4 py-2">{{ product.name }}</div>
-                                            <div class="bg-white px-4 py-2" v-html="product.description"></div>
+                                            <div class="bg-white px-4 py-2 truncate" v-html="product.description"></div>
                                             <div class="bg-white px-4 py-2">{{ product.pivot.size }}</div>
                                             <div class="bg-white px-4 py-2"> ₱{{ product.price }}</div>
                                         </div>

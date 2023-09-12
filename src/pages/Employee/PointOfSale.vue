@@ -174,7 +174,7 @@ const sendTransaction = async () => {
             showConfirmButton: false,
             timer: 1500
         })
-        
+
         transaction.value.supplies = [];
 
         transaction.value.products = [];
@@ -283,7 +283,7 @@ onMounted(() => {
                 Products
             </h1>
             <nav class="flex capitalize p-5 border-b-2 justify-center" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3 overflow-x-auto">
                     <li class="inline-flex items-center border-r-2 border-gray-100">
                         <a href="#"
                             class="inline-flex items-center text-lg font-light 
@@ -448,8 +448,7 @@ onMounted(() => {
             <div class="bg-black opacity-10 min-h-screen">
 
             </div>
-            <div class="absolute top-[6rem] left-[30rem] bg-white w-[30rem] h-[35rem] rounded-lg drop-shadow-lg">
-
+            <div class="absolute top-[2rem] left-[30rem] bg-white w-[30rem] h-[40rem] rounded-lg drop-shadow-lg">
                 <div class="flex">
                     <div class="w-full p-5 flex flex-col space-y-2 uppercase">
                         <h1 class="text-lg text-center font-bold capitalize w-full">
@@ -457,15 +456,17 @@ onMounted(() => {
                         </h1>
                         <div class="w-full flex justify-center p-2">
                             <div class="flex flex-col gap-2 ">
-                                <div class="flex">
+                                <div class="flex w-full justify-center">
                                     <img src="/logo.jpg" alt="" srcset="" class="h-10 rounded-lg">
                                     <h1 class="text-orange-300 p-2 font-bold">
                                         overshot
                                     </h1>
                                 </div>
-                                <p class="text-xs w-5/6 lowercase pl-2">
-                                    Block 1 Lot 10 Phase 3 J. Rizal St Soldiers Hills IV, Bacoor, Cavite.
-                                </p>
+                                <div class=" w-full flex justify-center">
+                                    <p class="text-xs lowercase w-1/2 pl-2 text-center">
+                                        Block 1 Lot 10 Phase 3 J. Rizal St Soldiers Hills IV, Bacoor, Cavite.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

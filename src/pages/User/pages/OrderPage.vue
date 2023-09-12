@@ -274,7 +274,7 @@ const submitOrder = async () => {
       total: null,
       payment: null,
     };
-
+    window.location.reload()
   }
 }
 
@@ -383,15 +383,15 @@ onMounted(() => {
               v-for="productSelect in selectedProducts" :key="productSelect.id">
               <img :src="productSelect.image.image_url" alt="" class="h-32 pt-4" srcset="">
               <div class="w-full flex flex-col space-y-2 p-2">
-                <h1 class="text-3xl font-bold">{{ productSelect.name }}</h1>
+                <h1 class="text-xl font-bold">{{ productSelect.name }}</h1>
 
                 <div>
-                  <p>Size : <span>
+                  <p class="text-sm">Size : <span>
                       {{ productSelect.size === 'regular' ? productSelect.size : productSelect.size.name }}
                     </span></p>
                 </div>
-                <div class="w-full flex space-x-[8rem]">
-                  <p>Quantity : {{ productSelect.pieces }}</p>
+                <div class="w-full flex space-x-[5rem]">
+                  <p class="text-sm">Quantity : {{ productSelect.pieces }}</p>
                   <span class="flex space-x-2">
                     <button class="bg-orange-300 rounded-lg px-2 py-1"
                       @click="changeProductQuantity(productSelect.id).add()">+</button>
@@ -486,7 +486,7 @@ onMounted(() => {
 
           <div class="relative overflow-y-auto h-64">
             <table class="w-full text-sm text-left text-gray-500">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th scope="col" class="px-6 py-3">
                     Product name
@@ -508,7 +508,7 @@ onMounted(() => {
                     {{ orderproduct.name }}
                   </th>
                   <td class="px-6 py-4">
-                    {{ orderproduct.size.name }}
+                    {{ orderproduct.size === 'regular' ? 'regular' : orderproduct.size.name }}
                   </td>
                   <td class="px-6 py-4">
                     ₱ {{ orderproduct.size === 'regular' ? orderproduct.price : orderproduct.size.pivot.price }}
