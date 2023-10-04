@@ -6,17 +6,20 @@ export const useLandingPageDataStore = defineStore("landingPageStore", {
     categories: [],
     isLoading: false,
     filterCategory: null,
-    category: '',
+    category: "",
   }),
 
   getters: {
     filterByCategory() {
-      if (this.category === '') {
+      if (this.category === "") {
         return this.products;
       }
       return this.products.filter((item) => {
         return item.categories[0].name === this.category;
       });
+    },
+    getProductByid() {
+      return (productId) => this.products.find(p => p.id === productId)
     },
   },
   actions: {

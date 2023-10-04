@@ -1,5 +1,38 @@
+<script setup>
+// const links = [
+//     {
+//         name: 'Home',
+//         url: '/'
+//     },
+//     {
+//         name: 'Product',
+//         url: '/products'
+//     }
+// ]
+
+
+</script>
 <template>
-    <nav class="bg-orange-300">
+    <nav class="w-full bg-secondary absolute z-10 flex justify-center">
+        <div class="w-5/6 justify-between p-4 flex items-center">
+            <router-link to="/" class="flex items-center gap-2">
+            <img src="/logo.jpg" alt="" srcset="" class="object object-center h-10 w-10 rounded-full">
+            <h1 class="text-lg uppercase font-bold text-accent">overshot </h1>
+        </router-link>
+
+        <!-- <div class="w-1/2">
+
+        </div> -->
+        <div class="flex items-center justify-end space-x-2">
+            <router-link to="/login" class="text-accent capitalize text-sm">Log in</router-link>
+
+            <button class="btn btn-neutral btn-xs font-bold">Order Now</button>
+        </div>
+        </div>
+        
+    </nav>
+
+    <!-- <nav class="w-full">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
             <router-link to="/" href="https://flowbite.com" class="flex items-center">
                 <img src="/logo.jpg" class="h-6 mr-3 sm:h-9 rounded-full" alt="Overshot Logo" />
@@ -12,7 +45,7 @@
             </div>
         </div>
     </nav>
-    <nav class="rounded-b-lg bg-gray-50">
+    <nav class="w-full">
         <div class="max-w-screen-xl px-4 py-3 mx-auto md:px-6">
             <div class="flex items-center">
                 <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium" v-for="link in links" :key="link.name">
@@ -26,23 +59,5 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> -->
 </template>
-<script>
-export default {
-    data: () => {
-        return {
-            links: [
-                {
-                    name: 'Home',
-                    url: '/'
-                },
-                {
-                    name: 'Product',
-                    url: '/products'
-                },
-            ]
-        }
-    }
-}
-</script>

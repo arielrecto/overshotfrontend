@@ -1,24 +1,26 @@
 import { defineStore } from "pinia";
 import Api from "../Server/index.js";
 import router from "../Routes.js";
+import {inject} from 'vue'
+const swal = inject('$swal');
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     isAuthenticated: false,
     userRole: null,
-    user : null,
-    status : null,
-    error : null
+    user: null,
+    status: null,
+    error: null,
   }),
   actions: {
     async login(formData) {
       try {
         const response = await Api().post("/login", formData);
 
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user' , JSON.stringify(response.data.user));
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         this.isAuthenticated = true;
-        this.userRole = response.data.role[0]
+        this.userRole = response.data.role[0];
         this.user = response.data.user;
 
         switch (this.userRole) {
@@ -29,7 +31,7 @@ export const useAuthStore = defineStore("auth", {
             router.push({ path: `client/${this.user.slug_name}/products` });
             break;
           case "employee":
-            router.push({path : `employee/${this.user.slug_name}/`})
+            router.push({ path: `employee/${this.user.slug_name}/` });
             break;
           default:
             return next("/login");
@@ -62,30 +64,27 @@ export const useAuthStore = defineStore("auth", {
           router.push({ path: "/login" });
         }
 
-        const response = await Api().get('/user');
+        const response = await Api().get("/user");
         this.isAuthenticated = true;
         this.user = response.data.user;
         this.userRole = response.data.role;
         this.status = response.status;
 
-        console.log(response)
-
-      } catch (error) {
-      }
+        console.log(response);
+      } catch (error) {}
     },
 
     async register(data) {
       try {
+        const response = await Api().post("/register", data);
+        console.log(response.status)
 
-        const response = await Api().post('/register', data);
-
-
-        this.status = response.status;
-
-      } catch (error){
+        this.status = response.status
+        // signupForm.value.reset();
+      } catch (error) {
         this.status = error.response.status;
         this.error = error.response.data;
       }
-    }
+    },
   },
 });

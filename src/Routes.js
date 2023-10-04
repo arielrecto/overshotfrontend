@@ -33,6 +33,7 @@ import TransactionParent from './pages/Admin/pages/Transaction/TransactionParent
 import TransactionIndex from './pages/Admin/pages/Transaction/Index.vue';
 import NotFound from "./pages/NotFound.vue";
 import Orders from './pages/User/pages/Orders.vue';
+import RiderIndex from './pages/Riders/Index.vue'
 
 const routes = [
   {
@@ -45,6 +46,7 @@ const routes = [
   },
   {
     path: "/signin",
+    name : "login",
     component: Login,
   },
   {
@@ -187,6 +189,14 @@ const routes = [
         component : EmployeeOrder
       },
     ],
+  },
+  {
+    path : "/riders/:name",
+    name : "riders-index",
+    component : RiderIndex,
+    meta : {
+      middleware: [auth]
+    }
   },
   {
     path: "/:catchAll(.*)",

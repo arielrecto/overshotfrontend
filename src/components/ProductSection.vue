@@ -8,6 +8,25 @@ const landingPageStore = useLandingPageDataStore();
 const { fetchData } = landingPageStore;
 const { products } = storeToRefs(landingPageStore);
 
+
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Import Swiper styles
+import 'swiper/css';
+
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+
+import '../courselCss/productSelect.css';
+
+// import required modules
+import { EffectCoverflow, Pagination } from 'swiper/modules';
+
+const modules = [EffectCoverflow, Pagination];
+
+
+console.log(products)
+
 onMounted(() => {
 
   fetchData()
@@ -17,24 +36,31 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full min-h-screen my-5 p-5">
-    <h1 class="w-full flex justify-center text-3xl font-semibold text-theme-accent p-5 capitalize">our drinks</h1>
+  <div class="w-full h-screen bg-primary flex justify-center">
+    <div class="w-5/6 h-full flex flex-col gap-2 ">
+      <h1 class="w-full font-bold capitalize text-4xl py-10 text-accent tracking-widest">Our Products</h1>
+      <div class="h-5/6 w-full">
+        <swiper :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'" :coverflowEffect="{
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }" :pagination="true" :modules="modules" class="swiper-2">
 
-    <div class="bg-gray-50 rounded-lg flex justify-center items-center flex-wrap space-x-5 overflow-y-auto h-[50rem]">
+          <template v-for="product in products" :key="product.id">
+            <swiper-slide class="swiper-slide-2  group  cursor-pointer group overflow-hidden relative text-gray-50 h-72 w-56  rounded-2xl hover:duration-700 duration-700">
 
-      <div v-for="product in products" :key="product.name"
-        class="w-80 rounded-md cursor-pointer shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 duration-500 m-2">
-
-        <router-link to="/products">
-          <img :src="product.image.image_url" alt="" />
-        </router-link>
-        <div class="p-4 bg-white">
-          <spna class="text-sm font-semibold text-red-50 bg-red-400 py-1 px-3 rounded-full">-30%</spna>
-          <h1 class="mt-4 font-bold text-2xl">{{ product.name }}</h1>
-          <p>
-            ₱ {{ product.price }}
-          </p>
-        </div>
+              <img :src="product.image.image_url" alt="" srcset="">
+              <div
+                class="absolute bg-accent -bottom-24 w-full p-3 flex flex-col gap-1 group-hover:-bottom-2 group-hover:duration-600 duration-700">
+                <span class="text-primary font-bold text-sm">&#8369 {{ product.price }}</span>
+                <span class="text-neutral font-bold text-3xl">{{product.name}}</span>
+                <p class="text-secondary truncate hover:whitespace-pre-line" v-html="product.description"></p>
+              </div>
+            </swiper-slide>
+          </template>
+        </swiper>
       </div>
     </div>
 
