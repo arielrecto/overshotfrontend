@@ -94,13 +94,14 @@ const areaChart = {
 </script>
 
 <template>
-    <div class="p-4 sm:ml-64">
-        <div class="p-4 rounded-lg">
+    <div class="p-4 bg-gray-100 w-full h-screen">
+        <div class="p-4 rounded-lg w-full">
+
 
             <AdminNavBar></AdminNavBar>
 
             <div class="flex gap-2 w-full" v-if="overview?.total">
-                <div class="flex flex-col gap-2 grow">
+                <div class="flex flex-col gap-2 w-full">
                     <div class="w-full p-4 capitalize flex space-x-5">
                         <router-link to="/admin/overview">
                             <h1 class="text-sm font-bold">overview</h1>
@@ -117,9 +118,9 @@ const areaChart = {
                     </div>
 
                     <div class="flex gap-2 w-full">
-                        <div class="flex flex-col space-y-3 grow">
+                        <div class="flex flex-col space-y-3 w-5/6">
                             <div class="w-full py-2 grid grid-cols-2 gap-4 h-32">
-                                <div class="border-2 rounded-lg border-gray-100 p-5 flex justify-center">
+                                <div class="rounded-lg bg-white p-5 flex justify-center hover:shadow-md duration-700">
                                     <div class="flex gap-4 w-1/2">
                                         <div
                                             class="bg-orange-200 px-4 py-2 h-14 rounded-3xl hover:bg-orange-300 hover:scale-105 duration-500">
@@ -136,7 +137,7 @@ const areaChart = {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="border-2 rounded-lg border-gray-100 p-5 flex justify-center">
+                                <div class="rounded-lg bg-white p-5 flex justify-center hover:shadow-md duration-700">
                                     <div class="flex gap-4 w-1/2">
                                         <div
                                             class="bg-gray-200 px-4 py-2 h-14 rounded-3xl hover:bg-gray-300 hover:scale-105 duration-500">
@@ -154,7 +155,7 @@ const areaChart = {
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-full border-2 border-gray-100 rounded-lg flex flex-col space-y-2">
+                            <div class="w-full bg-white hover:shadow-md duration-700 rounded-lg flex flex-col space-y-2">
                                 <div class="p-5">
                                     <apexchart type="area" height="350" :options="areaChart.chartOptions"
                                         :series="areaChart.series"></apexchart>
@@ -163,7 +164,7 @@ const areaChart = {
                         </div>
 
                         <div class="w-1/4 p-2">
-                            <div class="w-full p-5 flex flex-col gap-2 border-2 border-gray-100 rounded-lg">
+                            <div class="w-full p-5 flex flex-col gap-2 bg-white hover:shadow-lg duration-700 rounded-lg">
                                 <h1 class="text-xs font-semibold">
                                     Total
                                 </h1>

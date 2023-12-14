@@ -1,7 +1,7 @@
 
 <script setup>
 
-import clientNavBar from '../../../components/ClientNavBar.vue';
+import clientNavBar from '../components/ClientNavBar.vue';
 import clientBreadCrumb from '../../../components/clientBreadCrumb.vue';
 import { useClientProfileStore } from '../../../stores/client/useClientProfileStore.js'
 import { storeToRefs } from 'pinia';

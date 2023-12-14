@@ -97,7 +97,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="p-4 sm:ml-64 bg-gray-100">
+    <div class="p-4 w-full bg-gray-100">
         <AdminNavBarVue></AdminNavBarVue>
         <div class="w-full flex gap-2 p-2">
             <div class="grow flex flex-col bg-white p-2 rounded-lg h-96 drop-shadow-lg">

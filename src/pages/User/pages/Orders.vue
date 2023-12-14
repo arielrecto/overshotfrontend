@@ -1,6 +1,6 @@
 <script setup>
 
-import ClientNavBar from '../../../components/ClientNavBar.vue'
+import ClientNavBar from '../components/ClientNavBar.vue'
 import ClientBreadCrumb from '../../../components/clientBreadCrumb.vue';
 import { onMounted, ref } from 'vue';
 import { useClientOrderStore } from '../../../stores/client/useClientOrdersStore.js'

@@ -33,7 +33,9 @@ import TransactionParent from './pages/Admin/pages/Transaction/TransactionParent
 import TransactionIndex from './pages/Admin/pages/Transaction/Index.vue';
 import NotFound from "./pages/NotFound.vue";
 import Orders from './pages/User/pages/Orders.vue';
-import RiderIndex from './pages/Riders/Index.vue'
+import RiderIndex from './pages/Riders/Index.vue';
+import RiderDashboard from './pages/Riders/Dashboard.vue';
+import RiderDelivery from './pages/Riders/Delivery.vue';
 
 const routes = [
   {
@@ -196,7 +198,19 @@ const routes = [
     component : RiderIndex,
     meta : {
       middleware: [auth]
-    }
+    },
+    children : [
+      {
+        path :'dashboard',
+        name : "rider-dashboard",
+        component : RiderDashboard
+      },
+      {
+        path :'deliveries',
+        name : "rider-deliveries",
+        component : RiderDelivery
+      }
+    ]
   },
   {
     path: "/:catchAll(.*)",

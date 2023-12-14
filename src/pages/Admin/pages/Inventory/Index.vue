@@ -46,16 +46,16 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="p-4 sm:ml-64 bg-gray-100 min-h-screen">
+    <div class="p-4 bg-gray-100 min-h-screen w-full">
         <div class="p-4">
             <AdminNavBar></AdminNavBar>
         </div>
         <div class="p-4 flex gap-2 h-[35rem]">
-            <div class="bg-white drop-shadow-lg p-2 flex-none w-1/4 rounded-l-lg">
+          <!-- <div class="bg-white drop-shadow-lg p-2 flex-none w-1/4 rounded-l-lg">
                 <div class="w-full">
 
                 </div>
-            </div>
+            </div>--> 
             <div class="grow bg-white drop-shadow-lg p-2 rounded-r-lg flex flex-col gap-2">
                 <div class="w-full p-2 flex gap-2 border-b-2 border-gray-200">
                     <div class="w-1/4">

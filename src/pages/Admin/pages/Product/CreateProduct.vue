@@ -299,7 +299,7 @@ onUnmounted(() => {
 
 </script>
 <template>
-  <div class="p-4 sm:ml-64 capitalize">
+  <div class="p-4 w-full capitalize">
     <AdminNavBarVue></AdminNavBarVue>
     <div ref="productForm" class="w-full h-auto bg-gray-50 flex flex-col">
 

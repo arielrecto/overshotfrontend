@@ -1,16 +1,22 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { computed, inject, onMounted, ref } from 'vue';
-import ClientNavBarVue from '../../../components/ClientNavBar.vue';
+import ClientNavBarVue from '../components/ClientNavBar.vue';
 import { useClientProductStore } from '../../../stores/client/useClientProductStore';
 import Loading from '../../../components/Loading.vue';
-import clientBreadCrumb from '../../../components/clientBreadCrumb.vue';
+//import clientBreadCrumb from '../../../components/clientBreadCrumb. vue';
+import { useGeolocation } from '../../Riders/utilities/useGeolocation';
+import { useGetAddressByCoordinates } from '../../Riders/utilities/useGetAddress';
+
 
 
 const clientProductStore = useClientProductStore();
 const { fetchProduct, addOrderInServer, fetchUserOrder } = clientProductStore;
 const { getAllProducts, isLoading, status, orders, categories, category, supplies } = storeToRefs(clientProductStore);
 const swal = inject('$swal');
+const { coordinates } = useGeolocation();
+
+
 const gCashModal = ref(false);
 const productPrice = ref('');
 const isOpen = ref(false);
@@ -29,7 +35,6 @@ const customProduct = ref({
   productData: null,
   customProductData: null
 });
-
 const sugar_level = ref(30);
 
 const openModal = ref({
@@ -50,12 +55,45 @@ const openModal = ref({
 });
 
 
+
+
+const orderAddress = ref({
+  lat: null,
+  lng: null,
+  address: ''
+});
+
+const getAddress = () => {
+
+ 
+  console.log('getAddress Function')
+  orderAddress.value = {
+    ...orderAddress.value,
+    lat : coordinates.value.latitude,
+    lng : coordinates.value.longitude
+  }
+
+
+  addressByCoordinates(coordinates.value.latitude, coordinates.value.longitude)
+
+
+  console.log(coordinates.value);
+
+  console.log(orderAddress.value);
+}
+
+ const addressByCoordinates = async (lat, lng) => {
+    orderAddress.value.address = await useGetAddressByCoordinates(lat, lng);
+ }
+
+
+
 const open = () => {
   isOpen.value = !isOpen.value
 }
 
 const addSelectProducts = (product) => {
-
+  isOpen.value = true
   const productData = {
     id: product.id,
     name: product.name,
@@ -79,7 +117,10 @@ const addSelectProducts = (product) => {
 const total = computed(() => {
 
   if (selectedProducts.value.length !== 0) {
-    return selectedProducts.value.map((item) => (item.size === 'regular' ? item.price : item.size.pivot.price) * item.pieces).reduce((a, c) => parseFloat(a) + parseFloat(c));
+
+    return selectedProducts.value.map(
+      (item) => (item.size === 'regular' ? item.price : item.sizes[0].pivot.price)
+        * item.pieces).reduce((a, c) => parseFloat(a) + parseFloat(c));
   }
 
   return 0;
@@ -103,15 +144,13 @@ const changeProductQuantity = (id) => {
 
     },
     substruct() {
-
-      if (item.quantity == 0) {
-        return 0;
+      item.pieces--;
+      if (item.pieces < 1) {
+        selectedProducts.value = selectedProducts.value.filter(product => product.id !== item.id)
+        return
       }
-      return item.pieces--;
     }
-
   }
-
 }
 
 const removeFromSelected = (id) => {
@@ -133,11 +172,26 @@ const checkIfProductisAdded = (id) => {
 
 const placeOrder = () => {
 
-  if (selectedProducts.value.length !== 0) {
-    order.value.products = selectedProducts.value;
-    order.value.quantity = totalItem
-    order.value.total = total;
+
+  if (selectedProducts.value.length === 0) {
+    return
   }
+
+
+  console.log("placeholder function")
+
+  order.value = {
+    ...order.value,
+    products: selectedProducts.value,
+    quantity: totalItem,
+    total: total
+  }
+
+  // if (selectedProducts.value.length !== 0) {
+  //   order.value.products = selectedProducts.value;
+  //   order.value.quantity = totalItem
+  //   order.value.total = total;
+  // }
   console.log(order.value);
 }
 
@@ -184,6 +238,15 @@ const totalItem = computed(() => {
 
 const selectSize = (size, product) => {
 
+  customProduct.value = {
+    productData: { ...customProduct.value.productData, sizes: [size] },
+    customProductData: { ...customProduct.value.customProductData, size: size }
+  }
+
+
+  console.log(customProduct.value)
+
+
   product.size = size;
 
 }
@@ -209,12 +272,19 @@ const openCustomProductFields = (data) => {
 }
 
 const openCustomizeFields = (data) => {
+
+
+  console.log("openCustomizeFields")
   const fields = {
     level: data.levels[0].pivot.percent,
+    size: null,
     addons: []
   }
 
   customProduct.value.customProductData = fields
+
+
+  console.log(customProduct.value)
 }
 
 const closeCustomProductFields = () => {
@@ -238,6 +308,8 @@ const removeSelectedAddOns = (data) => {
 
 }
 
+
+
 const saveCustomProduct = (data) => {
 
 
@@ -248,15 +320,41 @@ const saveCustomProduct = (data) => {
 
   data['customize'] = customize
 
+  console.log("save custom product!")
+
+  console.log({ dataProduct: data })
+  data.size = customize.data.size.name
   selectedProducts.value = selectedProducts.value.filter(item => item.id !== data.id);
   data.customize.is_customize = true;
   selectedProducts.value.push(data);
+
+
+
+  customProduct.value = {
+    productData: null,
+    customProductData: null
+  }
+
+
+
+  swal.fire({
+    icon: 'success',
+    title: 'success',
+    text: 'Custom Product Success',
+
+  })
 
   console.log(selectedProducts);
 }
 
 
 const submitOrder = async () => {
+
+
+  order.value = {
+    ...order.value,
+    addressData : {...orderAddress.value},
+  }
 
   await addOrderInServer(order.value);
 
@@ -274,7 +372,7 @@ const submitOrder = async () => {
       total: null,
       payment: null,
     };
-    window.location.reload()
+    // window.location.reload()
   }
 }
 
@@ -290,14 +388,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full min-h-screen relative">
+  <div class="w-full min-h-screen relative bg-base-100">
     <div class="sticky top-0 z-10">
       <ClientNavBarVue></ClientNavBarVue>
     </div>
     <div class="text-gray-600 body-font">
       <div class="flex w-full justify-center p-2">
 
-        <clientBreadCrumb></clientBreadCrumb>
+        <!-- <clientBreadCrumb></clientBreadCrumb> -->
 
       </div>
       <nav class="flex capitalize p-5 border-b-2 justify-center" aria-label="Breadcrumb">
@@ -325,239 +423,277 @@ onMounted(() => {
       </div>
       <div class="container px-5 py-24 mx-auto z-0" v-show="!isLoading">
         <div class="flex flex-wrap -m-4 gap-4">
-          <div class="lg:w-[15rem] md:w-1/2 p-4 w-full bg-white drop-shadow-lg" v-for="product in getAllProducts"
-            :key="product.id">
-            <a class="block relative w-full rounded overflow-hidden">
-              <img class="object-cover object-center w-full h-full block" :src="product.image.image_url">
-            </a>
-            <div class="mt-4">
-              <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1 capitalize"> category : <span
-                  class="uppercase">{{
-                    product.categories[0].name }}</span></h3>
-              <h2 class="text-gray-900 title-font text-lg font-bold">{{ product.name }}</h2>
-              <p class="text-xs whitespace-normal truncate h-16">
-                <span v-html="product.description"></span>
-              </p>
 
-            </div>
+          <template v-for="product in getAllProducts" :key="product.id">
 
-            <div class="flex gap-4 p-2 capitalize">
-              <p class="text-xs font-bold">Sizes :</p>
+            <div class="w-52 h-96 bg-accent flex flex-col gap-2 shadow-lg">
+              <img class="object object-cover object-top w-full h-1/2 " :src="product.image.image_url">
+              <div class="h-1/2 w-full p-2 flex flex-col gap-2">
+                <h3 class="text-neutral text-xs tracking-widest mb-1 capitalize"> category : <span
+                    class="uppercase text-xs">{{
+                      product.categories[0].name }}</span></h3>
+                <h2 class="text-primary title-font text-lg font-bold tracking-widest capitalize">{{ product.name }}</h2>
+                <p class="text-xs font-bold flex gap-2">
+                  <span>
+                    Sizes :
+                  </span>
+                  <span class="flex gap-2 items-center">
+                    <template v-for="size in product.sizes" :key="size.id">
+                      <p class="text-xs rounded-lg text-center">{{ size.name }}</p>
+                    </template>
+                  </span>
+                </p>
+                <div class="w-full flex flex-row-reverse">
+                  <p class="text-xl font-bold text-neutral">
+                    ₱ {{ product.price }}
+                  </p>
+                </div>
+                <template v-if="checkIfProductisAdded(product.id)">
+                  <button @click="addSelectProducts(product)" class="btn btn-neutral w-full btn-sm">Add
+                    to
+                    Cart
+                  </button>
+                </template>
+              </div>
+            </div>
+          </template>
 
-              <!-- <template v-for="size in product.sizes" :key="size.id">
-                <p class="text-xs rounded-lg text-center">{{ size.name }}</p>
-              </template> -->
-            </div>
-
-            <div class="w-full p-4 flex flex-row-reverse">
-              <p class="text-lg font-bold">
-                ₱ {{ product.price }}
-              </p>
-            </div>
-            <div class="w-full p-2 flex flex-row-reverse gap-4  " v-show="checkIfProductisAdded(product.id)">
-              <button @click="addSelectProducts(product)" class="bg-orange-300 px-4 py-2 rounded-lg hover:font-semibold text-xs hover:bg-orange-200 duration-500
-                                    hover:scale-105">Add
-                to
-                Cart
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
     <Transition enter-active-class="duration-300 ease-out" enter-from-class="transform opacity-0"
       enter-to-class="opacity-100" leave-active-class="duration-200 ease-in" leave-from-class="opacity-100"
       leave-to-class="transform opacity-0">
-      <div v-show="isOpen"
-        class="fixed left-[68rem] top-[7rem] h-5/6 w-[32rem] bg-gray-100 p-5 rounded-lg drop-shadow-lg z-10">
-        <div class="flex flex-col w-full" v-show="!order.products">
-          <div class="w-full border-b-2 border-theme-secondary -my-2">
-            <h1 class="text-center text-3xl font-bold p-4">Order</h1>
-          </div>
-          <div class="capitalize w-full flex space-x-[12rem] py-2" v-if="selectedProducts.length !== 0">
-            <h1 class="p-4 font-semibold">total: ₱{{ total }}</h1>
-            <h1 class="p-4 font-semibold">total item: {{ totalItem }}</h1>
-          </div>
-          <div class="w-full overflow-y-auto h-[28rem]">
-            <div class="h-auto w-auto bg-gray-50 p-4 rounded-lg my-5 flex space-x-2"
-              v-for="productSelect in selectedProducts" :key="productSelect.id">
-              <img :src="productSelect.image.image_url" alt="" class="h-32 pt-4" srcset="">
-              <div class="w-full flex flex-col space-y-2 p-2">
-                <h1 class="text-xl font-bold">{{ productSelect.name }}</h1>
 
-                <div>
-                  <p class="text-sm">Size : <span>
-                      {{ productSelect.size === 'regular' ? productSelect.size : productSelect.size.name }}
-                    </span></p>
-                </div>
-                <div class="w-full flex space-x-[5rem]">
-                  <p class="text-sm">Quantity : {{ productSelect.pieces }}</p>
-                  <span class="flex space-x-2">
-                    <button class="bg-orange-300 rounded-lg px-2 py-1"
-                      @click="changeProductQuantity(productSelect.id).add()">+</button>
-                    <button class="bg-orange-300 rounded-lg px-2 py-1"
-                      @click="changeProductQuantity(productSelect.id).substruct()">-</button>
-                  </span>
-                </div>
-                <p class="w-full border-b-2 capitalize text-xs">
-                  avaible Sizes
-                </p>
-                <div class="flex gap-2">
-                  <template v-for="size in productSelect.sizes" :key="size">
-                    <button class="text-xs hover:bg-orange-300 p-2 rounded-lg duration-700 hover:scale-110"
-                      @click="selectSize(size, productSelect)">
-                      {{ size.name }}
-                    </button>
+
+      <div v-show="isOpen" class="fixed right-0 top-0 h-full w-[32rem] bg-base-100 p-5 drop-shadow-lg z-10">
+        <template v-if="selectedProducts.length !== 0">
+          <div class="flex flex-col w-full" v-show="!order.products">
+            <div class="w-full border-b-2 border-theme-secondary -my-2">
+              <h1 class="text-center text-3xl font-bold p-4">Order</h1>
+            </div>
+            <div class="capitalize w-full flex space-x-[12rem] py-2" v-if="selectedProducts.length !== 0">
+              <h1 class="p-4 font-semibold">total: ₱{{ total }}</h1>
+              <h1 class="p-4 font-semibold">total item: {{ totalItem }}</h1>
+            </div>
+            <div class="w-full overflow-y-auto h-[28rem]">
+              <table class="table">
+                <!-- head -->
+                <thead>
+                  <tr>
+                    <th colspan="2">Item</th>
+                    <th colspan="2">Details</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <template v-for="productSelect in selectedProducts" :key="productSelect.id">
+                    <tr>
+                      <th colspan="2"><img :src="productSelect.image.image_url" alt=""
+                          class="w-full object h-24 shadow-lg" srcset=""></th>
+                      <td colspan="2">
+                        <div class="flex flex-col gap-2">
+                          <h1 class="tracking-widest font-bold text-lg">{{ productSelect.name }}</h1>
+                          <button class="btn btn-neutral btn-xs"
+                            @click="openCustomProductFields(productSelect)">View</button>
+                        </div>
+                      </td>
+                      <td>
+                        <h1 class="rounded-lg text-primary text-xs">₱ {{ productSelect.size ===
+                          'regular' ? productSelect.price : productSelect.sizes[0].pivot.price }}</h1>
+                      </td>
+                      <td>
+                        <div class="w-full flex">
+                          <span class="flex space-x-2">
+                            <button class="btn btn-neutral btn-xs"
+                              @click="changeProductQuantity(productSelect.id).add()">+</button>
+                            <p class="text-sm">{{ productSelect.pieces }}</p>
+                            <button class="btn btn-neutral btn-xs"
+                              @click="changeProductQuantity(productSelect.id).substruct()">-</button>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+
+
+
                   </template>
+                </tbody>
+              </table>
+              <!-- <div class="h-auto w-auto bg-gray-50 p-4 rounded-lg my-5 flex space-x-2"
+                v-for="productSelect in selectedProducts" :key="productSelect.id">
+                <img :src="productSelect.image.image_url" alt="" class="h-32 pt-4" srcset="">
+                <div class="w-full flex flex-col space-y-2 p-2">
+                  <h1 class="text-xl font-bold">{{ productSelect.name }}</h1>
+
+                  <div>
+                    <p class="text-sm">Size : <span>
+                        {{ productSelect.size === 'regular' ? productSelect.size : productSelect.size.name }}
+                      </span></p>
+                  </div>
+                  <div class="w-full flex space-x-[5rem]">
+                    <p class="text-sm">Quantity : {{ productSelect.pieces }}</p>
+                    <span class="flex space-x-2">
+                      <button class="bg-orange-300 rounded-lg px-2 py-1"
+                        @click="changeProductQuantity(productSelect.id).add()">+</button>
+                      <button class="bg-orange-300 rounded-lg px-2 py-1"
+                        @click="changeProductQuantity(productSelect.id).substruct()">-</button>
+                    </span>
+                  </div>
+                  <p class="w-full border-b-2 capitalize text-xs">
+                    avaible Sizes
+                  </p>
+                  <div class="flex gap-2">
+                    <template v-for="size in productSelect.sizes" :key="size">
+                      <button class="text-xs hover:bg-orange-300 p-2 rounded-lg duration-700 hover:scale-110"
+                        @click="selectSize(size, productSelect)">
+                        {{ size.name }}
+                      </button>
+                    </template>
+                  </div>
+                  <div class="w-full p-2 flex flex-row-reverse">
+                    <h1 class="px-4 py-2 rounded-lg text-theme-secondary font-bold text-lg">₱ {{ productSelect.size ===
+                      'regular' ? productSelect.price : productSelect.size.pivot.price }}</h1>
+                  </div>
                 </div>
-                <div class="w-full p-2 flex flex-row-reverse">
-                  <h1 class="px-4 py-2 rounded-lg text-theme-secondary font-bold text-lg">₱ {{ productSelect.size ===
-                    'regular' ? productSelect.price : productSelect.size.pivot.price }}</h1>
+                <div>
+                  <button @click="removeFromSelected(productSelect.id)"
+                    class="px-2 font-bold text-lg rounded-full">x</button>
+                </div>
+
+                <button @click="openCustomProductFields(productSelect)"
+                  class="text-xs px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 hover:scale-105 duration-500">View</button>
+
+              </div> -->
+              <div v-if="selectedProducts.length === 0" class="p-4 rounded-lg my-5 flex space-x-2">
+
+                <div class="bg-white rounded-lg p-5 flex justify-center w-full text-lg fond-semibold">
+                  <h1>Select Item</h1>
+                </div>
+
+              </div>
+            </div>
+            <div class="w-full" v-if="selectedProducts.length !== 0">
+              <button @click="placeOrder" class="w-full px-4 py-2 rounded-lg bg-orange-300">Place Order</button>
+            </div>
+          </div>
+          <div class="flex flex-col w-full space-y-10 relative" v-show="order.products">
+            <button @click="order.products = null">x</button>
+            <h1 class="w-full text-center text-3xl font-bold">Payment</h1>
+
+            <div class="relative overflow-y-auto h-64">
+              <table class="w-full text-sm text-center text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3">
+                      Product name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Size
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Price
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Quantity
+                    </th>
+
+                    <th scope="col" class="px-6 py-3" colspan="2">
+                      Customize
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b" v-for="orderproduct in order.products" :key="orderproduct.id">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                      {{ orderproduct.name }}
+                    </th>
+                    <td class="px-6 py-4">
+                      {{ orderproduct['customize'] === undefined ? 'regular' : orderproduct.customize.data.size.name }}
+                    </td>
+                    <td class="px-6 py-4">
+                      ₱ {{ orderproduct['customize'] === undefined ? orderproduct.price :
+                        orderproduct.customize.data.size.pivot.price }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ orderproduct.pieces }}
+                    </td>
+                    <td class="px-6 py-4" colspan="2">
+                      <template v-if="orderproduct['customize'] !== undefined">
+                        <div class="flex items-center">
+                          <div class="flex flex-col gap-2 w-full">
+                            <p>Sugar Level</p>
+                            <p>{{ orderproduct.customize.data.level }} %</p>
+                          </div>
+                          <template></template>
+                        </div>
+                      </template>
+                      <template v-else>
+                        <div class="flex items-center justify-center">
+                          <p class="text-xs">No Item Customized</p>
+                        </div>
+                      </template>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="flex gap-2 w-full items-center">
+              <div class="flex flex-col gap-2 w-full">
+                <h1 class="text-xs text-gray-500">Address</h1>
+                <div class="flex items-center gap-2 w-full">
+                  <input type="text" class="input input-accent input-sm w-full" placeholder="Address" v-model="orderAddress.address"/>
+                  <button class="w-10" @click="getAddress()">
+                    <i class="fi fi-rr-marker"></i>
+                  </button>
                 </div>
               </div>
-              <div>
-                <button @click="removeFromSelected(productSelect.id)"
-                  class="px-2 font-bold text-lg rounded-full">x</button>
+            </div>
+
+
+            <h2 class="w-full flex gap-2 text-lg text-theme-secondary">₱<span>{{ order.total }}</span></h2>
+            <form @submit.prevent="" class="flex flex-col space-y-5 p-2">
+
+
+              <div class="flex  space-x-5">
+                <button @click="openGcashModal">
+                  <img src="/gcash.webp" alt="" srcset=""
+                    class="w-20 h-auto rounded-lg hover:drop-shadow-lg duration-700">
+                </button>
+                <button
+                  class="px-4 py-2 bg-white drop-shadow-sm hover:bg-gray-100 hover:drop-shadow-lg duration-700 rounded-lg">
+                  <img src="/cod.png" alt="" srcset="" class="h-8 w-auto rounded-lg">
+                </button>
               </div>
 
-              <button @click="openCustomProductFields(productSelect)"
-                class="text-xs px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 hover:scale-105 duration-500">View</button>
 
-            </div>
-            <div v-if="selectedProducts.length === 0" class="p-4 rounded-lg my-5 flex space-x-2">
+              <!-- <div class="flex">
+                <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
+              </div> -->
 
-              <div class="bg-white rounded-lg p-5 flex justify-center w-full text-lg fond-semibold">
-                <h1>Select Item</h1>
-              </div>
-
-
-              <!-- <div class="relative overflow-y-auto h-[20rem]">
-                                        <table class="w-full text-sm text-left text-gray-500">
-                                          <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                            <tr>
-                                              <th scope="col" class="px-6 py-3">
-                                                Product name
-                                              </th>
-                                              <th scope="col" class="px-6 py-3">
-                                                quantity
-                                              </th>
-                                              <th scope="col" class="px-6 py-3">
-                                                Total Item
-                                              </th>
-                                              <th scope="col" class="px-6 py-3">
-                                                Status
-                                              </th>
-                                              <th scope="col" class="px-6 py-3">
-                                                Payment Type
-                                              </th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr class="bg-white border-b" v-for="order in orders" :key="order.id">
-                                              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                {{ order.order_num }}
-                                              </th>
-                                              <td class="px-6 py-4">
-                                                {{ order.quantity }}
-                                              </td>
-                                              <td class="px-6 py-4">
-                                                {{ order.total }}
-                                              </td>
-                                              <td class="px-6 py-4">
-                                                {{ order.status }}
-                                              </td>
-                                              <td class="px-6 py-4">
-                                                {{ order.payment.type }}
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </div> -->
-
+            </form>
+          </div>
+        </template>
+        <template v-else>
+          <div class="w-full h-full flex justify-center items-center">
+            <div class="w-1/2 h-32">
+              <h1>
+                Select Products First
+              </h1>
             </div>
           </div>
-          <div class="w-full" v-if="selectedProducts.length !== 0">
-            <button @click="placeOrder" class="w-full px-4 py-2 rounded-lg bg-orange-300">Place Order</button>
-          </div>
-        </div>
-        <div class="flex flex-col w-full space-y-10 relative" v-show="order.products">
-          <button @click="order.products = null">x</button>
-          <h1 class="w-full text-center text-3xl font-bold">Payment</h1>
-
-          <div class="relative overflow-y-auto h-64">
-            <table class="w-full text-sm text-left text-gray-500">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                <tr>
-                  <th scope="col" class="px-6 py-3">
-                    Product name
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Size
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Price
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Quantity
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-white border-b" v-for="orderproduct in order.products" :key="orderproduct.id">
-                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                    {{ orderproduct.name }}
-                  </th>
-                  <td class="px-6 py-4">
-                    {{ orderproduct.size === 'regular' ? 'regular' : orderproduct.size.name }}
-                  </td>
-                  <td class="px-6 py-4">
-                    ₱ {{ orderproduct.size === 'regular' ? orderproduct.price : orderproduct.size.pivot.price }}
-                  </td>
-                  <td class="px-6 py-4">
-                    {{ orderproduct.pieces }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-          <h2 class="w-full flex gap-2 text-lg text-theme-secondary">₱<span>{{ order.total }}</span></h2>
-          <form @submit.prevent="" class="flex flex-col space-y-5 p-2">
-
-
-            <div class="flex  space-x-5">
-              <button @click="openGcashModal">
-                <img src="/gcash.webp" alt="" srcset="" class="w-20 h-auto rounded-lg hover:drop-shadow-lg duration-700">
-              </button>
-              <button
-                class="px-4 py-2 bg-white drop-shadow-sm hover:bg-gray-100 hover:drop-shadow-lg duration-700 rounded-lg">
-                <img src="/cod.png" alt="" srcset="" class="h-8 w-auto rounded-lg">
-              </button>
-            </div>
+        </template>
 
 
 
-            <!-- <div class="flex">
-                                                                                        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 
-                                                                                                  border-gray-300 rounded-l-md">
-                                                                                          ₱
-                                                                                        </span>
-                                                                                        <input type="text" id="website-admin" v-model="order.payment" class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 
-                                                                                                  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5" placeholder="amount">
-                                                                                      </div> -->
-
-            <div class="flex">
-              <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
-            </div>
-
-          </form>
-        </div>
       </div>
     </Transition>
 
     <!-- custom product modal -->
-    <div class="absolute top-[15rem] left-[20rem] w-1/2 bg-white drop-shadow-lg"
+    <div class="absolute top-[15rem] left-[20rem] w-1/2 bg-white drop-shadow-lg z-20 rounded-lg"
       v-if="customProduct.productData !== null">
       <div class="w-full h-[30rem] z-0 flex gap-2 p-5">
         <div class="flex-none w-1/3">
@@ -573,11 +709,20 @@ onMounted(() => {
             </p>
           </div>
 
-          <p class="text-xs" v-html="customProduct.productData.description">
+          <div class="h-96 w-full ">
+            <p class="text-xs" v-html="customProduct.productData.description"></p>
+          </div>
 
-          </p>
-          <h1 class="py-2 text-xl font-bold border-y-2 border-gray-100">Price : ₱ {{ customProduct.productData.price }}
-          </h1>
+
+
+          <div class="w-full flex flex-col gap-2">
+            <h1 class="text-xs font-bold">Available Sizes </h1>
+            <div class="flex gap-2 items-center">
+              <template v-for="size in customProduct.productData.sizes" :kay="size.id">
+                <button class="btn btn-neutral btn-xs text-xs">{{ size.name }}</button>
+              </template>
+            </div>
+          </div>
           <div class="w-full flex flex-col gap-2 p-2 h-64">
             <div class="capitalize">
               <p class="text-xs font-bold">sugar level : {{ customProduct.productData.levels[0].pivot.percent }} %</p>
@@ -589,6 +734,25 @@ onMounted(() => {
               <input id="steps-range" type="range" min="0" max="100"
                 v-model="customProduct.productData.levels[0].pivot.percent" step="10"
                 class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <p class="text-xs font-bold">Size</p>
+              <div class="flex flex-wrap p-2 border-2 border-gray-100 rounded-lg gap-2">
+                <template v-for="size in customProduct.productData.sizes" :key="size.id">
+                  <button class="bg-orange-200 rounded-lg text-xs py-1 px-2"
+                    @click="selectSize(size, customProduct.productData)">
+                    {{ size.name }}
+                  </button>
+                </template>
+              </div>
+              <!-- <div class="flex flex-wrap gap-2">
+                <template v-for="supply in supplies" :key="supply.id">
+                  <button @click="addSelectedAddOns(supply)" class="bg-orange-200 rounded-lg text-xs py-1 px-2">
+                    {{ supply.name }}
+                  </button>
+                </template>
+              </div> -->
             </div>
 
             <div class="flex flex-col gap-2">

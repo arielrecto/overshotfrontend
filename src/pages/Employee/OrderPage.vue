@@ -3,13 +3,18 @@
 import { storeToRefs } from 'pinia';
 import { inject, onMounted, ref } from 'vue';
 import { useOrderStore } from '../../stores/Employee/useOrderStore.js';
+import { useRiderStore } from '../../stores/Employee/useRiderStore';
 import Loading from '../../components/Loading.vue';
+import OrderLocationMapVue from './components/OrderLocationMap.vue';
 
 const orderStore = useOrderStore();
+const riderStore = useRiderStore();
 
 const { fetchOrdersPendingStatus, sendOrderTransaction, fetchPaymentInfo } = orderStore;
 
 const { isLoading, getOrders, getOrderData, getSupplies, paymentInfo, status } = storeToRefs(orderStore);
+const { fetchRider } = riderStore;
+const { riders } = storeToRefs(riderStore)
 
 const orderPreviewData = ref(null);
 const swal = inject('$swal');
@@ -17,6 +22,10 @@ const swal = inject('$swal');
 const orderModal = ref(false);
 
 const paymentModal = ref(false);
+
+const selectedRiderId = ref(null);
+
+const selectedSupply = ref([]);
 
 const openOrderModel = () => {
 
@@ -33,7 +42,6 @@ const getItem = (id) => {
     console.log(orderPreviewData.value);
 }
 
-const selectedSupply = ref([]);
 
 const addSupply = (supply) => {
 
@@ -99,7 +107,8 @@ const submitOrderTransaction = async () => {
 
     const data = {
         order: orderPreviewData.value,
-        supplies: selectedSupply.value
+        supplies: selectedSupply.value,
+        riderId : selectedRiderId.value
     }
 
     await sendOrderTransaction(data);
@@ -142,8 +151,13 @@ const convertDate = (date) => {
     return formattedDate;
 }
 
+const selectedRiderAction = (e) => {
+    selectedRiderId.value = e.target.value;
+}
+
 onMounted(() => {
     fetchOrdersPendingStatus();
+    fetchRider();
 })
 
 </script>
@@ -219,104 +233,121 @@ onMounted(() => {
                     </table>
                 </div>
             </div>
-            <div class="bg-gray-100 w-[50rem] flex flex-col p-2 mt-2">
+            <div class="bg-gray-100 w-[50rem] flex flex-col p-2 mt-2 h-full">
                 <h1 class="text-center font-semibold text-lg p-2"> Order Data</h1>
-                <div class="border-2 w-full h-[32rem] bg-gray-50 drop-shadow-lg p-2" v-if="orderPreviewData != null">
-                    <h1 class="w-full p-2 font-bold">
-                        <span>Order number : </span>
-                        {{ orderPreviewData.order_num }}
-                    </h1>
-                    <div class="flex p-2 w-full">
-                        <h1 class="flex-grow text-sm">
-                            <span class="text-gray-600">Name : </span>
-                            {{ orderPreviewData.user.name }}
+                <template v-if="orderPreviewData != null">
+                    <div class="border-2 w-full h-[32rem] bg-gray-50 drop-shadow-lg p-2">
+                        <h1 class="w-full p-2 font-bold">
+                            <span>Order number : </span>
+                            {{ orderPreviewData.order_num }}
                         </h1>
+                        <div class="flex p-2 w-full">
+                            <h1 class="flex-grow text-sm">
+                                <span class="text-gray-600">Name : </span>
+                                {{ orderPreviewData.user.name }}
+                            </h1>
 
-                        <h1 class="w-1/2 flex flex-row-reverse text-sm">
-                            {{ convertDate(orderPreviewData.created_at) }}
-                            <span class="text-gray-600">
-                                Date :
-                            </span>
-                        </h1>
-                    </div>
-                    <div class="p-2">
-                        <h1 class="text-sm">
-                            <span class="text-gray-600">
-                                Total Item :
-                            </span>
+                            <h1 class="w-1/2 flex flex-row-reverse text-sm">
+                                {{ convertDate(orderPreviewData.created_at) }}
+                                <span class="text-gray-600">
+                                    Date :
+                                </span>
+                            </h1>
+                        </div>
+                        <div class="p-2">
+                            <h1 class="text-sm">
+                                <span class="text-gray-600">
+                                    Total Item :
+                                </span>
 
-                            {{ orderPreviewData.quantity }} pcs
-                        </h1>
-                    </div>
-                    <div class="p-2">
-                        <h1 class="text-sm">
-                            <span class="text-gray-600">
-                                Total payment :
-                            </span>
-                            ₱
-                            {{ orderPreviewData.total }}
-                        </h1>
-                    </div>
-                    <div class="p-2 flex space-x-2">
-                        <h1 class="text-sm">
-                            <span class="text-gray-600">
-                                Payment Type :
-                            </span>
-                            {{ orderPreviewData.payment.type }}
-                        </h1>
-                        <button class="pb-2 rounded-lg hover:scale-110 duration-700 text-sm"
-                            @click="openPaymentModal(orderPreviewData.payment)">View </button>
+                                {{ orderPreviewData.quantity }} pcs
+                            </h1>
+                        </div>
+                        <div class="p-2">
+                            <h1 class="text-sm">
+                                <span class="text-gray-600">
+                                    Total payment :
+                                </span>
+                                ₱
+                                {{ orderPreviewData.total }}
+                            </h1>
+                        </div>
+                        <div class="p-2 flex space-x-2">
+                            <h1 class="text-sm">
+                                <span class="text-gray-600">
+                                    Payment Type :
+                                </span>
+                                {{ orderPreviewData.payment.type }}
+                            </h1>
+                            <button class="pb-2 rounded-lg hover:scale-110 duration-700 text-sm"
+                                @click="openPaymentModal(orderPreviewData.payment)">View </button>
+
+                        </div>
+
+                        <div class="relative overflow-y-auto h-auto max-h-[13rem]">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Product Name
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Size
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Quantity
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            price
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b" v-for="product in orderPreviewData.products"
+                                        :key="product.id">
+                                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+                                            {{ product.name }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            <div class="flex">
+                                                {{ product.pivot.size }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ product.pivot.quantity }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex">
+                                                <span>
+                                                    ₱
+                                                </span> {{ product.price }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <OrderLocationMapVue :latitude="orderPreviewData.location.latitude"
+                            :longitude="orderPreviewData.location.longitude" :orderId="orderPreviewData.order_num" />
+
+                        <div class="w-full p-2 flex flex-col">
+                            <h1 class="text-xs text-gray-500">Rider</h1>
+                            <select class="select select-accent w-full" @change="selectedRiderAction($event)">
+                                <option disabled selected>Assign Rider</option>
+                                <template v-for="rider in riders" :key="rider.id">
+                                    <option :value="rider.id" class="rider">{{ rider.name }}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div class="w-full mt-10">
+                            <button @click="openOrderModel" class="w-full bg-orange-300 p-2 rounded-lg ">Proceed</button>
+                        </div>
 
                     </div>
+                </template>
 
-                    <div class="relative overflow-y-auto h-[13rem]">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Product Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Size
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Quantity
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        price
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-white border-b" v-for="product in orderPreviewData.products"
-                                    :key="product.id">
-                                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
-                                        {{ product.name }}
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        <div class="flex">
-                                            {{ product.pivot.size }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ product.pivot.quantity }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex">
-                                            <span>
-                                                ₱
-                                            </span> {{ product.price }}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="w-full mt-10">
-                        <button @click="openOrderModel" class="w-full bg-orange-300 p-2 rounded-lg ">Proceed</button>
-                    </div>
-
-                </div>
                 <div class="border-2 w-full h-[30rem] bg-gray-100 drop-shadow-lg p-2" v-show="!orderPreviewData">
                     <h1 class="text-gray-400 text-center"> Select Order Data</h1>
                 </div>

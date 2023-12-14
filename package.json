@@ -14,6 +14,7 @@
     "apexcharts": "^3.37.1",
     "axios": "^1.3.4",
     "flowbite": "^1.6.3",
+    "leaflet": "^1.9.4",
     "pinia": "^2.0.33",
     "swiper": "^10.3.0",
     "tailwind-scrollbar": "^2.0.0",

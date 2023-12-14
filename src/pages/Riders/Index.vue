@@ -1,8 +1,14 @@
 <script setup>
+    import SidebarVue from "./components/sidebar.vue";
 
 </script>
 
 
 <template>
-    <h1>Riders page</h1>
+    <div class="w-full min-h-screen bg-accent flex gap-2">
+        <SidebarVue/>
+        <section class="flex flex-col gap-2 h-screen w-full">
+            <router-view></router-view>
+        </section>
+    </div>
 </template>

@@ -2,7 +2,7 @@
 
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
-import { useAuthStore } from '../stores/useAuthStore';
+import { useAuthStore } from '../../../stores/useAuthStore';
 
 const authStore = useAuthStore();
 const { logout } = authStore;
@@ -11,24 +11,24 @@ const client = JSON.parse(localStorage.getItem('user'));
 </script>
 
 <template>
-    <nav class="bg-orange-200 drop-shadow-lg border-gray-200">
+    <nav class="bg-secondary drop-shadow-lg border-gray-200">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center">
-                <img src="/logo.jpg" class="h-8 mr-3" alt="Overshot Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap">Overshot</span>
+            <a href="#" class="flex items-center gap-2">
+                <img src="/logo.jpg" class="object object-center rounded-full h-10 w-10" alt="Overshot Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap text-neutral">Overshot</span>
             </a>
             <div class="flex items-center md:order-2">
                 <button type="button" data-dropdown-toggle="language-dropdown-menu"
-                    class="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                    class="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-neutral duration-700 rounded-lg cursor-pointer hover:bg-neutral hover:text-primary">
                     <img class="w-5 h-5 mr-2 rounded-full" aria-hidden="true" src="/logo.jpg">
-                    {{ client.name }}
+                    <span class="capitalize">{{ client.name }}</span>
                 </button>
                 <!-- Dropdown -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
                     id="language-dropdown-menu">
                     <ul class="py-2 font-medium z-10" role="none">
                         <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                            <a href="#" class="block px-4 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                 <div class="flex items-center space-x-2">
 
                                     <router-link :to="`/client/${client.slug_name}/profile`"
@@ -42,7 +42,7 @@ const client = JSON.parse(localStorage.getItem('user'));
                         </li>
                         <li>
                             <router-link :to="`/client/${client.slug_name}/products`"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                                class="block px-4 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                 <div class="flex items-center space-x-2">
                                     <i class="ri-shopping-cart-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
                                     <p class="p-2">Products</p>
@@ -51,7 +51,7 @@ const client = JSON.parse(localStorage.getItem('user'));
                         </li>
                         <li>
                             <router-link :to="`/client/${client.slug_name}/orders`"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                                class="block px-4  text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                 <div class="flex items-center space-x-2">
                                     <i class="ri-shopping-cart-2-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
                                     <p class="p-2">Orders</p>
@@ -59,7 +59,7 @@ const client = JSON.parse(localStorage.getItem('user'));
                             </router-link>
                         </li>
                         <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                            <a href="#" class="block px-4 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                 <div class="flex items-center space-x-2">
                                     <i class="ri-logout-circle-line h-3.5 w-3.5 rounded-full mr-2 px-2"></i>
                                     <p class="p-2" @click="logout">Logout</p>
@@ -80,33 +80,7 @@ const client = JSON.parse(localStorage.getItem('user'));
                 </svg>
             </button>
         </div>
-        <!-- <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-            id="mobile-menu-language-select">
-            <ul
-                class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                    <a href="#"
-                        class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                        aria-current="page">Home</a>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-                </li>
-                <li>
-                    <a href="#"
-                                    class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-                            </li>
-                        </ul>
-                    </div> -->
+    
         </div>
     </nav>
 </template>

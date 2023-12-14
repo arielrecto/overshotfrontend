@@ -63,17 +63,17 @@ const submitSupplyDAta = async () => {
 
 </script>
 <template>
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 w-full bg-gray-50">
         <AdminNavBarVue></AdminNavBarVue>
 
         <div class="w-full">
-            <form ref="supplyForm" @submit.prevent="submitSupplyDAta" class="flex flex-col gap-5 items-center">
+            <form ref="supplyForm" @submit.prevent="submitSupplyDAta" class="flex flex-col gap-5 items-center ">
                 <h1 class="w-full text-center text-3xl font-bold mx-10 p-2">Add Supply</h1>
                 <div class="flex flex-row-reverse p-2 w-1/2">
                     <button @click="addNewField">Add More</button>
                 </div>
                 <div v-for="supply in supplies" :key="supply.id"
-                    class="capitalize flex flex-col gap-5 w-1/2 bg-gray-50 rounded-lg py-10 px-5">
+                    class="capitalize flex flex-col gap-5 w-1/2 bg-white rounded-lg py-10 px-5">
                     <div class="flex flex-col">
                         <label for="name">Name</label>
                         <input required type="text" v-model="supply.name" class="p-2 focus:outline-orange-100 rounded-lg">

@@ -8,14 +8,14 @@ import Loading from '../../../../components/Loading.vue';
 const userStore = useUserStore();
 const { addEmployee, getAllEmployeeInServer } = userStore;
 const swal = inject('$swal');
-const { status, employees, isLoading, message } = storeToRefs(userStore);
-
+const { status, employees, isLoading, message, roles } = storeToRefs(userStore);
 
 const employeeData = ref({
     name: null,
     email: null,
     password: null,
-    password_confirmation: null
+    password_confirmation: null,
+    role : null
 });
 
 console.log(employees.value)
@@ -25,7 +25,8 @@ const employeeForm = ref(null);
 const modalForm = ref(false);
 
 
-const openModalForm = () => {
+const openModalForm = (e) => {
+    e.prevent?.default();
 
     modalForm.value = !modalForm.value
 
@@ -34,7 +35,11 @@ const openModalForm = () => {
 }
 
 
-const addEmloyeeDataInServer = async () => {
+const addEmployeeDataInServer = async () => {
+
+    console.log("send Data in Server")
+
+    console.log(employeeData.value)
 
     await addEmployee(employeeData.value);
 
@@ -110,13 +115,13 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div class="p-4 sm:ml-64 bg-gray-100 min-h-screen">
+    <div class="p-4 bg-gray-100 min-h-screen w-full">
         <div class="w-full flex flex-col gap-y-5 relative">
             <AdminNavBar></AdminNavBar>
 
             <div class="flex p-2 capitalize bg-white rounded-lg drop-shadow-lg">
                 <div class="grow pt-2">
-                    <button @click="openModalForm"
+                    <button @click="openModalForm($event)"
                         class="px-4 py-2 bg-orange-300 text-sm hover:bg-orange-400 hover:text-white hover:font-semibold duration-700 rounded-lg hover:scale-105">
                         Add employee
                     </button>
@@ -148,6 +153,8 @@ onMounted(() => {
                 </div>
             </div>
 
+
+
             <transition enter-from-class="opacity-0" leave-to-class="opacity-0" enter-active-class="transition duration-300"
                 leave-active-class="transition duration-300">
                 <div class="w-full z-10 absolute" v-show="modalForm">
@@ -162,7 +169,7 @@ onMounted(() => {
                                 </div>
                                 <div class="p-6 space-y-6" v-show="modalForm">
 
-                                    <form @submit.prevent="" ref="employeeForm">
+                                    <form @submit.prevent="addEmployeeDataInServer">
                                         <div class="relative z-0 w-full mb-6 group">
                                             <input type="email" v-model="employeeData.email" id="floating_email" class="block py-2.5 px-0 w-full text-sm 
                                                     text-gray-900 bg-transparent border-0 border-b-2
@@ -217,25 +224,49 @@ onMounted(() => {
                                                        peer-placeholder-shown:scale-100 
                                                       peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
                                         </div>
+                                        <div class="relative z-0 w-full mb-6 group">
+                                            <select type="text" v-model="employeeData.role" class="block py-2.5 px-0 
+                                            w-full text-sm text-orange-900 
+                                                    bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+                                                     focus:outline-none focus:ring-0 focus:border-orange-600 peer"
+                                                placeholder=" " required >
+                                            <template v-for="role in roles" :key="role.id">
+                                                 <option :value="role.name" class="capitalize p-2">
+                                                    {{ role.name }}
+                                                </option>
+                                            </template>
+                                               
+                                               </select>
+                                            <label for="floating_repeat_password"
+                                                class="peer-focus:font-medium absolute text-sm text-orange-500
+                                                      duration-300 transform -translate-y-6 scale-75
+                                                      top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-600 
+                                                       peer-placeholder-shown:scale-100 
+                                                      peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Role</label>
+                                        </div>
+                                    
+
+                                        <div class="flex items-center p-6 space-x-2 border-t border-orange-200 rounded-b ">
+                                            <button type="submit" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none 
+                                                                        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                                                                        ">Add</button>
+                                            <!--data-modal-hide="staticModal"-->
+                                            <button type="button" @click="openModalForm($event)"
+                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg 
+                                                                        border border-gray-200 text-sm font-medium px-5 py-2.5 
+                                                                        hover:text-gray-900 focus:z-10 ">Decline</button>
+                                        </div>
                                     </form>
 
                                 </div>
-                                <div class="flex items-center p-6 space-x-2 border-t border-orange-200 rounded-b ">
-                                    <button @click="addEmloyeeDataInServer" type="button" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none 
-                                                                        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
-                                                                        ">Add</button>
-                                    <!--data-modal-hide="staticModal"-->
-                                    <button type="button" @click="openModalForm"
-                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg 
-                                                                        border border-gray-200 text-sm font-medium px-5 py-2.5 
-                                                                        hover:text-gray-900 focus:z-10 ">Decline</button>
-                                </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </transition>
+
+
+
             <div class="w-full flex gap-2">
                 <div class="relative overflow-x-auto z-0 h-96 grow bg-white drop-shadow-lg rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500">
@@ -267,8 +298,8 @@ onMounted(() => {
                                 <td class="px-6 py-4">
                                     {{ employee.email }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    Laptop
+                                <td class="px-6 py-4 capitalize">
+                                    {{ employee.roles[0].name }}
                                 </td>
                             </tr>
                         </tbody>
@@ -294,10 +325,10 @@ onMounted(() => {
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white drop-shadow-lg rounded-lg">
+                    <!-- <div class="bg-white drop-shadow-lg rounded-lg">
                         <apexchart type="bar" height="250" :options="barChart.chartOptions" :series="barChart.series">
                         </apexchart>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

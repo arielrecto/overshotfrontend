@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import Api from "../../Server/index.js";
+import router from "../../Routes.js";
 
 export const useClientProductStore = defineStore("clientProdcutStore", {
   state: () => ({
@@ -31,7 +32,14 @@ export const useClientProductStore = defineStore("clientProdcutStore", {
         this.supplies = response.data.supplies
         console.log(response.data);
         this.isLoading = false;
-      } catch (error) {}
+      } catch (error) {
+        const status = error.response.status
+        if(status === 401){
+            localStorage.clear();
+            router.push({name: 'login'})
+        }
+        console.log(error.response.status)
+      }
     },
     async addOrderInServer(data) {
       try {

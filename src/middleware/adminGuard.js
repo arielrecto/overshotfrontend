@@ -11,7 +11,7 @@ export default function adminGuard({next}) {
     switch(role) {
         case 'client' : return next(`/client/${user.name}`)
         break;
-        case 'employee' : return next(`/client/${user.name}`)
+        case 'employee' : return next(`/employee/${user.name}`)
         break;
         default : return next();
     }   
