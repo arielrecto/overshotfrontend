@@ -129,7 +129,39 @@ const openProduct = ref({
             </router-link>
         </div>
     </li>
+    <li>
+        <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
+            <router-link to="/admin/feedback" class="flex items-center"
+                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
+                <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900">
+                    <i class="fi fi-rr-bullhorn text-xl"></i>
+                </div>
+
+                <span class="ml-3">Feedback</span>
+                <div class="flex flex-row-reverse w-full">
+                    <!-- <button @click="openProduct.isOpen()">
+                            <i class="ri-arrow-drop-down-line text-3xl"></i>
+                        </button> -->
+                </div>
+            </router-link>
+        </div>
+    </li>
+    <li>
+        <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
+            <router-link to="/admin/promo" class="flex items-center"
+                exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
+                <div class="w-6 h-6 transition duration-75 group-hover:text-gray-900">
+                    <i class="fi fi-rr-ticket text-xl"></i>
+                </div>
+
+                <span class="ml-3">Promo</span>
+                <div class="flex flex-row-reverse w-full">
+                    <!-- <button @click="openProduct.isOpen()">
+                            <i class="ri-arrow-drop-down-line text-3xl"></i>
+                        </button> -->
+                </div>
+            </router-link>
+        </div>
+    </li>
 </template>
 
-
-<style></style>

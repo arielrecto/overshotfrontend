@@ -18,6 +18,7 @@ const { coordinates } = useGeolocation();
 
 
 const gCashModal = ref(false);
+const CODPayment = ref(false);
 const productPrice = ref('');
 const isOpen = ref(false);
 const selectedProducts = ref([]);
@@ -58,9 +59,7 @@ const openModal = ref({
 
 
 const orderAddress = ref({
-  lat: null,
-  lng: null,
-  address: ''
+  address: null
 });
 
 const getAddress = () => {
@@ -205,6 +204,16 @@ const openGcashModal = () => {
   gCashModal.value = !gCashModal.value
 
 }
+const openCODPayment = () => {
+
+
+order.value.payment.type = 'COD'
+
+CODPayment.value = !CODPayment.value
+
+}
+
+
 
 const fileUploader = (e) => {
 
@@ -372,7 +381,7 @@ const submitOrder = async () => {
       total: null,
       payment: null,
     };
-    // window.location.reload()
+    window.location.reload()
   }
 }
 
@@ -663,16 +672,15 @@ onMounted(() => {
                   <img src="/gcash.webp" alt="" srcset=""
                     class="w-20 h-auto rounded-lg hover:drop-shadow-lg duration-700">
                 </button>
-                <button
+                <button @click="openCODPayment"
                   class="px-4 py-2 bg-white drop-shadow-sm hover:bg-gray-100 hover:drop-shadow-lg duration-700 rounded-lg">
                   <img src="/cod.png" alt="" srcset="" class="h-8 w-auto rounded-lg">
                 </button>
               </div>
 
-
-              <!-- <div class="flex">
+              <div class="flex" v-show="CODPayment">
                 <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
-              </div> -->
+              </div> 
 
             </form>
           </div>

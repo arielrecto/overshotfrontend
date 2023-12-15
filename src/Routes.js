@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard.vue";
 import Overview from "./pages/Admin/pages/Overview.vue";
 import AdminPOS from "./pages/Admin/pages/PointOfSale.vue";
 import pipeline from "./middleware/pipeline.js";
-import ProductView from './pages/ProductsView.vue';
+import ProductView from "./pages/ProductsView.vue";
 import auth from "./middleware/auth.js";
 import LandingPage from "./pages/Admin/pages/LandingPage.vue";
 import ForgetPassword from "./ForgetPassword.vue";
@@ -28,14 +28,19 @@ import CreateProduct from "./pages/Admin/pages/Product/CreateProduct.vue";
 import AdminEmployeeParentPage from "./pages/Admin/pages/Employee/EmployeeParentPage.vue";
 import AdminEmployeeIndex from "./pages/Admin/pages/Employee/Index.vue";
 import PointOfSale from "./pages/Employee/PointOfSale.vue";
-import EmployeeOrder from './pages/Employee/OrderPage.vue';
-import TransactionParent from './pages/Admin/pages/Transaction/TransactionParent.vue';
-import TransactionIndex from './pages/Admin/pages/Transaction/Index.vue';
+import EmployeeOrder from "./pages/Employee/OrderPage.vue";
+import TransactionParent from "./pages/Admin/pages/Transaction/TransactionParent.vue";
+import TransactionIndex from "./pages/Admin/pages/Transaction/Index.vue";
 import NotFound from "./pages/NotFound.vue";
-import Orders from './pages/User/pages/Orders.vue';
-import RiderIndex from './pages/Riders/Index.vue';
-import RiderDashboard from './pages/Riders/Dashboard.vue';
-import RiderDelivery from './pages/Riders/Delivery.vue';
+import Orders from "./pages/User/pages/Orders.vue";
+import RiderIndex from "./pages/Riders/Index.vue";
+import RiderDashboard from "./pages/Riders/Dashboard.vue";
+import RiderDelivery from "./pages/Riders/Delivery.vue";
+import FeedbackParent from "./pages/Admin/pages/Feedback/FeedbackParent.vue";
+import FeedbackIndex from "./pages/Admin/pages/Feedback/Index.vue";
+import PromoParent from "./pages/Admin/Pages/Promo/PromoParent.vue";
+import PromoIndex from './pages/Admin/Pages/Promo/Index.vue';
+import CreatePromo from './pages/Admin/Pages/Promo/CreatePromo.vue';
 
 const routes = [
   {
@@ -48,7 +53,7 @@ const routes = [
   },
   {
     path: "/signin",
-    name : "login",
+    name: "login",
     component: Login,
   },
   {
@@ -72,8 +77,8 @@ const routes = [
     redirect: "/admin",
   },
   {
-    path : '/products',
-    component : () => ProductView
+    path: "/products",
+    component: () => ProductView,
   },
   {
     path: "/admin",
@@ -132,15 +137,39 @@ const routes = [
         ],
       },
       {
-        path : "transaction", 
-        component : TransactionParent,
-        children : [
+        path: "transaction",
+        component: TransactionParent,
+        children: [
           {
-            path : "",
-            component : TransactionIndex
-          }
-        ]
-      }
+            path: "",
+            component: TransactionIndex,
+          },
+        ],
+      },
+      {
+        path: "feedback",
+        component: FeedbackParent,
+        children: [
+          {
+            path: "",
+            component: FeedbackIndex,
+          },
+        ],
+      },
+      {
+        path: "promo",
+        component: PromoParent,
+        children: [
+          {
+            path: "",
+            component: PromoIndex,
+          },
+          {
+            path: "create",
+            component: CreatePromo,
+          },
+        ],
+      },
     ],
   },
   {
@@ -157,9 +186,9 @@ const routes = [
         name: "orderpage",
       },
       {
-        path : "orders",
-        name : 'orders',
-        component : Orders
+        path: "orders",
+        name: "orders",
+        component: Orders,
       },
       {
         path: "profile",
@@ -186,31 +215,31 @@ const routes = [
         component: PointOfSale,
       },
       {
-        path : "orders",
-        name : 'employee-orders',
-        component : EmployeeOrder
+        path: "orders",
+        name: "employee-orders",
+        component: EmployeeOrder,
       },
     ],
   },
   {
-    path : "/riders/:name",
-    name : "riders-index",
-    component : RiderIndex,
-    meta : {
-      middleware: [auth]
+    path: "/riders/:name",
+    name: "riders-index",
+    component: RiderIndex,
+    meta: {
+      middleware: [auth],
     },
-    children : [
+    children: [
       {
-        path :'dashboard',
-        name : "rider-dashboard",
-        component : RiderDashboard
+        path: "dashboard",
+        name: "rider-dashboard",
+        component: RiderDashboard,
       },
       {
-        path :'deliveries',
-        name : "rider-deliveries",
-        component : RiderDelivery
-      }
-    ]
+        path: "deliveries",
+        name: "rider-deliveries",
+        component: RiderDelivery,
+      },
+    ],
   },
   {
     path: "/:catchAll(.*)",

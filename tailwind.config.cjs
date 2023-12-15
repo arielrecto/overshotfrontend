@@ -46,7 +46,7 @@ module.exports = {
   plugins: [
     //require("flowbite"),
     require("daisyui"),
-    require("@tailwindcss/line-clamp")
+    // require("@tailwindcss/line-clamp")
     // require('tailwind-scrollbar')({nocompatible : true}),
   ],
   variants: {
