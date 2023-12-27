@@ -10,6 +10,7 @@ export const useOrderStore = defineStore("useOrderStore", {
     paymentInfo: {
       image: null,
     },
+    order : {}
   }),
 
   getters: {

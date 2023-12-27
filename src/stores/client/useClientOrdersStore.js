@@ -6,7 +6,8 @@ export const useClientOrderStore = defineStore('clientOrdersStore', {
         orders : [],
         isLoading : false,
         filterData : [],
-        filter : ''
+        filter : '',
+        order: {}
     }),
     getters : {
         searchByLetter (){
@@ -30,6 +31,22 @@ export const useClientOrderStore = defineStore('clientOrdersStore', {
             console.log(response.data.orders)
             this.isLoading = false;
                 
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async getOrder(id){
+            try {
+
+                this.isLoading = true
+
+                const response = await Api().get(`/client/orders/${id}`);
+
+                this.order = {...response.data}
+
+
+                this.isLoading = false
+
             } catch (error) {
                 console.log(error)
             }

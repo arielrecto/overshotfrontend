@@ -6,6 +6,7 @@ import VueApexCharts from "vue3-apexcharts";
 import {createPinia} from 'pinia';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import starRating from 'vue3-star-ratings';
 const pinia = createPinia()
 
 createApp(App)

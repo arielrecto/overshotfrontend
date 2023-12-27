@@ -4,9 +4,11 @@ export const useLandingPageDataStore = defineStore("landingPageStore", {
   state: () => ({
     products: [],
     categories: [],
+    topProducts : [],
     isLoading: false,
     filterCategory: null,
     category: "",
+    product : null
   }),
 
   getters: {
@@ -19,7 +21,7 @@ export const useLandingPageDataStore = defineStore("landingPageStore", {
       });
     },
     getProductByid() {
-      return (productId) => this.products.find(p => p.id === productId)
+      return (productId) => this.products.find((p) => p.id === productId);
     },
   },
   actions: {
@@ -38,5 +40,32 @@ export const useLandingPageDataStore = defineStore("landingPageStore", {
         console.log(error);
       }
     },
+    async bestSeller() {
+      try {
+        const response = await Api().get("/top_products");
+
+        this.topProducts = [...response.data.topProducts];
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async productShow(id){
+
+      try {
+
+
+        this.isLoading = true
+
+        const response = await Api().get(`products/show/${id}`);
+
+        this.isLoading = false
+
+        this.product = {...response.data}
+        
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
   },
 });

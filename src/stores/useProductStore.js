@@ -10,6 +10,8 @@ export const useProductStore = defineStore("productStore", {
     otherinfo : {
       categories : []
     },
+    productsByMonth : {},
+    bestSeller : null
   }),
   actions: {
     async addProduct(data) {
@@ -30,6 +32,8 @@ export const useProductStore = defineStore("productStore", {
         this.isLoading = false;
 
         this.products = response.data.products;
+        this.productsByMonth = {...response.data.productsByMonth}
+        this.bestSeller = {...response.data.bestSeller}
       } catch (error) {
         console.log(error)
       }

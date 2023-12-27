@@ -24,9 +24,9 @@
 
         </div> -->
         <div class="flex items-center justify-end space-x-2">
-            <router-link to="/login" class="text-accent capitalize text-sm">Log in</router-link>
+            <router-link to="/login" class="btn btn-neutral btn-xs font-bold">Log in</router-link>
 
-            <button class="btn btn-neutral btn-xs font-bold">Order Now</button>
+            <!-- <button class="btn btn-neutral btn-xs font-bold">Order Now</button> -->
         </div>
         </div>
         

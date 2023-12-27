@@ -1,26 +1,49 @@
 <script setup>
 
-import { useFeedbackStore } from '../../../../stores/useFeedbackStore';
 import { storeToRefs } from 'pinia';
-import {onMounted} from 'vue'
+import { userPromoStore } from './../../../../stores/usePromoStore.js'
+import { watch, inject, ref } from 'vue'
+const swal = inject('$swal');
 
-const feedbackStore = useFeedbackStore()
-const {feedbacks} = storeToRefs(feedbackStore)
-const {getFeedback} = feedbackStore
+const promoStore = userPromoStore();
 
 
+const { data, errors, status, message } = storeToRefs(promoStore)
 
-onMounted(() => {
-    getFeedback()
+
+const { addPromo } = promoStore;
+
+const promoForm = ref(null);
+
+watch(data.value, () => {
+
+    data.value.decimal_value = data.value.percent / 100
 })
 
+console.log(status.value)
+
+
+const submitPromo = async () => {
+
+    await addPromo(data.value)
+
+    if (status.value === 200) {
+        swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: `${message.value}`,
+            showConfirmButton: false,
+            timer: 1500
+        })
+       promoForm.value.reset()
+    }
+
+}
 
 </script>
 
 
 <template>
-
-
     <div class="flex py-2 w-full flex-col gap-2 min-h-screen bg-gray-100">
         <div class="h-full w-full overflow-y-auto bg-white drop-shadow-sm max-h-96 p-4 rounded-lg flex flex-col gap-2">
             <div class="p-2 w-full flex justify-between items-center">
@@ -30,37 +53,35 @@ onMounted(() => {
                 </div>
             </div>
 
-            <h2>Hello world</h2>
-            
-            <!-- <table class="w-full text-sm text-left text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                          Email
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Message
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg-white border-b" v-for="feedback in feedbacks"
-                        :key="feedback.id">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            {{ feedback.email }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ feedback.message }}
-                        </td>
-                        <td class="px-6 py-4">
-                          action
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
+
+            <form ref="promoForm" class="flex flex-col gap-2 p-5" @submit.prevent="submitPromo">
+                <div class="flex flex-col gap-2">
+                    <label for="" class="text-gray-600 text-sm">Name</label>
+                    <input type="text" class="input input-secondary input-sm w-full" placeholder="Name" v-model="data.name"
+                        required>
+                    <template v-if="'name' in errors">
+                        <p class="text-xs text-red-600">{{ errors?.name[0] }}</p>
+                    </template>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="" class="text-gray-600 text-sm">Percent {{ data.percent }} %</label>
+                    <input type="range" v-model="data.percent" class="input input-secondary input-sm w-full">
+                    <template v-if="'percent' in errors">
+                        <p class="text-xs text-red-600">{{ errors?.percent[0] }}</p>
+                    </template>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="" class="text-gray-600 text-sm">Decimal Equivalent</label>
+                    <input type="text" class="input input-secondary input-sm w-full" v-model="data.decimal_value"
+                        placeholder="Decimal">
+                    <template v-if="'decimal_value' in errors">
+                        <p class="text-xs text-red-600">{{ errors?.decimal_value[0] }}</p>
+                    </template>
+                </div>
+
+                <button class="btn btn-base btn-xs">Submit</button>
+            </form>
+
+        </div>
     </div>
-</div>
 </template>

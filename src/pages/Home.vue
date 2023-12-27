@@ -25,10 +25,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <HeaderSectionVue />
-  <PromotionSectionVue/>
-  <ProductSectionVue/>
-  <ContactSectionVue/>
- <!--<FooterSectionVue/> --> 
-  
+  <div class="w-full min-h-screen flex flex-col">
+    <HeaderSectionVue />
+    <PromotionSectionVue />
+    <ProductSectionVue />
+    <ContactSectionVue />
+  </div>
+  <!--<FooterSectionVue/> -->
 </template>

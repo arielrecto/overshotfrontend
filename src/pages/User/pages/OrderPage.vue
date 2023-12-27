@@ -64,12 +64,12 @@ const orderAddress = ref({
 
 const getAddress = () => {
 
- 
+
   console.log('getAddress Function')
   orderAddress.value = {
     ...orderAddress.value,
-    lat : coordinates.value.latitude,
-    lng : coordinates.value.longitude
+    lat: coordinates.value.latitude,
+    lng: coordinates.value.longitude
   }
 
 
@@ -81,9 +81,9 @@ const getAddress = () => {
   console.log(orderAddress.value);
 }
 
- const addressByCoordinates = async (lat, lng) => {
-    orderAddress.value.address = await useGetAddressByCoordinates(lat, lng);
- }
+const addressByCoordinates = async (lat, lng) => {
+  orderAddress.value.address = await useGetAddressByCoordinates(lat, lng);
+}
 
 
 
@@ -207,9 +207,9 @@ const openGcashModal = () => {
 const openCODPayment = () => {
 
 
-order.value.payment.type = 'COD'
+  order.value.payment.type = 'COD'
 
-CODPayment.value = !CODPayment.value
+  CODPayment.value = !CODPayment.value
 
 }
 
@@ -362,7 +362,7 @@ const submitOrder = async () => {
 
   order.value = {
     ...order.value,
-    addressData : {...orderAddress.value},
+    addressData: { ...orderAddress.value },
   }
 
   await addOrderInServer(order.value);
@@ -435,7 +435,7 @@ onMounted(() => {
 
           <template v-for="product in getAllProducts" :key="product.id">
 
-            <div class="w-52 h-96 bg-accent flex flex-col gap-2 shadow-lg">
+            <div class="w-52 h-96 bg-accent flex flex-col gap-2 shadow-lg relative">
               <img class="object object-cover object-top w-full h-1/2 " :src="product.image.image_url">
               <div class="h-1/2 w-full p-2 flex flex-col gap-2">
                 <h3 class="text-neutral text-xs tracking-widest mb-1 capitalize"> category : <span
@@ -464,6 +464,14 @@ onMounted(() => {
                   </button>
                 </template>
               </div>
+
+              <template v-if="product.promo.length !== 0">
+                <span class="bg-red-600 text-white text-xs rounded-full p-2 absolute z-10 top-0 right-0 -m-5">
+                  <span>{{ product.promo[0]?.promo?.percent }} </span>
+                  <span>% off</span>
+                </span>
+              </template>
+
             </div>
           </template>
 
@@ -531,51 +539,7 @@ onMounted(() => {
                   </template>
                 </tbody>
               </table>
-              <!-- <div class="h-auto w-auto bg-gray-50 p-4 rounded-lg my-5 flex space-x-2"
-                v-for="productSelect in selectedProducts" :key="productSelect.id">
-                <img :src="productSelect.image.image_url" alt="" class="h-32 pt-4" srcset="">
-                <div class="w-full flex flex-col space-y-2 p-2">
-                  <h1 class="text-xl font-bold">{{ productSelect.name }}</h1>
-
-                  <div>
-                    <p class="text-sm">Size : <span>
-                        {{ productSelect.size === 'regular' ? productSelect.size : productSelect.size.name }}
-                      </span></p>
-                  </div>
-                  <div class="w-full flex space-x-[5rem]">
-                    <p class="text-sm">Quantity : {{ productSelect.pieces }}</p>
-                    <span class="flex space-x-2">
-                      <button class="bg-orange-300 rounded-lg px-2 py-1"
-                        @click="changeProductQuantity(productSelect.id).add()">+</button>
-                      <button class="bg-orange-300 rounded-lg px-2 py-1"
-                        @click="changeProductQuantity(productSelect.id).substruct()">-</button>
-                    </span>
-                  </div>
-                  <p class="w-full border-b-2 capitalize text-xs">
-                    avaible Sizes
-                  </p>
-                  <div class="flex gap-2">
-                    <template v-for="size in productSelect.sizes" :key="size">
-                      <button class="text-xs hover:bg-orange-300 p-2 rounded-lg duration-700 hover:scale-110"
-                        @click="selectSize(size, productSelect)">
-                        {{ size.name }}
-                      </button>
-                    </template>
-                  </div>
-                  <div class="w-full p-2 flex flex-row-reverse">
-                    <h1 class="px-4 py-2 rounded-lg text-theme-secondary font-bold text-lg">₱ {{ productSelect.size ===
-                      'regular' ? productSelect.price : productSelect.size.pivot.price }}</h1>
-                  </div>
-                </div>
-                <div>
-                  <button @click="removeFromSelected(productSelect.id)"
-                    class="px-2 font-bold text-lg rounded-full">x</button>
-                </div>
-
-                <button @click="openCustomProductFields(productSelect)"
-                  class="text-xs px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 hover:scale-105 duration-500">View</button>
-
-              </div> -->
+     
               <div v-if="selectedProducts.length === 0" class="p-4 rounded-lg my-5 flex space-x-2">
 
                 <div class="bg-white rounded-lg p-5 flex justify-center w-full text-lg fond-semibold">
@@ -654,7 +618,8 @@ onMounted(() => {
               <div class="flex flex-col gap-2 w-full">
                 <h1 class="text-xs text-gray-500">Address</h1>
                 <div class="flex items-center gap-2 w-full">
-                  <input type="text" class="input input-accent input-sm w-full" placeholder="Address" v-model="orderAddress.address"/>
+                  <input type="text" class="input input-accent input-sm w-full" placeholder="Address"
+                    v-model="orderAddress.address" />
                   <button class="w-10" @click="getAddress()">
                     <i class="fi fi-rr-marker"></i>
                   </button>
@@ -680,7 +645,7 @@ onMounted(() => {
 
               <div class="flex" v-show="CODPayment">
                 <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
-              </div> 
+              </div>
 
             </form>
           </div>

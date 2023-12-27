@@ -28,8 +28,8 @@ onMounted(() => {
     <div class="w-full h-full flex flex-col gap-2 p-5">
         <div class="h-32 w-full border-2 rounded-lg p-2 flex items-center">
             <div class="flex flex-col gap-2 w-1/5 items-center">
-                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="" class="object object-center  h-16 w-16 rounded-full">
+                <!-- <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    alt="" class="object object-center  h-16 w-16 rounded-full"> -->
                 <p class="font-bold tracking-wider capitalize">{{ viewData.data.transaction.order.user.name }}</p>
             </div>
             <div class="flex-grow bg-accent rounded-lg h-full flex items-center space-x-5 p-2">
@@ -51,7 +51,7 @@ onMounted(() => {
                     <thead>
                         <tr>
                             <th>Product</th>
-                            <th>Description</th>
+                            <!-- <th>Description</th> -->
                             <th>Quantity</th>
                             <th>Price</th>
 
@@ -76,10 +76,10 @@ onMounted(() => {
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <span v-html="product.description"
-                                        class="truncate hover:whitespace-pre-line duration-700"></span>
-                                </td>
+                                <!-- <td>
+                                    <p v-html="product.description"
+                                        class="truncate duration-700 w-32"></p>
+                                </td> -->
                                 <td>{{ product.pivot.quantity }}</td>
                                 <td>&#8369 {{ product.price }}</td>
 
@@ -89,7 +89,7 @@ onMounted(() => {
 
                     </tbody>
 
-                    <tfoot>
+                    <!-- <tfoot>
                         <tr>
 
                             <th>Name</th>
@@ -97,7 +97,7 @@ onMounted(() => {
                             <th>Favorite Color</th>
 
                         </tr>
-                    </tfoot>
+                    </tfoot> -->
 
                 </table>
             </div>

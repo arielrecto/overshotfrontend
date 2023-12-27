@@ -5,12 +5,9 @@ import About from "./pages/About.vue";
 import Login from "./pages/LogIn.vue";
 import Signup from "./pages/Signup.vue";
 import Dashboard from "./pages/Dashboard.vue";
-import Overview from "./pages/Admin/pages/Overview.vue";
-import AdminPOS from "./pages/Admin/pages/PointOfSale.vue";
 import pipeline from "./middleware/pipeline.js";
 import ProductView from "./pages/ProductsView.vue";
 import auth from "./middleware/auth.js";
-import LandingPage from "./pages/Admin/pages/LandingPage.vue";
 import ForgetPassword from "./ForgetPassword.vue";
 import HelpPage from "./HelpPage.vue";
 import UserPage from "./pages/User/pages/index.vue";
@@ -20,11 +17,7 @@ import adminGuard from "./middleware/adminGuard.js";
 import EmployeeIndex from "./pages/Employee/index.vue";
 import EmployeeParentPage from "./pages/Employee/EmployeeParentPage.vue";
 import InventoryParent from "./pages/Admin/pages/Inventory/InventoryParent.vue";
-import InventoryIndex from "./pages/Admin/pages/Inventory/Index.vue";
-import CreateSupply from "./pages/Admin/pages/Inventory/CreateSupply.vue";
 import ProductParent from "./pages/Admin/pages/Product/ProductParent.vue";
-import ProductIndex from "./pages/Admin/pages/Product/Index.vue";
-import CreateProduct from "./pages/Admin/pages/Product/CreateProduct.vue";
 import AdminEmployeeParentPage from "./pages/Admin/pages/Employee/EmployeeParentPage.vue";
 import AdminEmployeeIndex from "./pages/Admin/pages/Employee/Index.vue";
 import PointOfSale from "./pages/Employee/PointOfSale.vue";
@@ -38,9 +31,15 @@ import RiderDashboard from "./pages/Riders/Dashboard.vue";
 import RiderDelivery from "./pages/Riders/Delivery.vue";
 import FeedbackParent from "./pages/Admin/pages/Feedback/FeedbackParent.vue";
 import FeedbackIndex from "./pages/Admin/pages/Feedback/Index.vue";
-import PromoParent from "./pages/Admin/Pages/Promo/PromoParent.vue";
-import PromoIndex from './pages/Admin/Pages/Promo/Index.vue';
-import CreatePromo from './pages/Admin/Pages/Promo/CreatePromo.vue';
+import PromoParent from "./pages/Admin/pages/Promo/PromoParent.vue";
+import PromoIndex from "./pages/Admin/pages/Promo/Index.vue";
+import CreatePromo from "./pages/Admin/pages/Promo/CreatePromo.vue";
+import ShowPromo from "./pages/Admin/pages/Promo/ShowPromo.vue";
+import OrderShow from "./pages/User/pages/OrderShow.vue";
+import TransactionReport from "./pages/Admin/pages/Report/TransactionReport.vue";
+import ReportParent from "./pages/Admin/pages/Report/ReportParent.vue";
+import ReportIndex from "./pages/Admin/pages/Report/Index.vue";
+import ProductRate from "./pages/User/pages/Rates/ProductRate.vue";
 
 const routes = [
   {
@@ -78,7 +77,12 @@ const routes = [
   },
   {
     path: "/products",
-    component: () => ProductView,
+    component: ProductView,
+  },
+  {
+    path : "/products/show/:productID",
+    name : 'landing-product-show',
+    component : () => import('./pages/ProductsShow.vue')
   },
   {
     path: "/admin",
@@ -91,7 +95,7 @@ const routes = [
       {
         path: "overview",
         name: "overview",
-        component: Overview,
+        component: () => import('./pages/Admin/pages/Overview.vue'),
       },
       {
         path: "inventory",
@@ -100,11 +104,11 @@ const routes = [
           {
             path: "",
             name: "inventory",
-            component: InventoryIndex,
+            component: () => import('./pages/Admin/pages/Inventory/Index.vue'),
           },
           {
             path: "create-supply",
-            component: CreateSupply,
+            component: () => import('./pages/Admin/pages/Inventory/CreateSupply.vue'),
             name: "createSupply",
           },
         ],
@@ -116,12 +120,12 @@ const routes = [
           {
             path: "",
             name: "products",
-            component: ProductIndex,
+            component: () => import('./pages/Admin/pages/Product/Index.vue'),
           },
           {
             path: "create-product",
             name: "createProduct",
-            component: CreateProduct,
+            component: () => import('./pages/Admin/pages/Product/CreateProduct.vue'),
           },
         ],
       },
@@ -133,6 +137,22 @@ const routes = [
             path: "",
             component: AdminEmployeeIndex,
             name: "admin-employee-index",
+          },
+        ],
+      },
+      {
+        path : 'CMS',
+        component : () => import('./pages/Admin/pages/LandingPage/Index.vue'),
+        children: [
+          {
+            path: "",
+            component: () => import('./pages/Admin/pages/LandingPage/Header/Index.vue'),
+            name: "cms-header",
+          },
+          {
+            path: "header/create",
+            component: () => import('./pages/Admin/pages/LandingPage/Header/Create.vue'),
+            name: "cms-header-create",
           },
         ],
       },
@@ -162,11 +182,39 @@ const routes = [
         children: [
           {
             path: "",
+            name: "promo-index",
             component: PromoIndex,
           },
           {
             path: "create",
+            name: "create-promo",
             component: CreatePromo,
+          },
+          {
+            path: "show/:promo",
+            name: "show-promo",
+            component: ShowPromo,
+          },
+        ],
+      },
+      {
+        path: "report",
+        component: ReportParent,
+        children: [
+          {
+            path: "",
+            name: "report-index",
+            component: ReportIndex,
+          },
+          {
+            path: "transaction",
+            name: "transaction-report",
+            component: TransactionReport,
+          },
+          {
+            path: "sales",
+            name: "sales-report",
+            component: () => import('./pages/Admin/pages/Report/SalesReport.vue'),
           },
         ],
       },
@@ -191,9 +239,19 @@ const routes = [
         component: Orders,
       },
       {
+        path: "orders/show/:orderID",
+        component: OrderShow,
+        name: "order-show",
+      },
+      {
         path: "profile",
         name: "profile",
         component: Profile,
+      },
+      {
+        path: "order/product/:productID/rate",
+        name: "product-rate",
+        component: ProductRate,
       },
     ],
   },

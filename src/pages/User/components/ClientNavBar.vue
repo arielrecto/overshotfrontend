@@ -1,12 +1,23 @@
 <script setup>
 
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAuthStore } from '../../../stores/useAuthStore';
 
 const authStore = useAuthStore();
 const { logout } = authStore;
 const client = JSON.parse(localStorage.getItem('user'));
+
+
+const toggle = ref(false)
+
+const toggleAction = () => {
+
+    toggle.value = !toggle.value
+
+}
+
+
 
 </script>
 
@@ -17,15 +28,15 @@ const client = JSON.parse(localStorage.getItem('user'));
                 <img src="/logo.jpg" class="object object-center rounded-full h-10 w-10" alt="Overshot Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-neutral">Overshot</span>
             </a>
-            <div class="flex items-center md:order-2">
-                <button type="button" data-dropdown-toggle="language-dropdown-menu"
+            <div class="flex items-center md:order-2 relative">
+                <button type="button" @click="toggleAction"
                     class="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-neutral duration-700 rounded-lg cursor-pointer hover:bg-neutral hover:text-primary">
                     <img class="w-5 h-5 mr-2 rounded-full" aria-hidden="true" src="/logo.jpg">
                     <span class="capitalize">{{ client.name }}</span>
                 </button>
                 <!-- Dropdown -->
-                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
-                    id="language-dropdown-menu">
+                <div class="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow absolute right-0  -mb-44"
+                    v-show="toggle">
                     <ul class="py-2 font-medium z-10" role="none">
                         <li>
                             <a href="#" class="block px-4 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">

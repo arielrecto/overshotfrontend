@@ -3,7 +3,7 @@
 
 import { useAuthStore } from '../../../stores/useAuthStore';
 import AdminNavBar from '../../../components/AdminNavBar.vue';
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useOverviewStore } from '../../../stores/useOverviewStore.js';
 import { storeToRefs } from 'pinia';
 const authUser = useAuthStore();
@@ -29,9 +29,7 @@ const totalSales = (data) => {
     });
 }
 
-onMounted(() => {
-    fetchOverviewData()
-})
+
 
 
 var year = 2018;
@@ -49,9 +47,9 @@ var monthDates = [
     year + '-11-01T00:00:00.000Z',
     year + '-12-01T00:00:00.000Z'
 ];
-const areaChart = {
+const areaChart = ref({
     series: [{
-        name: "STOCK ABC",
+        name: "Transactions",
         data: [456, 789, 321, 654, 987, 123, 543, 876, 210, 753, 951, 468]
     }],
     chartOptions: {
@@ -80,16 +78,47 @@ const areaChart = {
         },
         labels: monthDates,
         xaxis: {
-            type: 'datetime',
+            type: 'date',
         },
         yaxis: {
             opposite: true
         },
-        legend: {
-            horizontalAlign: 'left'
-        }
+        // legend: {
+        //     horizontalAlign: 'left'
+        // }
     },
+})
+
+const getOverviewData = async () => {
+
+
+    await fetchOverviewData();
+
+    const monthlyTotalValue = Object.values(overview.value.monthlyTransaction);
+    const months = Object.keys(overview.value.monthlyTransaction);
+
+    areaChart.value = {
+        ...areaChart.value,
+        series : [
+            {
+                name: "Transactions",
+                data: [...monthlyTotalValue]
+            }
+        ],
+        chartOptions : {
+            ...areaChart.value.chartOptions,
+            labels : [...months]
+        }
+    }
+
 }
+
+onMounted(() => {
+    getOverviewData()
+})
+
+
+
 
 </script>
 
@@ -156,7 +185,7 @@ const areaChart = {
                                 </div>
                             </div>
                             <div class="w-full bg-white hover:shadow-md duration-700 rounded-lg flex flex-col space-y-2">
-                                <div class="p-5">
+                                <div class="w-full p-5 overflow-x-auto">
                                     <apexchart type="area" height="350" :options="areaChart.chartOptions"
                                         :series="areaChart.series"></apexchart>
                                 </div>
@@ -172,28 +201,28 @@ const areaChart = {
                                     <img src="../../../assets/icons/user-line.png" alt="" srcset="" class="w-6 h-6">
                                     <div class="text-xs flex space-x-2">
                                         <h1 class="text-xl font-bold">{{ overview.total.users }}</h1>
-                                        <p class="capitalize text-xs rounded-lg text-orange-300 pt-2">users</p>
+                                        <p class="capitalize text-xs rounded-lg pt-2">users</p>
                                     </div>
                                 </div>
                                 <div class="w-full p-2 flex space-x-5">
                                     <img src="../../../assets/icons/stack-line.png" alt="" srcset="" class="w-6 h-6">
                                     <div class="text-xs flex space-x-2">
                                         <h1 class="text-xl font-bold">{{ overview.total.supplies }}</h1>
-                                        <p class="capitalize text-xs rounded-lg text-orange-300 pt-2">Inventory Item</p>
+                                        <p class="capitalize text-xs rounded-lg  pt-2">Inventory Item</p>
                                     </div>
                                 </div>
                                 <div class="w-full p-2 flex space-x-5">
                                     <img src="../../../assets/icons/ie-fill.png" alt="" srcset="" class="w-6 h-6">
                                     <div class="text-xs flex space-x-2">
                                         <h1 class="text-xl font-bold">{{ overview.total.online }}</h1>
-                                        <p class="capitalize text-xs rounded-lg text-orange-300 pt-2">Online - Order</p>
+                                        <p class="capitalize text-xs rounded-lg  pt-2">Online - Order</p>
                                     </div>
                                 </div>
                                 <div class="w-full p-2 flex space-x-5">
                                     <img src="../../../assets/icons/walk-line.png" alt="" srcset="" class="w-6 h-6">
                                     <div class="text-xs flex space-x-2">
                                         <h1 class="text-xl font-bold">{{ overview.total.walkin }}</h1>
-                                        <p class="capitalize text-xs rounded-lg text-orange-300 pt-2">Walk In - Order</p>
+                                        <p class="capitalize text-xs rounded-lg pt-2">Walk In - Order</p>
                                     </div>
                                 </div>
 

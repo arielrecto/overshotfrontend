@@ -1,13 +1,13 @@
 <script setup>
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import AdminNavBarVue from '../../../../components/AdminNavBar.vue';
 import Loading from '../../../../components/Loading.vue';
 import { useProductStore } from '../../../../stores/useProductStore.js';
 
 const productStore = useProductStore();
 const { getAllProducts } = productStore;
-const { products, isLoading } = storeToRefs(productStore);
+const { products, isLoading, productsByMonth, bestSeller } = storeToRefs(productStore);
 
 console.log(products);
 
@@ -25,9 +25,6 @@ const pieChart = (data) => {
             seriesData.push(1);
         }
     });
-
-    console.log(labelsData);
-    console.log(seriesData)
     return {
         series: seriesData,
         chartOptions: {
@@ -53,42 +50,55 @@ const pieChart = (data) => {
 }
 
 
-const lineChart = {
-    series: [{
-        name: "Products",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }],
-    chartOptions: {
-        chart: {
-            height: 500,
-            type: 'line',
-            zoom: {
+
+
+const lineChart = (data) => {
+
+
+
+    const months = Object.keys(data)
+    const _data = Object.values(data)
+    console.log(_data)
+
+
+    return {
+        series: [{
+            name: "Products",
+            data: _data
+        }],
+        chartOptions: {
+            chart: {
+                height: 400,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+            },
+            dataLabels: {
                 enabled: false
             },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'straight',
-            colors: '#f4ac6f'
-        },
-        title: {
-            text: 'Total Product Sold by Month',
-            align: 'left',
-            colors: '#f4ac6f'
-        },
-        grid: {
-            row: {
-                colors: ['#f4ac6f', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
+            stroke: {
+                curve: 'straight',
+                colors: '#f4ac6f'
             },
+            title: {
+                text: 'Product Sold',
+                align: 'left',
+                colors: '#f4ac6f'
+            },
+            grid: {
+                row: {
+                    colors: ['#f4ac6f', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: months,
+            }
         },
-        xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        }
-    },
+    }
 }
+
 
 onMounted(() => {
     getAllProducts()
@@ -172,19 +182,60 @@ onMounted(() => {
                     </div>
 
                 </div>
-                <div class="w-1/2 bg-white rounded-lg drop-shadow-lg">
-                    <apexchart type="line" :options="lineChart.chartOptions" :series="lineChart.series"></apexchart>
+                <div class="w-1/2 bg-white rounded-lg drop-shadow-lg h-full">
+                    <template v-if="isLoading">
+                        <img src="/loading-9.gif">
+                    </template>
+                    <template v-else>
+                        <apexchart type="line" :options="lineChart(productsByMonth).chartOptions"
+                            :series="lineChart(productsByMonth).series">
+                        </apexchart>
+
+                    </template>
+
                 </div>
 
             </div>
             <div class="w-1/5 bg-white h-96 rounded-lg drop-shadow-lg p-2">
                 <div class="w-full">
                     <h1 class="text-sm text-center font-bold">
-                        Product Categories
+                        Best Seller
                     </h1>
 
                 </div>
-                <div class="w-full">
+                <div class="w-full flex flex-col gap-2 h-full">
+
+                    <template v-if="isLoading">
+                        <img src="/loading-9.gif">
+                    </template>
+                    <template v-else>
+
+                        <!-- <template v-if="bestSeller !== null">
+                            <div class="w-full h-64">
+                                <img :src="bestSeller?.image.image_url" alt=""
+                                    class="object object-center object-cover h-full w-full">
+                            </div>
+                            <div class="w-full h-24 flex items-center justify-between">
+                                <h1 class="text-lg font-bold">
+                                    {{ bestSeller?.name }}
+                                </h1>
+                                <span>
+                                    Orders : {{ bestSeller?.orders_count }}
+                                </span>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="h-full w-full justify-center items-center">
+                                <h1>
+                                    No Best Seller
+                                </h1>
+                            </div>
+                        </template> -->
+
+
+
+                    </template>
+
 
                 </div>
             </div>

@@ -229,9 +229,9 @@ onMounted(() => {
                                 <div class="w-5/6 flex flex-col space-y-5">
 
                                         <div class="flex space-x-5 w-full">
-                                                <apexchart type="bar" height="350" width="350"
-                                                        :options="barChart().chartOptions" :series="barChart().series">
-                                                </apexchart>
+                                                <!-- <apexchart type="bar" height="350" width="350"
+                                                        :options="barChart().chartOptions" :series="barChart().series"> 
+                                                </apexchart>-->
                                                 <div class="pt-16 flex flex-col space-y-10">
                                                         <apexchart type="donut" height="350" width="350"
                                                                 :options="chartPie().chartOptions" :series="chartPie().series">

@@ -7,6 +7,13 @@ export const useSupplyStore = defineStore("supplyStore", {
     isLoading: false,
     status: null,
     error: null,
+    messageResponse : null,
+    data : {
+       quantity : 0,
+       name : null,
+       unit : null,
+       
+    }
   }),
   getters: {
     getSuppliesData: (state) => (name) => {
@@ -67,5 +74,24 @@ export const useSupplyStore = defineStore("supplyStore", {
         console.log(this.supplies);
       } catch (error) {}
     },
+    async addStocks(data, id) {
+
+      try {
+
+        const response = await Api().post(`/admin/supplies/stock/${id}/add`, data);
+        this.supplies = [...response.data.supplies]
+        this.status = response.status
+        this.messageResponse = response.data.message
+        this.data.quantity = 0;
+
+        
+      } catch (error) {
+
+        this.status = error.response.status
+
+        this.messageResponse = error.response.data.message
+
+      }
+    }
   },
 });

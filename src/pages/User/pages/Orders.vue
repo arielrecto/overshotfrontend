@@ -26,18 +26,17 @@ onMounted(() => {
 
 <template>
     <div class="w-full min-h-screen bg-gray-50">
-        <div class="flex flex-col">
-            <div class="w-full">
+        <div class="flex flex-col z-10 fixed top-0 w-full">
+            <div class="w-full flex flex-col gap-2">
                 <ClientNavBar></ClientNavBar>
-            </div>
-            <div class="flex w-full justify-center py-2 drop-shadow-sm bg-white">
-
-                <ClientBreadCrumb></ClientBreadCrumb>
-
+                <div class="w-full justify-center flex p-2 bg-white shadow-lg">
+                    <ClientBreadCrumb></ClientBreadCrumb>
+                </div>
+               
             </div>
         </div>
 
-        <div class="w-full p-2">
+        <div class="w-full p-2 mt-24">
             <div class="w-full bg-white h-full flex flex-col gap-2 rounded-lg drop-shadow-lg p-5 capitalize">
                 <h1 class="w-full text-3xl font-bold py-2 border-b-2 border-gray-100">
                     orders
@@ -88,6 +87,7 @@ onMounted(() => {
                         <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">Total</div>
                         <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">Status</div>
                         <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">type</div>
+                        <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">Action</div>
                         <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100"></div>
 
                         <!-- Row 1 -->
@@ -111,6 +111,11 @@ onMounted(() => {
                                             }}</span></div>
                                     <div class="bg-white px-4 py-2">{{ order.type }}</div>
                                     <div class="bg-white px-4 py-2">
+                                       <router-link :to="{name : 'order-show', params : {orderID : order.id}}" class="btn-neutral btn-xs btn">
+                                        <i class="fi fi-rr-eye"></i>
+                                       </router-link>
+                                    </div>
+                                    <div class="bg-white px-4 py-2">
                                         <button @click="showOrderProductDropdown(order.id)">
                                             <i class="ri-arrow-down-s-fill">
                                             </i>
@@ -120,11 +125,14 @@ onMounted(() => {
 
                                 <div class="flex flex-col w-full col-span-7" v-show="orderProductDropdown === order.id">
                                     <template v-for="product in order.products" :key="product.id">
-                                        <div class="grid grid-cols-5 bg-white border-l-4 border-black p-2">
-                                            <div class="bg-white px-4 py-2">{{ product.name }}</div>
-                                            <div class="bg-white px-4 py-2 truncate" v-html="product.description"></div>
-                                            <div class="bg-white px-4 py-2">{{ product.pivot.size }}</div>
-                                            <div class="bg-white px-4 py-2"> ₱{{ product.price }}</div>
+                                        <div class="grid grid-cols-5 bg-white border-l-4 border-black p-2 h-24">
+                                            <div class="w-full h-full">
+                                                <img :src="product.image.image_url" alt="" srcset="" class="object object-center h-auto w-16">
+                                            </div>
+                                            <div class="px-4 py-2 w-full flex items-center">{{ product.name }}</div>
+                                            <!-- <div class="bg-white px-4 py-2 truncate" v-html="product.description"></div> -->
+                                            <div class=" px-4 py-2 w-full flex items-center">{{ product.pivot.size }}</div>
+                                            <div class="px-4 py-2 w-full flex items-center"> ₱{{ product.price }}</div>
                                         </div>
                                     </template>
                                 </div>
