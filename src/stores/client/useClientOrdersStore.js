@@ -7,7 +7,8 @@ export const useClientOrderStore = defineStore('clientOrdersStore', {
         isLoading : false,
         filterData : [],
         filter : '',
-        order: {}
+        order: {},
+        riderLocation : null,
     }),
     getters : {
         searchByLetter (){
@@ -50,6 +51,18 @@ export const useClientOrderStore = defineStore('clientOrdersStore', {
             } catch (error) {
                 console.log(error)
             }
+        },
+        async getRiderLocation(id){
+
+            try {
+                
+                const response = await Api().get(`/client/orders/rider/location/${id}`);
+                this.riderLocation = {...response.data}
+
+            } catch (error) {
+                
+            }
+
         }
     }
 });

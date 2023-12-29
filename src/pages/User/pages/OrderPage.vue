@@ -20,6 +20,7 @@ const { coordinates } = useGeolocation();
 const gCashModal = ref(false);
 const CODPayment = ref(false);
 const productPrice = ref('');
+const CODtooltip = ref(false);
 const isOpen = ref(false);
 const selectedProducts = ref([]);
 const order = ref({
@@ -637,9 +638,12 @@ onMounted(() => {
                   <img src="/gcash.webp" alt="" srcset=""
                     class="w-20 h-auto rounded-lg hover:drop-shadow-lg duration-700">
                 </button>
-                <button @click="openCODPayment"
-                  class="px-4 py-2 bg-white drop-shadow-sm hover:bg-gray-100 hover:drop-shadow-lg duration-700 rounded-lg">
-                  <img src="/cod.png" alt="" srcset="" class="h-8 w-auto rounded-lg">
+                <button @click="openCODPayment" 
+                  class="px-4 py-2 bg-white drop-shadow-sm hover:bg-gray-100 hover:drop-shadow-lg duration-700 rounded-lg relative">
+                  <img src="/cod.png" alt="" srcset="" class="h-8 w-auto rounded-lg" @mouseover="CODtooltip = true" @mouseleave="CODtooltip = false">
+                  <div class="bg-gray-800 text-white rounded-lg p-2 text-xs absolute z-10 top-0" v-show="CODtooltip">
+                    COD
+                  </div>
                 </button>
               </div>
 

@@ -73,7 +73,7 @@ onMounted(() => {
                                     delivery.transaction.ref }}</span>
                                     <span class="text-lg font-bold text-primary">{{ delivery.transaction.order.user.name }}</span>
                                 </h1>
-                                <div class="badge badge-neutral">accent</div>
+                                <div class="badge badge-neutral">{{ delivery.status}}</div>
                             </div>
 
                             <div class="bg-accent rounded-lg p-2 font-bold flex items-center gap-5">

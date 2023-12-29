@@ -9,12 +9,11 @@ import { computed, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 const coordinates = defineProps({
     latitude: 0,
     longitude: 0,
-    orderId : null,
+    orderId: null,
+    riderLocation: null,
 })
 
 console.log(coordinates)
-
-
 
 // const GOOGLE_MAPS_API_KEY = 'AIzaSyCTlMHsHxn6b1ZgQgrLsmmC5HhpNdtBpK8';
 
@@ -73,9 +72,15 @@ const myMapCanvas = ref(null)
 
 onMounted(() => {
 
-
+    console.log(coordinates)
 
     let myMap = L.map(myMapCanvas.value).setView([coordinates.latitude, coordinates.longitude], 16);
+
+    const deliveryIcon = L.icon({
+        iconUrl: '/map-icons/delivery.png',
+        iconSize: [30, 32],
+        shadowAnchor: [4, 62]
+    })
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -85,6 +90,11 @@ onMounted(() => {
 
     L.marker([coordinates.latitude, coordinates.longitude]).addTo(myMap).bindPopup(`${coordinates.orderId}`).openPopup()
 
+    if (coordinates.riderLocation !== undefined && coordinates.riderLocation !== null) {
+        console.log("rider condition statement")
+        L.marker([coordinates?.riderLocation?.latitude, coordinates?.riderLocation?.longitude], { icon: deliveryIcon })
+        .addTo(myMap).bindPopup(`${coordinates?.riderLocation?.user?.name}`).openPopup()
+    }
     // L.Routing.control({
     //     waypoints: [
     //         L.latLng(coordinates.riderCoordinates.lat, coordinates.riderCoordinates.lng),
@@ -123,13 +133,10 @@ onMounted(() => {
 
 
 <template>
+    <div>
 
+        <div ref="myMapCanvas" class="h-96 w-full">
 
-<div>
-
-    <div ref="myMapCanvas" class="h-96 w-full">
-
+        </div>
     </div>
-</div>
-    
 </template>

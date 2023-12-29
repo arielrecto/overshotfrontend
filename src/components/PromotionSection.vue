@@ -36,25 +36,26 @@ onMounted(() => {
 </script>
 
 <template>
-    <section class="bg-secondary w-full flex justify-center h-screen">
+    <section class="bg-secondary w-full flex justify-center md:flex-row md:items-center h-auto md:h-auto lg:h-screen">
         <div class="w-5/6 h-full flex flex-col gap-2 bg-secondary py-2">
-            <h1 class="text-4xl text-accent font-bold py-10 tracking-widest">
+            <h1 class="text-sm md:text-lg lg:text-4xl text-accent font-bold py-2 md:py-5 lg:py-10 tracking-widest">
                 Best Seller
             </h1>
 
             <template v-for="product in topProducts" :key="product.id">
-                <div class="w-full h-5/6 flex items-center gap-2">
-                    <div clas="w-1/2 h-full">
+                <div class="w-full h-full md:h-auto lg:h-5/6 flex flex-col md:flex-row lg:items-center gap-2">
+                    <div class="lg:w-1/2 h-auto w-full flex justify-center">
                         <img :src="product.image.image_url" alt=""
-                        class="object object-center object-cover h-full w-1/2 rounded-lg" data-aos="fade-right">
+                        class="object object-center object-cover h-32 w-auto md:h-96 md:w-full lg:w-1/2 rounded-lg" data-aos="fade-right">
                     </div>
                   
-                    <div class="h-auto w-1/2 flex justify-end">
+                    <div class="h-auto w-full lg:w-1/2 flex lg:justify-end">
                         <div class="flex flex-col gap-2 w-5/6 text-right">
-                            <h1 class="text-accent text-4xl capitalize font-bold tracking-widest" data-aos="fade-left">
+                            <h1 class="text-accent text-center text-sm md:text-lg lg:text-4xl capitalize font-bold tracking-widest" data-aos="fade-left">
                                 {{ product.name }}
                             </h1>
-                            <p class="text-accent flex tracking-wider border-b-2 border-neutral py-10 whitespace-pre-line h-64 truncate"
+                            <p class="text-accent text-xs text-justify flex tracking-wider border-b-2 border-neutral py-10
+                             whitespace-pre-line h-32 lg:h-64 truncate md:text-normal"
                                 data-aos="fade-left" v-html="product.description"></p>
                             <div class="flex items-start justify-between" data-aos="fade-left">
                                 <div class="relative">
@@ -86,7 +87,7 @@ onMounted(() => {
     </section>
     <section class="bg-secondary w-full flex justify-center h-screen">
         <div class="w-5/6 h-full flex flex-col gap-2 bg-secondary py-2">
-            <h1 class="text-4xl text-accent font-bold py-10 tracking-widest">
+            <h1 class="text-sm lg:text-4xl text-accent font-bold py-10 tracking-widest">
                Most Popular
             </h1>
 

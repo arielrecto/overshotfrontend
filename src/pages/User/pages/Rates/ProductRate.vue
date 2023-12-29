@@ -56,14 +56,14 @@ const submit = async () => {
     swal.fire({
       icon: 'success',
       title: 'success',
-      text: `${statusMessage}`,
+      text: `${statusMessage.value}`,
     })
   } else{
 
     swal.fire({
       icon: 'error',
       title: 'error',
-      text: `${statusMessage}`,
+      text: `${statusMessage.value}`,
     })
   }
 }

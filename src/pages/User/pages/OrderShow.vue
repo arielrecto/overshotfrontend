@@ -2,12 +2,13 @@
 
 import ClientNavBar from '../components/ClientNavBar.vue'
 import ClientBreadCrumb from '../../../components/clientBreadCrumb.vue';
-import { onMounted, ref, watch, defineAsyncComponent } from 'vue';
+import { onMounted, ref, watch, defineAsyncComponent, onUnmounted } from 'vue';
 import { useClientOrderStore } from '../../../stores/client/useClientOrdersStore'
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router'
 import Loading from '../../../components/Loading.vue';
 import vueStarRating from 'vue3-star-ratings';
+
 
 
 const asyncOrderLocationMap = defineAsyncComponent(() => import('./../components/OrderLocationMap.vue'));
@@ -18,9 +19,9 @@ const orderID = router.params.orderID
 
 const orderStore = useClientOrderStore();
 
-const { order, isLoading } = storeToRefs(orderStore)
+const { order, isLoading, riderLocation } = storeToRefs(orderStore)
 
-const { getOrder } = orderStore
+const { getOrder, getRiderLocation } = orderStore
 
 console.log(orderID)
 
@@ -39,7 +40,7 @@ const printReceipt = () => {
 
 const rating = ref(5);
 
-
+const mapKey = ref(0);
 
 
 
@@ -54,10 +55,61 @@ const setRating = (product) => {
 
 }
 
+const getOrderData = async() => {
+
+    await getOrder(orderID)
+
+
+    if (order.value.status == 'on_deliver'){
+
+      const riderID =  order.value.transaction.delivery.rider_location_id
+
+        getRiderLocationData(riderID);
+
+    }
+
+    // setTimeout(() => {
+
+    //     getOrderData()
+
+    // }, 3000);
+
+}
+
+const getRiderLocationData = async (id) => {
+
+    await getRiderLocation(id);
+
+    console.log(order.value);
+
+    setTimeout(() => {
+
+        getRiderLocationData(id)
+
+        mapKey.value += 1
+
+        order.value = {
+            ...order.value,
+            transaction : {
+                ...order.value.transaction,
+                delivery : {
+                    ...order.value.transaction.delivery,
+                    rider_location : {...riderLocation.value}
+                }
+            }
+        }
+
+    }, 30000)
+}
+
 console.log(receiptPDF.value);
 
 onMounted(() => {
-    getOrder(orderID)
+    getOrderData()
+})
+
+onUnmounted(() => {
+    getOrder();
 })
 
 
@@ -179,22 +231,25 @@ onMounted(() => {
                                 </template>
                             </div>
 
+                            <template v-if="order?.status !== 'done'">
+                                <template v-if="order?.location !== null">
 
-                            <template v-if="order?.location !== null">
+                                    <div class="w-full h-96 relative">
 
-                                <div class="w-full h-96 relative">
-
-                                    <asyncOrderLocationMap :latitude="order?.location?.latitude"
-                                        :longitude="order?.location?.longitude" :orderId="order.order_num"
-                                        :key="order.id" />
+                                        <asyncOrderLocationMap :latitude="order?.location?.latitude"
+                                            :longitude="order?.location?.longitude" :orderId="order.order_num"
+                                            :riderLocation="order?.transaction?.delivery?.rider_location" :key="mapKey" />
 
 
-                                    <div class="h-full w-full absolute z-10 top-0">
+                                        <div class="h-full w-full absolute z-10 top-0">
+
+                                        </div>
 
                                     </div>
+                                </template>
 
-                                </div>
                             </template>
+
 
                         </div>
                         <div class="w-1/4 h-full flex flex-col gap-2 bg-gray-50 p-5 rounded-lg">

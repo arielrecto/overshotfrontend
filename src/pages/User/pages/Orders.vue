@@ -106,7 +106,7 @@ onMounted(() => {
                                     <div class="bg-white px-4 py-2">{{ order.quantity }}</div>
                                     <div class="bg-white px-4 py-2">{{ order.total }}</div>
                                     <div class="bg-white px-4 py-2"><span
-                                            :class="`${order.status === 'pending' ? 'bg-yellow-100 text-yellow-800 ' : order.status === 'processed' ? 'bg-green-100 text-green-800' :  'bg-red-100 text-red-800'} text-xs font-medium mr-2 px-2.5 py-0.5 rounded-lg drop-shadow-sm`">{{
+                                            :class="`${order.status !== 'done' ? 'bg-yellow-100 text-yellow-800 ' : order.status == 'done' ? 'bg-green-100 text-green-800' :  'bg-red-100 text-red-800'} text-xs font-medium mr-2 px-2.5 py-0.5 rounded-lg drop-shadow-sm`">{{
                                                 order.status
                                             }}</span></div>
                                     <div class="bg-white px-4 py-2">{{ order.type }}</div>

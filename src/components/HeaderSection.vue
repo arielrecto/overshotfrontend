@@ -44,10 +44,10 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="w-full min-h-screen relative">
+    <div class="w-full h-auto md:h-96 lg:min-h-screen relative">
         <navbar />
 
-        <div class="h-screen w-full relative">
+        <div class="h-full lg:h-screen w-full relative">
             <Swiper :spaceBetween="30" :centeredSlides="true" :autoplay="{
                 delay: 2500,
                 disableOnInteraction: false,
@@ -58,8 +58,8 @@ onMounted(() => {
 
                 <template v-for="image in carousels" :key="image.id">
                     <swiper-slide>
-                        <div :style="`background-image : url(${image.image_url})`" class="h-full w-full bg-cover flex items-center">
-                            <h1 class="ml-32 text-[4rem] font-bold w-1/2 text-start capitalize drop-shadow-lg">
+                        <div :style="`background-image : url(${image.image_url})`" class="h-64 md:h-full lg:h-full w-full bg-cover flex items-center">
+                            <h1 class="lg:ml-32 ml-10 text-xs md:text-[2rem] lg:text-[3rem] font-bold lg:w-1/2 text-start capitalize drop-shadow-lg">
                                 {{  image.caption }}
                             </h1>
                         </div>
