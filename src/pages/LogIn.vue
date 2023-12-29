@@ -24,7 +24,7 @@ const error = ref('');
         <NavBarVue />
 
         <div class="flex pt-10 h-screen w-full">
-            <div class="w-1/2 h-full bg-cover bg-center flex items-center justify-end"
+            <div class="hidden lg:w-1/2 h-full bg-cover bg-center lg:flex items-center justify-end"
                 style="background-image: url('https://media.istockphoto.com/id/1255853688/photo/bubble-milk-tea-with-tapioca-pearl-topping-famous-taiwanese-drink-on-white-wooden-table.jpg?s=2048x2048&w=is&k=20&c=SN4cycp9_6wCssVbqFvhSTrCpwBSPTBE5zRFYSqPnHs=');">
                 <div class="bg-secondary rounded-l-sm flex items-center space-x-10 p-2">
                     <img src="/logo.jpg" alt="" srcset="" class="h-16 w-16 object object-center rounded-full">
@@ -32,23 +32,23 @@ const error = ref('');
                 </div>
             </div>
             <div class="w-full flex items-center justify-center">
-                <form  class="w-96 h-auto flex flex-col space-y-5 p-2" @submit.prevent="authStore.login(formData)">
-                    <h1 class="text-3xl font-bold w-full text-center">Log In</h1>
+                <form  class="w-5/6 sm:w-96 h-auto flex flex-col space-y-2 sm:space-y-5 p-2" @submit.prevent="authStore.login(formData)">
+                    <h1 class="text-lg md:text-3xl font-bold w-full text-center">Log In</h1>
                 
                     <div class="flex flex-col gap-2">
-                        <label for="" class="text-sm font-bold">Email</label>
-                        <input type="email" class="input input-sm w-full input-neutral border-neutral" v-model="formData.email"
+                        <label for="" class="text-xs sm:text-sm font-bold">Email</label>
+                        <input type="email" class="input input-xs sm:input-sm w-full input-neutral border-neutral" v-model="formData.email"
                              required placeholder="Email">
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="" class="text-sm font-bold">Password</label>
-                        <input type="password" class="input input-sm w-full input-neutral border-neutral" v-model="formData.password"
+                        <label for="" class="text-xs sm:text-sm font-bold">Password</label>
+                        <input type="password" class="input input-xs sm:input-sm w-full input-neutral border-neutral" v-model="formData.password"
                              required placeholder="Password">
                     </div>
 
-                    <button class="btn btn-neutral btn-sm" type="submit">Log In</button>
+                    <button class="btn btn-neutral btn-xs sm:btn-sm" type="submit">Log In</button>
                     <p class="text-xs">Don't have account ? <router-link to="/signup"
-                            class="text-neutral font-bold underline">Sign Up</router-link></p>
+                            class="text-neutral font-semibold sm:font-bold underline">Sign Up</router-link></p>
                 </form>
             </div>
         </div>

@@ -48,16 +48,20 @@ onMounted(() => {
         </div>
         <div class="w-full flex justify-center p-2 min-h-screen pt-24">
             <template v-if="!isLoading">
-                <div class="w-5/6 h-full flex flex-col gap-2 bg-white rounded-lg p-2 shadow-lg">
-                    <div class="flex gap-2">
-                        <img :src="product?.image.image_url" alt="" srcset="" class="w-1/4 h-96 object object-center object-cover">
+                <div class="w-full lg:w-5/6 h-full flex flex-col gap-2 lg:bg-white rounded-lg p-2 shadow-lg">
+                    <div class="flex flex-col lg:flex-row gap-2">
+                        <div class="w-full flex justify-center">
+                            <img :src="product?.image.image_url" alt="" srcset=""
+                                class="w-full sm:w-1/2 sm:h-4/6 lg:w-full lg:h-full h-96 object object-center object-cover">
+                        </div>
                         <div class="flex flex-col gap-2">
                             <div class="flex flex-col gap-2">
                                 <div class="flex items-center justify-between">
-                                    <h1 class="text-4xl font-bold tracking-wider capitalize flex flex-col gap-2">
+                                    <h1
+                                        class="text-lg sm:text-2xl lg:text-4xl font-bold tracking-wider capitalize flex flex-col gap-2">
                                         {{ product?.name }}
-                                        <span class="text-lg font-bold">
-                                            &#8369 {{product?.price}}
+                                        <span class="text-sm lg:text-lg font-bold">
+                                            &#8369 {{ product?.price }}
                                         </span>
                                     </h1>
                                     <div class="relative">
@@ -68,7 +72,7 @@ onMounted(() => {
                                     </div>
 
                                 </div>
-                                <div class="flex gap-2 item-center text-blue-500 text-sm capitalize">
+                                <div class="flex gap-2 item-center text-blue-500 text-xs sm:text-sm capitalize">
                                     <h1>
                                         Category :
                                     </h1>
@@ -80,24 +84,26 @@ onMounted(() => {
                                 </div>
                             </div>
 
-                            <p class="whitespace-pre-line" v-html="product?.description">
+                            <p class="whitespace-pre-line text-justify text-xs sm:text-normal sm:text-sm "
+                                v-html="product?.description">
 
                             </p>
                             <div class="flex flex-col gap-2">
-                                <h1 class="text-xl font-bold py-2 w-full border-b-2">Rating</h1>
+                                <h1 class="lg:text-xl text-sm md:text-lg font-bold py-2 w-full border-b-2">Rating</h1>
                                 <template v-for="feedback in  product?.ratings" :key="feedback.id">
                                     <div class="flex gap-2 border-2 border-gray-100 rounded-lg p-2">
-                                        <h1 class="text-sm font-bold capitalize border-r-2 border-gray-100 pr-2">anonymous
+                                        <h1 class="text-xs sm:text-sm font-bold capitalize border-r-2 border-gray-100 pr-2">anonymous
                                         </h1>
                                         <div class="flex flex-col gap-2">
                                             <div class="relative">
-                                                <vueStarRating v-model="feedBacksRatings[`rate${feedback.id}`]" :star-size="10"></vueStarRating>
+                                                <vueStarRating v-model="feedBacksRatings[`rate${feedback.id}`]"
+                                                    :star-size="10"></vueStarRating>
                                                 <div class="w-full absolute z-10 h-full top-0">
-                                                    
+
                                                 </div>
                                             </div>
                                             <div>
-                                                <p class="text-sm"> {{ feedback.message }} </p>
+                                                <p class="text-xs sm:text-sm"> {{ feedback.message }} </p>
                                             </div>
                                         </div>
                                     </div>
@@ -117,5 +123,4 @@ onMounted(() => {
         </div>
 
 
-    </div>
-</template>
+</div></template>

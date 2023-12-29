@@ -46,10 +46,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full h-screen bg-primary flex justify-center">
+  <div class="w-full lg:h-screen bg-primary flex justify-center h-full">
     <div class="w-5/6 h-full flex flex-col gap-2 ">
       <div class="flex w-full items-center justify-between">
-        <h1 class="w-full font-bold capitalize text-4xl py-10 text-accent tracking-widest">Our Products</h1>
+        <h1 class="w-full font-bold capitalize text-xl py-5 lg:text-4xl lg:py-10 text-accent tracking-widest">Our Products</h1>
         <router-link :to="{ path: '/products' }" class="btn btn-xs btn-neutral">See more</router-link>
       </div>
 

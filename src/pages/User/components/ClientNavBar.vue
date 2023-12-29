@@ -23,15 +23,17 @@ const toggleAction = () => {
 
 <template>
     <nav class="bg-secondary drop-shadow-lg border-gray-200">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div class="max-w-screen-xl flex items-center justify-between mx-auto p-4">
             <a href="#" class="flex items-center gap-2">
-                <img src="/logo.jpg" class="object object-center rounded-full h-10 w-10" alt="Overshot Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-neutral">Overshot</span>
+                <img src="/logo.jpg" class="object object-center rounded-full w-5 h-5 lg:h-10 lg:w-10" alt="Overshot Logo" />
+                <span class="self-center text-lg lg:text-2xl font-semibold whitespace-nowrap text-neutral">Overshot</span>
             </a>
             <div class="flex items-center md:order-2 relative">
                 <button type="button" @click="toggleAction"
-                    class="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-neutral duration-700 rounded-lg cursor-pointer hover:bg-neutral hover:text-primary">
-                    <img class="w-5 h-5 mr-2 rounded-full" aria-hidden="true" src="/logo.jpg">
+                    class="inline-flex items-center font-medium justify-center px-2 py-1 lg:px-4 lg:py-2
+                     text-xs lg:text-sm text-neutral duration-700 rounded-lg 
+                     cursor-pointer hover:bg-neutral hover:text-primary">
+                    <!-- <img class="w-5 h-5 mr-2 rounded-full" aria-hidden="true" src="/logo.jpg"> -->
                     <span class="capitalize">{{ client.name }}</span>
                 </button>
                 <!-- Dropdown -->
@@ -79,7 +81,7 @@ const toggleAction = () => {
                         </li>
                     </ul>
                 </div>
-                <button data-collapse-toggle="mobile-menu-language-select" type="button"
+                <!-- <button data-collapse-toggle="mobile-menu-language-select" type="button"
                 class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
                 aria-controls="mobile-menu-language-select" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
@@ -89,7 +91,7 @@ const toggleAction = () => {
                         d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
                         clip-rule="evenodd"></path>
                 </svg>
-            </button>
+            </button> -->
         </div>
     
         </div>

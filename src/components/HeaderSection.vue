@@ -59,7 +59,7 @@ onMounted(() => {
                 <template v-for="image in carousels" :key="image.id">
                     <swiper-slide>
                         <div :style="`background-image : url(${image.image_url})`" class="h-64 md:h-full lg:h-full w-full bg-cover flex items-center">
-                            <h1 class="lg:ml-32 ml-10 text-xs md:text-[2rem] lg:text-[3rem] font-bold lg:w-1/2 text-start capitalize drop-shadow-lg">
+                            <h1 class="lg:ml-32 ml-10 text-lg md:text-[2rem] lg:text-[3rem] font-bold lg:w-1/2 text-start capitalize drop-shadow-lg">
                                 {{  image.caption }}
                             </h1>
                         </div>

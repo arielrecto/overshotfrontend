@@ -411,14 +411,14 @@ onMounted(() => {
       <nav class="flex capitalize p-5 border-b-2 justify-center" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
           <li class="inline-flex items-center border-r-2 border-gray-100">
-            <a href="#" class="inline-flex items-center text-lg font-light 
+            <a href="#" class="inline-flex items-center text-sm lg:text-lg font-light 
                                        hover:text-orange-300 text-gray-500 px-4 " @click="filter().reset">
               All
             </a>
           </li>
           <li class="inline-flex items-center border-r-2 border-gray-100" v-for="category in categories"
             :key="category.id">
-            <a href="#" class="inline-flex items-center text-lg font-light 
+            <a href="#" class="inline-flex items-center text-sm lg:text-lg font-light 
                                          hover:text-orange-300 text-gray-500  px-4"
               @click="filter().byCategory(category.name)">
               {{ category.name }}
@@ -432,17 +432,18 @@ onMounted(() => {
         </div>
       </div>
       <div class="container px-5 py-24 mx-auto z-0" v-show="!isLoading">
-        <div class="flex flex-wrap -m-4 gap-4">
+        <div class="flex flex-wrap -m-4 gap-4 justify-center lg:justify-normal">
 
           <template v-for="product in getAllProducts" :key="product.id">
 
-            <div class="w-52 h-96 bg-accent flex flex-col gap-2 shadow-lg relative">
+            <div class="w-64 md:w-52 h-auto bg-accent flex flex-col gap-2 shadow-lg relative">
               <img class="object object-cover object-top w-full h-1/2 " :src="product.image.image_url">
               <div class="h-1/2 w-full p-2 flex flex-col gap-2">
-                <h3 class="text-neutral text-xs tracking-widest mb-1 capitalize"> category : <span
+                <h3 class="text-blue-500 text-xs tracking-widest mb-1 capitalize"> category : <span
                     class="uppercase text-xs">{{
                       product.categories[0].name }}</span></h3>
-                <h2 class="text-primary title-font text-lg font-bold tracking-widest capitalize">{{ product.name }}</h2>
+                <h2 class="text-primary title-font text-sm lg:text-lg font-bold tracking-widest capitalize">{{
+                  product.name }}</h2>
                 <p class="text-xs font-bold flex gap-2">
                   <span>
                     Sizes :
@@ -453,18 +454,23 @@ onMounted(() => {
                     </template>
                   </span>
                 </p>
-                <div class="w-full flex flex-row-reverse">
-                  <p class="text-xl font-bold text-neutral">
+
+              </div>
+              <div class="w-full flex flex-col gap-2 mb-5">
+                <div class="flex justify-end">
+                  <p class="text-xl font-bold">
                     ₱ {{ product.price }}
                   </p>
                 </div>
+
                 <template v-if="checkIfProductisAdded(product.id)">
-                  <button @click="addSelectProducts(product)" class="btn btn-neutral w-full btn-sm">Add
+                  <button @click="addSelectProducts(product)" class="btn btn-neutral w-full btn-sm bottom-0">Add
                     to
                     Cart
                   </button>
                 </template>
               </div>
+
 
               <template v-if="product.promo.length !== 0">
                 <span class="bg-red-600 text-white text-xs rounded-full p-2 absolute z-10 top-0 right-0 -m-5">
@@ -484,13 +490,13 @@ onMounted(() => {
       leave-to-class="transform opacity-0">
 
 
-      <div v-show="isOpen" class="fixed right-0 top-0 h-full w-[32rem] bg-base-100 p-5 drop-shadow-lg z-10">
+      <div v-show="isOpen" class="fixed right-0 top-0 h-full w-full lg:w-[32rem] bg-base-100 p-5 drop-shadow-lg z-10">
         <template v-if="selectedProducts.length !== 0">
           <div class="flex flex-col w-full" v-show="!order.products">
             <div class="w-full border-b-2 border-theme-secondary -my-2">
-              <h1 class="text-center text-3xl font-bold p-4">Order</h1>
+              <h1 class="text-center text-lg lg:text-3xl font-bold p-4">Order</h1>
             </div>
-            <div class="capitalize w-full flex space-x-[12rem] py-2" v-if="selectedProducts.length !== 0">
+            <div class="capitalize w-full flex justify-between py-2" v-if="selectedProducts.length !== 0">
               <h1 class="p-4 font-semibold">total: ₱{{ total }}</h1>
               <h1 class="p-4 font-semibold">total item: {{ totalItem }}</h1>
             </div>
@@ -510,10 +516,10 @@ onMounted(() => {
                   <template v-for="productSelect in selectedProducts" :key="productSelect.id">
                     <tr>
                       <th colspan="2"><img :src="productSelect.image.image_url" alt=""
-                          class="w-full object h-24 shadow-lg" srcset=""></th>
+                          class="w-full md:w-1/2 object object-center lg:h-full lg:w-auto  shadow-lg" srcset=""></th>
                       <td colspan="2">
-                        <div class="flex flex-col gap-2">
-                          <h1 class="tracking-widest font-bold text-lg">{{ productSelect.name }}</h1>
+                        <div class="flex flex-col gap-2 w-full">
+                          <h1 class="tracking-widest font-bold text-xs md:text-base lg:text-lg truncate">{{ productSelect.name }}</h1>
                           <button class="btn btn-neutral btn-xs"
                             @click="openCustomProductFields(productSelect)">View</button>
                         </div>
@@ -540,7 +546,7 @@ onMounted(() => {
                   </template>
                 </tbody>
               </table>
-     
+
               <div v-if="selectedProducts.length === 0" class="p-4 rounded-lg my-5 flex space-x-2">
 
                 <div class="bg-white rounded-lg p-5 flex justify-center w-full text-lg fond-semibold">
@@ -553,9 +559,9 @@ onMounted(() => {
               <button @click="placeOrder" class="w-full px-4 py-2 rounded-lg bg-orange-300">Place Order</button>
             </div>
           </div>
-          <div class="flex flex-col w-full space-y-10 relative" v-show="order.products">
+          <div class="flex flex-col w-full space-y-2 lg:space-y-10 relative" v-show="order.products">
             <button @click="order.products = null">x</button>
-            <h1 class="w-full text-center text-3xl font-bold">Payment</h1>
+            <h1 class="w-full text-center text-lg lg:text-3xl font-bold">Payment</h1>
 
             <div class="relative overflow-y-auto h-64">
               <table class="w-full text-sm text-center text-gray-500">
@@ -638,9 +644,10 @@ onMounted(() => {
                   <img src="/gcash.webp" alt="" srcset=""
                     class="w-20 h-auto rounded-lg hover:drop-shadow-lg duration-700">
                 </button>
-                <button @click="openCODPayment" 
+                <button @click="openCODPayment"
                   class="px-4 py-2 bg-white drop-shadow-sm hover:bg-gray-100 hover:drop-shadow-lg duration-700 rounded-lg relative">
-                  <img src="/cod.png" alt="" srcset="" class="h-8 w-auto rounded-lg" @mouseover="CODtooltip = true" @mouseleave="CODtooltip = false">
+                  <img src="/cod.png" alt="" srcset="" class="h-8 w-auto rounded-lg" @mouseover="CODtooltip = true"
+                    @mouseleave="CODtooltip = false">
                   <div class="bg-gray-800 text-white rounded-lg p-2 text-xs absolute z-10 top-0" v-show="CODtooltip">
                     COD
                   </div>
@@ -670,15 +677,15 @@ onMounted(() => {
     </Transition>
 
     <!-- custom product modal -->
-    <div class="absolute top-[15rem] left-[20rem] w-1/2 bg-white drop-shadow-lg z-20 rounded-lg"
+    <div class="absolute top-0 lg:top-[15rem] lg:left-[20rem] w-full lg:w-1/2 bg-white drop-shadow-lg z-20 rounded-lg"
       v-if="customProduct.productData !== null">
-      <div class="w-full h-[30rem] z-0 flex gap-2 p-5">
-        <div class="flex-none w-1/3">
-          <img :src="customProduct.productData.image.image_url" alt="" srcset="" class="rounded-lg">
+      <div class="w-full h-auto lg:h-[30rem] z-0 flex flex-col lg:flex-row gap-2 p-5">
+        <div class="flex justify-center lg:flex-none lg:w-1/3">
+          <img :src="customProduct.productData.image.image_url" alt="" srcset="" class="rounded-lg md:w-1/2 lg:w-full lg:h-full">
         </div>
         <div class="grow flex flex-col gap-2">
           <div class="flex flex-col gap-2">
-            <h1 class="text-3xl font-semibold capitalize tracking-widest">
+            <h1 class="text-normal lg:text-3xl font-semibold capitalize tracking-widest">
               {{ customProduct.productData.name }}
             </h1>
             <p class="text-xs text-gray-300 capitalize">
@@ -686,7 +693,7 @@ onMounted(() => {
             </p>
           </div>
 
-          <div class="h-96 w-full ">
+          <div class="h-auto lg:h-96 w-full ">
             <p class="text-xs" v-html="customProduct.productData.description"></p>
           </div>
 
@@ -700,12 +707,12 @@ onMounted(() => {
               </template>
             </div>
           </div>
-          <div class="w-full flex flex-col gap-2 p-2 h-64">
+          <div class="w-full flex flex-col gap-2 p-2 h-auto lg:h-64">
             <div class="capitalize">
               <p class="text-xs font-bold">sugar level : {{ customProduct.productData.levels[0].pivot.percent }} %</p>
             </div>
           </div>
-          <div class="w-full flex flex-col gap-2 p-2 h-64" v-if="customProduct.customProductData !== null">
+          <div class="w-full flex flex-col gap-2 p-2 h-auto lg:h-64" v-if="customProduct.customProductData !== null">
             <div class="capitalize p-2">
               <h1 class="text-xs">Change Sugar Level</h1>
               <input id="steps-range" type="range" min="0" max="100"
@@ -773,7 +780,7 @@ onMounted(() => {
     </div>
 
 
-    <div class="w-full h-full absolute z-20 top-20" v-show="gCashModal">
+    <div class="w-full h-full absolute top-0 lg:z-20 lg:top-20" v-show="gCashModal">
 
       <div class="relative h-full">
         <div class="bg-gray-300 h-[100%] opacity-20">
@@ -781,7 +788,9 @@ onMounted(() => {
         </div>
 
         <div
-          class="bg-white drop-shadow-sm w-[20rem] h-[35rem] p-2 absolute z-10 top-[5rem] left-[40rem] flex flex-col space-y-5 rounded-lg">
+          class="bg-white drop-shadow-sm w-full h-full top-0 lg:w-[20rem] 
+          lg:h-[35rem] p-2 absolute z-10 lg:top-[5rem] lg:left-[40rem] 
+          flex flex-col space-y-5 rounded-lg">
           <div class="w-full flex justify-center relative">
             <img src="/QR-2.jpg" alt="" srcset="" class="h-[20rem] w-auto">
             <button class="absolute top-0 right-2" @click="openGcashModal">X</button>
@@ -830,12 +839,12 @@ onMounted(() => {
         <p class="bg-red-400 rounded-full px-2 py-0" v-show="selectedProducts.length !== 0">{{ selectedProducts.length }}
         </p>
       </div>
-      <button v-show="!isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
+      <button v-show="!isOpen" @click="open" class="shadow-lg lg:bg-orange-300 rounded-full px-4 py-2
                                                                                              hover:bg-orange-200 hover:font-semibold duration-500
                                                                                              hover:drop-shadow-xl">
         <i class="ri-shopping-cart-2-line text-3xl"></i>
       </button>
-      <button v-show="isOpen" @click="open" class="bg-orange-300 rounded-full px-4 py-2
+      <button v-show="isOpen" @click="open" class="shadow-lg lg:bg-orange-300 rounded-full px-4 py-2
                                                                                              hover:bg-orange-200 hover:font-semibold duration-500
                                                                                              hover:drop-shadow-xl">
         <i class="ri-close-line text-3xl"></i>

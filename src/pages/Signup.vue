@@ -79,7 +79,7 @@ onUnmounted(() => {
         <NavBar />
 
         <div class="flex pt-10 h-screen w-full">
-            <div class="w-1/2 h-full bg-cover bg-center flex items-center justify-end"
+            <div class="hidden w-1/2 h-full bg-cover bg-center md:flex items-center justify-end"
                 style="background-image: url('https://media.istockphoto.com/id/1255853688/photo/bubble-milk-tea-with-tapioca-pearl-topping-famous-taiwanese-drink-on-white-wooden-table.jpg?s=2048x2048&w=is&k=20&c=SN4cycp9_6wCssVbqFvhSTrCpwBSPTBE5zRFYSqPnHs=');">
                 <div class="bg-secondary rounded-l-sm flex items-center space-x-10 p-2">
                     <img src="/logo.jpg" alt="" srcset="" class="h-16 w-16 object object-center rounded-full">
@@ -87,21 +87,21 @@ onUnmounted(() => {
                 </div>
             </div>
             <div class="w-full flex items-center justify-center">
-                <form @submit.prevent="submitRegister" class="w-96 h-auto flex flex-col space-y-5 p-2">
-                    <h1 class="text-3xl font-bold w-full text-center">Sign Up</h1>
+                <form @submit.prevent="submitRegister" class="w-5/6 sm:w-96 h-auto flex flex-col space-y-2 sm:space-y-5 p-2">
+                    <h1 class="text:lg sm:text-3xl font-bold w-full text-center">Sign Up</h1>
                     <div class="flex flex-col gap-2">
-                        <label for="" class="text-sm font-bold">Username</label>
-                        <input type="text" class="input input-sm w-full input-neutral border-neutral"
+                        <label for="" class="text-xs sm:text-sm font-bold">Username</label>
+                        <input type="text" class="input input-xs sm:input-sm w-full input-neutral border-neutral"
                             v-model="accountData.name" required placeholder="Username">
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="" class="text-sm font-bold">Email</label>
-                        <input type="email" class="input input-sm w-full input-neutral border-neutral"
+                        <label for="" class="text-xs sm:text-sm font-bold">Email</label>
+                        <input type="email" class="input input-xs sm:input-sm w-full input-neutral border-neutral"
                             v-model="accountData.email" required placeholder="Email">
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="" class="text-sm font-bold">Password</label>
-                        <input type="password" class="input input-sm w-full input-neutral border-neutral"
+                        <label for="" class="text-xs sm:text-sm font-bold">Password</label>
+                        <input type="password" class="input input-xs sm:input-sm w-full input-neutral border-neutral"
                              v-model="accountData.password" required placeholder="Password">
                     </div>
 
@@ -111,11 +111,11 @@ onUnmounted(() => {
 
 
                     <div class="flex flex-col gap-2">
-                        <label for="" class="text-sm font-bold">Confirm Password</label>
-                        <input type="password" class="input input-sm w-full input-neutral border-neutral"
+                        <label for="" class="text-xs sm:text-sm font-bold">Confirm Password</label>
+                        <input type="password" class="input input-xs sm:input-sm w-full input-neutral border-neutral"
                             v-model="accountData.password_confirmation" required placeholder="Confirm Password">
                     </div>
-                    <button class="btn btn-neutral btn-sm" type="submit">Sign Up</button>
+                    <button class="btn btn-neutral btn-xs sm:btn-sm" type="submit">Sign Up</button>
                     <p class="text-xs">Already have account ? <router-link to="/login"
                             class="text-neutral font-bold underline">Sign In</router-link></p>
                 </form>

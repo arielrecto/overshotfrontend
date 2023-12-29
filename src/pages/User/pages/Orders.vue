@@ -37,13 +37,13 @@ onMounted(() => {
         </div>
 
         <div class="w-full p-2 mt-24">
-            <div class="w-full bg-white h-full flex flex-col gap-2 rounded-lg drop-shadow-lg p-5 capitalize">
-                <h1 class="w-full text-3xl font-bold py-2 border-b-2 border-gray-100">
+            <div class="w-full lg:w-full bg-white h-full flex flex-col gap-2 rounded-lg drop-shadow-lg p-5 capitalize">
+                <h1 class="w-full text-lg lg:text-3xl font-bold py-2 border-b-2 border-gray-100">
                     orders
                 </h1>
 
-                <div class="flex flex-wrap border-b-2 border-gray-100">
-                    <div class=" w-1/3 p-2 ">
+                <div class="hidden  lg:flex justify-between border-b-2 border-gray-100">
+                    <div class="lg:block w-1/3 p-2">
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -68,7 +68,7 @@ onMounted(() => {
                     <div class="grow">
 
                     </div>
-                    <div class="w-1/5 p-2 capitalize flex flex-wrap space-x-10">
+                    <div class="w-1/5 p-2 capitalize flex justify-between gap-2 lg:space-x-10">
                         <select class="px-4 text-sm rounded-lg border-2 border-gray-200 bg-gray-100 capitalize">
                             <option selected>date</option>
                         </select>
@@ -79,9 +79,9 @@ onMounted(() => {
                 </div>
 
 
-                <div class="relative overflow-x-auto h-[30rem]">
-                    <div class="grid grid-cols-7 text-sm text-left text-gray-500 ">
-                        <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">Product ID</div>
+                <div class="relative overflow-auto h-[30rem]">
+                    <div class="grid grid-cols-7 text-sm text-left text-gray-500 w-[60rem] lg:w-full">
+                        <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100 sm:w-full">Product ID</div>
                         <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">Product Name</div>
                         <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">Quantity</div>
                         <div class="text-xs text-gray-700 uppercase px-4 py-2 border-y-2 border-gray-100">Total</div>

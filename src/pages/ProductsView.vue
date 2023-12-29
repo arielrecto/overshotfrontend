@@ -49,10 +49,10 @@ onMounted(() => {
         </div>
 
         <div class="flex justify-center">
-            <div class="w-5/6 h-full p-4 mt-20">
+            <div class="w-full lg:w-5/6 h-full p-4 mt-20">
                 <div class="w-full">
                     <nav class="flex capitalize p-5 border-b-2" aria-label="Breadcrumb">
-                        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <ol class="inline-flex items-center space-x-2 md:space-x-3 overflow-x-hidden">
                             <li class="inline-flex items-center border-r-2 border-gray-100">
                                 <a href="#" class="inline-flex items-center text-lg font-light 
                                                      hover:text-orange-300 text-gray-500  " @click="resetFilter">
