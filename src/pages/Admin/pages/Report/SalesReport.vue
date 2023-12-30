@@ -66,7 +66,7 @@ onMounted(() => {
                     <i class="fi fi-rr-print"></i>
                 </button>
             </div>
-            <div class="h-[40rem] w-full border-2 rounded-lg border-gray-100 p-5 flex flex-col gap-2" ref="salesPDF">
+            <div class="h-auto w-full border-2 rounded-lg border-gray-100 p-5 flex flex-col gap-2" ref="salesPDF">
                 <div class="flex justify-center w-full bg-gray-100 p-2">
                     <div class="w-auto h-auto flex items-center gap-5">
                         <img src="/logo.jpg" alt="" srcset="" class="h-16 w-16 object object-center rounded-full">
