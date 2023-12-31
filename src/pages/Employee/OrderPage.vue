@@ -341,6 +341,8 @@ onMounted(() => {
                                 </template>
                             </select>
                         </div>
+
+                        
                         <div class="w-full mt-10">
                             <button @click="openOrderModel" class="w-full bg-orange-300 p-2 rounded-lg ">Proceed</button>
                         </div>

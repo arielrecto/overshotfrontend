@@ -34,7 +34,7 @@ import FeedbackIndex from "./pages/Admin/pages/Feedback/Index.vue";
 import PromoParent from "./pages/Admin/pages/Promo/PromoParent.vue";
 import PromoIndex from "./pages/Admin/pages/Promo/Index.vue";
 import CreatePromo from "./pages/Admin/pages/Promo/CreatePromo.vue";
-import ShowPromo from "./pages/Admin/pages/Promo/ShowPromo.vue";
+// import ShowPromo from "./pages/Admin/pages/Promo/ShowPromo.vue";
 import OrderShow from "./pages/User/pages/OrderShow.vue";
 import TransactionReport from "./pages/Admin/pages/Report/TransactionReport.vue";
 import ReportParent from "./pages/Admin/pages/Report/ReportParent.vue";
@@ -175,8 +175,8 @@ const routes = [
             component: FeedbackIndex,
           },
         ],
-      },
-      {
+      },    
+       {
         path: "promo",
         component: PromoParent,
         children: [
@@ -193,7 +193,7 @@ const routes = [
           {
             path: "show/:promo",
             name: "show-promo",
-            component: ShowPromo,
+            component: () => import('./pages/Admin/pages/Promo/ShowPromo.vue'),
           },
         ],
       },

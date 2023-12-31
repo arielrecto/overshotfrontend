@@ -1,27 +1,22 @@
 <script setup>
+
+
 import { useRoute } from 'vue-router';
 import { userPromoStore } from './../../../../stores/usePromoStore.js';
-// import { useProductStore } from './../../../../stores/useProductStore.js'
+
 import { onMounted, ref, inject } from 'vue';
 import { storeToRefs } from 'pinia';
 
 
 const swal = inject('$swal');
 const promoStore = userPromoStore()
-// const productStore = useProductStore();
+
 
 const { promo, status, message, products, is_loading } = storeToRefs(promoStore)
-// const { products } = storeToRefs(productStore)
-
 const { getPromo, addProductToPromo } = promoStore
-// const { getAllProducts } = productStore
-
 const route = useRoute()
-
 const promoID = route.params.promo;
-
 const selectedProducts = ref([])
-
 const addProducts = (product) => {
 
 
@@ -36,8 +31,6 @@ const removeProducts = (product) => {
 
     selectedProducts.value = selectedProducts.value.filter((item) => item.id !== product.id)
 }
-
-console.log(promo.value)
 
 const addProductPromo = async () => {
 
@@ -60,7 +53,6 @@ const addProductPromo = async () => {
 
 onMounted(() => {
     getPromo(promoID)
-    // getAllProducts()
 })
 </script>
 

@@ -7,7 +7,7 @@
                     class="flex flex-col space-y-5 p-5 sm:w-5/6 lg:w-1/3 sm:bg-gray-100 sm:rounded-lg sm:drop-shadow-lg">
                     <div class="flex flex-col space-y-2">
                         <div class="flex justify-center">
-                            <img src="logo.jpg" class="rounded-full h-auto w-20 items-center" alt="" srcset="">
+                            <img src="/logo.jpg" class="rounded-full h-auto w-20 items-center" alt="" srcset="">
                         </div>
                         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
                             Forgot your password?
