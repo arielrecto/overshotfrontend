@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import Api from "../../Server/index.js";
+import { useRouter } from "vue-router";
 
 export const useRiderStore = defineStore("riderStore", {
   state: () => ({
@@ -32,6 +33,7 @@ export const useRiderStore = defineStore("riderStore", {
         console.log(this.deliveries);
       } catch (error) {
         console.log(error.response.data.message);
+        this.checkRequestIsAuthorized(error.response.status)
       }
     },
     async acceptDelivery(data, id) {
@@ -68,6 +70,7 @@ export const useRiderStore = defineStore("riderStore", {
       } catch (error) {
         this.status = error.response.status;
         this.messageResponse = error.response.data.message;
+        this.checkRequestIsAuthorized(this.status)
       }
     },
     async completeDelivery(id) {
@@ -82,6 +85,19 @@ export const useRiderStore = defineStore("riderStore", {
       } catch (error) {
         this.status = error.response.status;
         this.messageResponse = error.response.data.message;
+        this.checkRequestIsAuthorized(this.status)
+      }
+    },
+    checkRequestIsAuthorized(status) {
+
+      const routes = useRouter();
+
+      if (status === 401) {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+
+        routes.push({name : 'signin'})
+
       }
     },
   },

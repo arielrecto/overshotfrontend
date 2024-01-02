@@ -146,7 +146,7 @@ const openProduct = ref({
             </router-link>
         </div>
     </li>
-    <li>
+    <!-- <li>
         <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
             <router-link to="/admin/promo" class="flex items-center"
                 exact-active-class="p-2 text-base font-normal text-gray-900 rounded-lg bg-orange-300">
@@ -155,14 +155,10 @@ const openProduct = ref({
                 </div>
 
                 <span class="ml-3">Promo</span>
-                <div class="flex flex-row-reverse w-full">
-                    <!-- <button @click="openProduct.isOpen()">
-                            <i class="ri-arrow-drop-down-line text-3xl"></i>
-                        </button> -->
-                </div>
+              
             </router-link>
         </div>
-    </li>
+    </li> -->
     <li>
         <div class="p-2 text-base font-normal text-gray-900 rounded-lg">
             <router-link to="/admin/report" class="flex items-center"

@@ -176,27 +176,27 @@ const routes = [
           },
         ],
       },    
-       {
-        path: "promo",
-        component: PromoParent,
-        children: [
-          {
-            path: "",
-            name: "promo-index",
-            component: PromoIndex,
-          },
-          {
-            path: "create",
-            name: "create-promo",
-            component: CreatePromo,
-          },
-          {
-            path: "show/:promo",
-            name: "show-promo",
-            component: () => import('./pages/Admin/pages/Promo/ShowPromo.vue'),
-          },
-        ],
-      },
+      //  {
+      //   path: "promo",
+      //   component: PromoParent,
+      //   children: [
+      //     {
+      //       path: "",
+      //       name: "promo-index",
+      //       component: PromoIndex,
+      //     },
+      //     {
+      //       path: "create",
+      //       name: "create-promo",
+      //       component: CreatePromo,
+      //     },
+      //     {
+      //       path: "show/:promo",
+      //       name: "show-promo",
+      //       component: () => import('./pages/Admin/pages/Promo/ShowPromo.vue'),
+      //     },
+      //   ],
+      // },
       {
         path: "report",
         component: ReportParent,

@@ -42,7 +42,7 @@ export const useAuthStore = defineStore("auth", {
               return next("/login");
           }
       } catch (error) {
-        this.errorMessage = error.response.data.message;
+        this.error = error.response.data.message;
         this.status = error.response.status;
       }
     },
