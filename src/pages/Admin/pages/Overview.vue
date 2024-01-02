@@ -99,15 +99,15 @@ const getOverviewData = async () => {
 
     areaChart.value = {
         ...areaChart.value,
-        series : [
+        series: [
             {
                 name: "Transactions",
                 data: [...monthlyTotalValue]
             }
         ],
-        chartOptions : {
+        chartOptions: {
             ...areaChart.value.chartOptions,
-            labels : [...months]
+            labels: [...months]
         }
     }
 
@@ -123,15 +123,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="p-4 bg-gray-100 w-full h-screen">
-        <div class="p-4 rounded-lg w-full">
+    <div class="p-1 md:p-4 bg-gray-100 w-full h-screen">
+        <div class="p-4 rounded-lg w-full flex flex-col">
 
 
             <AdminNavBar></AdminNavBar>
 
             <div class="flex gap-2 w-full" v-if="overview?.total">
                 <div class="flex flex-col gap-2 w-full">
-                    <div class="w-full p-4 capitalize flex space-x-5">
+                    <div class="w-full p-4 capitalize flex space-x-5 overflow-x-auto">
                         <router-link to="/admin/overview">
                             <h1 class="text-sm font-bold">overview</h1>
                         </router-link>
@@ -146,13 +146,13 @@ onMounted(() => {
                         </router-link>
                     </div>
 
-                    <div class="flex gap-2 w-full">
-                        <div class="flex flex-col space-y-3 w-5/6">
-                            <div class="w-full py-2 grid grid-cols-2 gap-4 h-32">
+                    <div class="flex flex-col md:flex-row gap-2 w-full">
+                        <div class="flex flex-col space-y-3 w-full md:w-4/6 lg:w-5/6">
+                            <div class="w-full py-2 grid grid-cols-1  lg:grid-cols-2 gap-4 lg:h-32 h-auto">
                                 <div class="rounded-lg bg-white p-5 flex justify-center hover:shadow-md duration-700">
                                     <div class="flex gap-4 w-1/2">
                                         <div
-                                            class="bg-orange-200 px-4 py-2 h-14 rounded-3xl hover:bg-orange-300 hover:scale-105 duration-500">
+                                            class="bg-orange-200 px-4 py-2 h-14 rounded-3xl hover:bg-orange-300 hover:scale-105 duration-500 hidden md:block">
                                             <img src="../../../assets/icons/wallet-2-line.png" class="w-5 mt-2" alt=""
                                                 srcset="">
                                         </div>
@@ -169,7 +169,7 @@ onMounted(() => {
                                 <div class="rounded-lg bg-white p-5 flex justify-center hover:shadow-md duration-700">
                                     <div class="flex gap-4 w-1/2">
                                         <div
-                                            class="bg-gray-200 px-4 py-2 h-14 rounded-3xl hover:bg-gray-300 hover:scale-105 duration-500">
+                                            class="bg-gray-200 px-4 py-2 h-14 rounded-3xl hover:bg-gray-300 hover:scale-105 duration-500 hidden md:block">
                                             <img src="../../../assets/icons/arrow-left-right-line.png" class="w-5 mt-2"
                                                 alt="" srcset="">
                                         </div>
@@ -184,15 +184,14 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-full bg-white hover:shadow-md duration-700 rounded-lg flex flex-col space-y-2">
-                                <div class="w-full p-5 overflow-x-auto">
-                                    <apexchart type="area" height="350" :options="areaChart.chartOptions"
-                                        :series="areaChart.series"></apexchart>
-                                </div>
+                            <div
+                                class="w-full h-auto bg-white hover:shadow-md duration-700 rounded-lg md:flex md:flex-col space-y-2">
+                                <apexchart type="area" :options="areaChart.chartOptions" :series="areaChart.series"
+                                    ></apexchart>
                             </div>
                         </div>
 
-                        <div class="w-1/4 p-2">
+                        <div class="w-full md:w-1/3 md:p-2">
                             <div class="w-full p-5 flex flex-col gap-2 bg-white hover:shadow-lg duration-700 rounded-lg">
                                 <h1 class="text-xs font-semibold">
                                     Total

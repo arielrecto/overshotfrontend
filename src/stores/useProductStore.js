@@ -6,7 +6,7 @@ export const useProductStore = defineStore("productStore", {
     products: [],
     isLoading: false,
     status: null,
-    error : null,
+    error : {},
     otherinfo : {
       categories : []
     },
@@ -22,6 +22,7 @@ export const useProductStore = defineStore("productStore", {
         this.status = response.status;
 
       } catch (error) {
+        this.error = {...error.response.data.errors};
         console.log(error.response.data);
       }
     },

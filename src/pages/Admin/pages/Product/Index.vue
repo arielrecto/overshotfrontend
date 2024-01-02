@@ -110,23 +110,22 @@ onMounted(() => {
     <div class="p-4 w-full bg-gray-100">
         <AdminNavBarVue></AdminNavBarVue>
         <div class="w-full flex gap-2 p-2">
-            <div class="grow flex flex-col bg-white p-2 rounded-lg h-96 drop-shadow-lg">
+            <div class="w-full flex flex-col bg-white p-2 rounded-lg h-auto lg:h-96 drop-shadow-lg">
                 <div class="w-full p-2 border-b-2 flex border-gray-300">
-                    <h1 class="text-xl font-semibold grow">Products <span class="text-xs text-gray-400 p-2">(All
+                    <h1 class="text-lg lg:text-xl font-semibold grow">Products <span class="text-xs text-gray-400 p-2">(All
                             Products)</span></h1>
                     <div class="w-1/5 flex flex-row-reverse">
                         <router-link to="/admin/products/create-product">
-                            <button class="px-4 py-2 bg-orange-300 rounded-lg text-xs hover:scale-105 duration-500">Add
-                                Product</button>
+                            <button class="btn btn-xs btn-neutral">Add</button>
                         </router-link>
                     </div>
                 </div>
-                <div class="h-full">
+                <div class="h-full w-full flex flex-col gap-2">
                     <div class="w-full flex justify-center" v-show="isLoading">
                         <img src="/loading-9.gif" alt="" srcset="" class="w-96">
                     </div>
-                    <div class="relative overflow-x-auto h-72">
-                        <table class="w-full text-sm text-left text-gray-500">
+                    <div class="overflow-auto h-64 lg:h-72 w-full">
+                        <table class="text-sm text-left text-gray-500 w-full">
                             <thead class="text-xs text-gray-700 uppercase border-b-2 border-gray-300 sticky top-0 bg-white">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
@@ -167,36 +166,43 @@ onMounted(() => {
             </div>
         </div>
         <div class="w-full flex gap-2 p-2">
-            <div class="grow flex gap-2 p-2 rounded-lg h-96 drop-shadow-lg">
-                <div class="w-1/2 bg-white rounded-lg drop-shadow-lg relative">
+            <div class="w-full flex flex-col lg:flex-row gap-2 p-2 rounded-lg h-96 drop-shadow-lg">
+                <div class="w-full lg:w-1/2 flex flex-col bg-white rounded-lg drop-shadow-lg relative">
+                    <h1 class="text-sm lg:text-lg font-bold w-full p-2">
+                        Category
+                    </h1>
                     <div v-if="isLoading">
                         <img src="/loading-9.gif">
                     </div>
-                    <div class="w-full" v-else>
-                        <h1 class="text-sm text-center font-bold  absolute top-40 left-36">
+                    <div v-else class="w-full flex items-center justify-center h-full">
+                        <div class="xl:w-4/6 lg:w-5/6">
+                            <!-- <h1 class="text-sm text-center font-bold  absolute top-40 left-36">
                             Product Categories
-                        </h1>
-                        <apexchart type="donut" :options="pieChart(products).chartOptions"
-                            :series="pieChart(products).series">
-                        </apexchart>
+                        </h1> -->
+                            <apexchart type="donut" :options="pieChart(products).chartOptions"
+                                :series="pieChart(products).series" class="h-12">
+                            </apexchart>
+                        </div>
                     </div>
 
+
                 </div>
-                <div class="w-1/2 bg-white rounded-lg drop-shadow-lg h-full">
+                <div class="w-full lg:w-1/2 bg-white rounded-lg drop-shadow-lg h-full">
                     <template v-if="isLoading">
                         <img src="/loading-9.gif">
                     </template>
                     <template v-else>
-                        <apexchart type="line" :options="lineChart(productsByMonth).chartOptions"
-                            :series="lineChart(productsByMonth).series">
-                        </apexchart>
-
+                        <div class="w-full h-full">
+                            <apexchart type="line" :options="lineChart(productsByMonth).chartOptions"
+                                :series="lineChart(productsByMonth).series">
+                            </apexchart>
+                        </div>
                     </template>
 
                 </div>
 
             </div>
-            <div class="w-1/5 bg-white h-96 rounded-lg drop-shadow-lg p-2">
+            <!-- <div class="w-1/5 bg-white h-96 rounded-lg drop-shadow-lg p-2">
                 <div class="w-full">
                     <h1 class="text-sm text-center font-bold">
                         Best Seller
@@ -210,7 +216,7 @@ onMounted(() => {
                     </template>
                     <template v-else>
 
-                        <!-- <template v-if="bestSeller !== null">
+                        <template v-if="bestSeller !== null">
                             <div class="w-full h-64">
                                 <img :src="bestSeller?.image.image_url" alt=""
                                     class="object object-center object-cover h-full w-full">
@@ -230,7 +236,7 @@ onMounted(() => {
                                     No Best Seller
                                 </h1>
                             </div>
-                        </template> -->
+                        </template>
 
 
 
@@ -238,7 +244,7 @@ onMounted(() => {
 
 
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

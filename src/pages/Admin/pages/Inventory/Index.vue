@@ -104,15 +104,15 @@ onMounted(() => {
         <div class="p-4">
             <AdminNavBar></AdminNavBar>
         </div>
-        <div class="p-4 flex gap-2 h-[35rem]">
+        <div class="p-4 flex gap-2 h-[35rem] w-full">
             <!-- <div class="bg-white drop-shadow-lg p-2 flex-none w-1/4 rounded-l-lg">
                 <div class="w-full">
 
                 </div>
             </div>-->
-            <div class="grow bg-white drop-shadow-lg p-2 rounded-r-lg flex flex-col gap-2">
-                <div class="w-full p-2 flex gap-2 border-b-2 border-gray-200">
-                    <div class="w-1/4">
+            <div class="bg-white drop-shadow-lg p-2 rounded-r-lg flex flex-col gap-2 w-full h-auto">
+                <div class="w-full p-2 flex flex-col lg:flex gap-2 border-b-2 border-gray-200">
+                    <div class="w-full lg:w-1/4">
                         <select v-model="name" id="countries_disabled" class="bg-orange-50 border border-orange-300 text-gray-600 text-xs rounded-lg
                                         focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 
                                        ">
@@ -122,14 +122,14 @@ onMounted(() => {
                             <option value="Flavors">Flavors</option>
                         </select>
                     </div>
-                    <div class="grow flex flex-row-reverse">
+                    <div class="w-full  flex flex-row-reverse">
                         <router-link to="/admin/inventory/create-supply">
-                            <button class="px-4 py-2 bg-orange-300 rounded-lg text-xs hover:scale-105 duration-500">Add
+                            <button class="btn btn-xs btn-neutral">Add
                                 Supplies</button>
                         </router-link>
                     </div>
                 </div>
-                <div class="relative overflow-x-auto h-96">
+                <div class="relative overflow-auto h-96 w-full">
                     <table class="w-full text-sm text-left text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase sticky top-0 border-y-2 border-gray-100">
                             <tr>
