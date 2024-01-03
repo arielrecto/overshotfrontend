@@ -7,6 +7,7 @@ export const useOrderStore = defineStore("useOrderStore", {
     supplies: [],
     isLoading: false,
     status: null,
+    isSending : false,
     paymentInfo: {
       image: null,
     },
@@ -51,11 +52,16 @@ export const useOrderStore = defineStore("useOrderStore", {
     },
     async sendOrderTransaction(data) {
       try {
+
+        this.isSending = true;
+
         const response = await Api().post("/employee/transaction/order", data);
 
         this.orders = response.data.orders;
 
         this.status = response.status;
+
+        this.isSending = false
 
       } catch (error) {
         swal.fire({

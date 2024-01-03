@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 
 const supplyStore = useSupplyStore();
 const { addSupplies } = supplyStore;
-const { status, error } = storeToRefs(supplyStore);
+const { status, error, isLoading } = storeToRefs(supplyStore);
 const supplyForm = ref(null);
 const swal = inject('$swal');
 
@@ -107,7 +107,7 @@ const submitSupplyDAta = async () => {
                     </div>
                 </template>
 
-                <button class="bg-orange-200 p-2 rounded-lg w-1/2">
+                <button class="bg-orange-200 p-2 rounded-lg w-1/2" :disabled="isLoading">
                     Submit
                 </button>
             </form>

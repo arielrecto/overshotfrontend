@@ -10,7 +10,8 @@ export const useClientProductStore = defineStore("clientProdcutStore", {
     orders: [],
     categories : [],
     supplies : [],
-    category : ''
+    category : '',
+    isSending : false
   }),
   getters: {
     getAllProducts() {
@@ -43,9 +44,12 @@ export const useClientProductStore = defineStore("clientProdcutStore", {
     },
     async addOrderInServer(data) {
       try {
+
+        this.isSending = true;
         const response = await Api().post("/client/orders", data);
         this.orders = response.data.orders;
         this.status = response.status;
+        this.isSending = false;
 
         // this.orders = response.data.orders;
       } catch (error) {}

@@ -5,7 +5,7 @@ import { useRiderStore } from './../../../stores/Employee/useRiderStore.js'
 import { storeToRefs } from "pinia";
 
 const riderStore = useRiderStore();
-const { status, messageResponse, paymentData } = storeToRefs(riderStore);
+const { status, messageResponse, paymentData, isSending } = storeToRefs(riderStore);
 const { acceptDelivery, updateRiderLocation, completeCodDelivery, completeDelivery } = riderStore
 const swal = inject('$swal');
 
@@ -283,7 +283,7 @@ onMounted(() => {
 
                 </template>
                 <template v-else>
-                    <button class="btn btn-neutral btn-sm" @click="deliveryDone">
+                    <button class="btn btn-neutral btn-sm" @click="deliveryDone" :disabled="isSending">
                         Done
                     </button>
                 </template>

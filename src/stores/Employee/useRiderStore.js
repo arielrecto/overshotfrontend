@@ -8,6 +8,7 @@ export const useRiderStore = defineStore("riderStore", {
     deliveries: [],
     status: null,
     messageResponse: null,
+    isSending : false,
     paymentData: {
       image: null,
       paymentId: null,
@@ -38,6 +39,8 @@ export const useRiderStore = defineStore("riderStore", {
     },
     async acceptDelivery(data, id) {
       try {
+
+        this.isSending = true;
         const response = await Api().post(
           `/rider/deliveries/accept/delivery/${id}`,
           data
@@ -46,6 +49,7 @@ export const useRiderStore = defineStore("riderStore", {
         this.status = response.status;
         this.response = response.data.message;
         this.deliveries = [...response.data.deliveries];
+        this.isSending = false;
       } catch (error) {
         console.log(error);
       }

@@ -54,7 +54,10 @@ export const useSupplyStore = defineStore("supplyStore", {
         const data = {
           supplies: $supplies,
         };
+
+        this.isLoading = true;
         const response = await Api().post("/admin/supplies", data);
+        this.isLoading = false
         console.log(response);
         this.status = response.status;
       } catch (error) {

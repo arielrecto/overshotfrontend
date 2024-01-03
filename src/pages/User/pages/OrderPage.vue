@@ -12,7 +12,7 @@ import { useGetAddressByCoordinates } from '../../Riders/utilities/useGetAddress
 
 const clientProductStore = useClientProductStore();
 const { fetchProduct, addOrderInServer, fetchUserOrder } = clientProductStore;
-const { getAllProducts, isLoading, status, orders, categories, category, supplies } = storeToRefs(clientProductStore);
+const { getAllProducts, isLoading, status, orders, categories, category, supplies, isSending } = storeToRefs(clientProductStore);
 const swal = inject('$swal');
 const { coordinates } = useGeolocation();
 
@@ -666,7 +666,7 @@ onMounted(() => {
               </div>
 
               <div class="flex" v-show="CODPayment">
-                <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
+                <button @click="submitOrder" :disabled="isSending" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
               </div>
 
             </form>
@@ -833,7 +833,7 @@ onMounted(() => {
             </div>
 
             <div class="flex">
-              <button @click="submitOrder" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
+              <button @click="submitOrder" :disabled="isSending" class="w-full p-2 rounded-lg bg-orange-300">Proceed..</button>
             </div>
 
           </div>

@@ -12,7 +12,7 @@ const riderStore = useRiderStore();
 
 const { fetchOrdersPendingStatus, sendOrderTransaction, fetchPaymentInfo } = orderStore;
 
-const { isLoading, getOrders, getOrderData, getSupplies, paymentInfo, status } = storeToRefs(orderStore);
+const { isLoading, getOrders, getOrderData, getSupplies, paymentInfo, status, isSending } = storeToRefs(orderStore);
 const { fetchRider } = riderStore;
 const { riders } = storeToRefs(riderStore)
 
@@ -445,7 +445,7 @@ onMounted(() => {
                 </div>
                 <div class="w-full flex flex-row-reverse">
                     <div class="p-5 mr-5 flex space-x-10">
-                        <button @click="submitOrderTransaction" class="bg-orange-300 px-4 py-2 rounded-lg"
+                        <button @click="submitOrderTransaction" :disabled="isSending" class="bg-orange-300 px-4 py-2 rounded-lg"
                             v-if="selectedSupply.length !== 0">
                             Process
                         </button>

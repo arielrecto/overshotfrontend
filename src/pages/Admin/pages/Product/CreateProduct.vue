@@ -21,7 +21,7 @@ const product = ref({
 });
 
 const productStore = useProductStore();
-const { status, otherinfo, error } = storeToRefs(productStore);
+const { status, otherinfo, error, isLoading } = storeToRefs(productStore);
 const { addProduct, fetchOtherInfo, addCategory, addSize, addLevels } = productStore;
 const productForm = ref(null);
 const swal = inject('$swal');
@@ -516,7 +516,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="p-5 flex flex-row-reverse">
-        <button class="bg-orange-300 px-4 py-2 capitalize rounded-lg drop-shadow-lg">submit</button>
+        <button class="bg-orange-300 px-4 py-2 capitalize rounded-lg drop-shadow-lg" :disabled="isLoading">submit</button>
       </div>
     </form>
   </div>
