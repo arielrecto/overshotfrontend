@@ -304,6 +304,8 @@ const closeCustomProductFields = () => {
 
 const addSelectedAddOns = (data) => {
 
+  console.log(data);
+
   customProduct.value.customProductData.addons.push(data)
 
   supplies.value = supplies.value.filter(item => item.id !== data.id);
@@ -441,7 +443,7 @@ onMounted(() => {
               <div class="h-1/2 w-full p-2 flex flex-col gap-2">
                 <h3 class="text-blue-500 text-xs tracking-widest mb-1 capitalize"> category : <span
                     class="uppercase text-xs">{{
-                      product.categories[0].name }}</span></h3>
+                    product.categories[0].name }}</span></h3>
                 <h2 class="text-primary title-font text-sm lg:text-lg font-bold tracking-widest capitalize">{{
                   product.name }}</h2>
                 <p class="text-xs font-bold flex gap-2">
@@ -519,7 +521,8 @@ onMounted(() => {
                           class="w-full md:w-1/2 object object-center lg:h-full lg:w-auto  shadow-lg" srcset=""></th>
                       <td colspan="2">
                         <div class="flex flex-col gap-2 w-full">
-                          <h1 class="tracking-widest font-bold text-xs md:text-base lg:text-lg truncate">{{ productSelect.name }}</h1>
+                          <h1 class="tracking-widest font-bold text-xs md:text-base lg:text-lg truncate">{{
+                            productSelect.name }}</h1>
                           <button class="btn btn-neutral btn-xs"
                             @click="openCustomProductFields(productSelect)">View</button>
                         </div>
@@ -595,26 +598,34 @@ onMounted(() => {
                     </td>
                     <td class="px-6 py-4">
                       ₱ {{ orderproduct['customize'] === undefined ? orderproduct.price :
-                        orderproduct.customize.data.size.pivot.price }}
+                      orderproduct.customize.data.size.pivot.price }}
                     </td>
                     <td class="px-6 py-4">
                       {{ orderproduct.pieces }}
                     </td>
                     <td class="px-6 py-4" colspan="2">
-                      <template v-if="orderproduct['customize'] !== undefined">
-                        <div class="flex items-center">
-                          <div class="flex flex-col gap-2 w-full">
-                            <p>Sugar Level</p>
-                            <p>{{ orderproduct.customize.data.level }} %</p>
-                          </div>
-                          <template></template>
+
+                      <div class="flex items-center">
+                        <div class="flex flex-col gap-2 w-full">
+                          <p class="text-xs">Sugar Level</p>
+                          <p>{{ orderproduct.levels[0].pivot.percent }} %</p>
                         </div>
-                      </template>
-                      <template v-else>
+                        <template v-if="orderproduct['customize'] !== undefined">
+                          <div class="flex flex-col gap-2 w-full">
+                            <p class="text-xs">Addons</p>
+                            <template v-for="addon in orderproduct.customize.data.addons" :key="addon.id">
+                              <p>{{ addon.name }} </p>
+                            </template>
+                          </div>
+                        </template>
+
+                      </div>
+
+                      <!-- <template v-else>
                         <div class="flex items-center justify-center">
                           <p class="text-xs">No Item Customized</p>
                         </div>
-                      </template>
+                      </template> -->
                     </td>
                   </tr>
                 </tbody>
@@ -681,7 +692,8 @@ onMounted(() => {
       v-if="customProduct.productData !== null">
       <div class="w-full h-auto lg:h-[30rem] z-0 flex flex-col lg:flex-row gap-2 p-5">
         <div class="flex justify-center lg:flex-none lg:w-1/3">
-          <img :src="customProduct.productData.image.image_url" alt="" srcset="" class="rounded-lg md:w-1/2 lg:w-full lg:h-full">
+          <img :src="customProduct.productData.image.image_url" alt="" srcset=""
+            class="rounded-lg md:w-1/2 lg:w-full lg:h-full">
         </div>
         <div class="grow flex flex-col gap-2">
           <div class="flex flex-col gap-2">
@@ -787,8 +799,7 @@ onMounted(() => {
 
         </div>
 
-        <div
-          class="bg-white drop-shadow-sm w-full h-full top-0 lg:w-[20rem] 
+        <div class="bg-white drop-shadow-sm w-full h-full top-0 lg:w-[20rem] 
           lg:h-[35rem] p-2 absolute z-10 lg:top-[5rem] lg:left-[40rem] 
           flex flex-col space-y-5 rounded-lg">
           <div class="w-full flex justify-center relative">

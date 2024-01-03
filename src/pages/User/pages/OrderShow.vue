@@ -218,7 +218,24 @@ onUnmounted(() => {
                                                 </h1>
                                             </div>
                                             <template v-if="product.customizes.length !== 0">
-                                                <h1>Hello world</h1>
+                                               <template v-for="customize in product.customizes" :key="customize.id">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center gap-5 text-xs">
+                                                        <p>Sugar level</p>
+                                                        <p>
+                                                            {{ customize.sugar_level }} %
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex flex-col gap-2 text-xs w-1/5">
+                                                        <h1 class="font-bold">Addons</h1>
+                                                        <template v-for="addon in JSON.parse(customize.addons)" >
+                                                            <p>
+                                                                {{ addon.name }}
+                                                            </p>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                               </template>
                                             </template>
                                             <template v-else>
                                                 <div class="w-full flex justify-center">
@@ -320,7 +337,7 @@ onUnmounted(() => {
                                         <h1 class="font-bold text-sm">Products</h1>
                                         <template v-for="product in order.products">
                                             <div
-                                                class="grid grid-cols-4 grid-flow-row gap-2 text-xs border-2 rounded-lg p-2 w-[20rem] md:w-full">
+                                                class="grid grid-cols-4 grid-flow-row gap-2 text-xs border-2 rounded-lg p-2 w-[20rem] md:w-full ">
                                                 <h1 class="font-bold text-xs md:text-sm border-r-2">{{ product.name }}</h1>
                                                 <h1 class="font-bold text-xs md:text-sm border-r-2">{{ product.pivot.size }}</h1>
                                                 <h1 class="font-bold text-xs md:text-sm border-r-2">{{ product.pivot.quantity }} x</h1>
