@@ -83,9 +83,9 @@ onMounted(() => {
       </template>
       <template v-else>
          <template v-for="image in carousels" :key="image.id">
-            <div class="h-32 border-2 border-gray-100 flex gap-2 w-full">
-               <div class="w-1/5 border-r-2 border-gray-100">
-                  <img :src="image.image_url" alt="" class="object object-center object-cover h-28 w-full
+            <div class="h-12 lg:h-32 border-2 border-gray-100 flex gap-2 w-full">
+               <div class="w-1/4 lg:w-1/2 border-r-2 border-gray-100">
+                  <img :src="image.image_url" alt="" class="object object-center object-cover h-12 lg:h-28 w-full
             ">
                </div>
                <div class="flex justify-center items-center w-full">

@@ -119,16 +119,16 @@ onMounted(() => {
         <div class="w-full flex flex-col gap-y-5 relative">
             <AdminNavBar></AdminNavBar>
 
-            <div class="flex p-2 capitalize bg-white rounded-lg drop-shadow-lg">
-                <div class="grow pt-2">
+            <div class="flex justify-end lg:items-center lg:justify-between p-2 capitalize bg-white rounded-lg drop-shadow-lg">
+                <div class="">
                     <button @click="openModalForm($event)"
-                        class="px-4 py-2 bg-orange-300 text-sm hover:bg-orange-400 hover:text-white hover:font-semibold duration-700 rounded-lg hover:scale-105">
+                        class="btn btn-xs btn-neutral">
                         Add employee
                     </button>
                 </div>
 
 
-                <div class="w-1/3 flex-none">
+                <div class="w-1/3 flex-none hidden lg:block">
 
                     <form>
                         <label for="default-search"
@@ -162,8 +162,8 @@ onMounted(() => {
                         <div class="w-full h-screen bg-black opacity-5">
 
                         </div>
-                        <div class="absolute top-[12rem] left-[15rem]">
-                            <div class="w-[50rem] bg-white drop-shadow-lg h-auto">
+                        <div class="absolute top-[6rem] lg:top-[12rem] w-full">
+                            <div class="w-full lg:w-[50rem] bg-white drop-shadow-lg h-auto">
                                 <div class="w-full p-2 flex flex-row-reverse">
                                     <button class="mr-2" @click="openModalForm"><i class="ri-close-line"></i></button>
                                 </div>
@@ -176,7 +176,7 @@ onMounted(() => {
                                                      border-gray-300 appearance-none 
                                                      focus:outline-none focus:ring-0 focus:border-orange-600 peer"
                                                 placeholder=" " required />
-                                            <label for="floating_email" class="peer-focus:font-medium absolute text-sm 
+                                            <label for="floating_email" class="peer-focus:font-medium absolute text-xs lg:text-sm 
                                                     text-orange-500 duration-300 transform
                                                      -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0
                                                       peer-focus:text-orange-600 
@@ -191,7 +191,7 @@ onMounted(() => {
                                                      focus:outline-none focus:ring-0 focus:border-orange-600 peer"
                                                 placeholder=" " required />
                                             <label for="floating_password"
-                                                class="peer-focus:font-medium absolute text-sm text-orange-500 
+                                                class="peer-focus:font-medium absolute text-xs lg:text-sm text-orange-500 
                                                    duration-300 transform -translate-y-6 scale-75 
                                                     top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-600 
                                                      peer-placeholder-shown:scale-100 
@@ -204,7 +204,7 @@ onMounted(() => {
                                                      focus:outline-none focus:ring-0 focus:border-orange-600 peer"
                                                 placeholder=" " required />
                                             <label for="floating_repeat_password"
-                                                class="peer-focus:font-medium absolute text-sm text-orange-500
+                                                class="peer-focus:font-medium absolute text-xs lg:text-sm text-orange-500
                                                       duration-300 transform -translate-y-6 scale-75
                                                       top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-600 
                                                        peer-placeholder-shown:scale-100 
@@ -218,7 +218,7 @@ onMounted(() => {
                                                      focus:outline-none focus:ring-0 focus:border-orange-600 peer"
                                                 placeholder=" " required />
                                             <label for="floating_repeat_password"
-                                                class="peer-focus:font-medium absolute text-sm text-orange-500
+                                                class="peer-focus:font-medium absolute text-xs lg:text-sm text-orange-500
                                                       duration-300 transform -translate-y-6 scale-75
                                                       top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-600 
                                                        peer-placeholder-shown:scale-100 
@@ -238,7 +238,7 @@ onMounted(() => {
                                                
                                                </select>
                                             <label for="floating_repeat_password"
-                                                class="peer-focus:font-medium absolute text-sm text-orange-500
+                                                class="peer-focus:font-medium absolute text-xs lg:text-sm text-orange-500
                                                       duration-300 transform -translate-y-6 scale-75
                                                       top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-orange-600 
                                                        peer-placeholder-shown:scale-100 
@@ -246,15 +246,12 @@ onMounted(() => {
                                         </div>
                                     
 
-                                        <div class="flex items-center p-6 space-x-2 border-t border-orange-200 rounded-b ">
-                                            <button type="submit" class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none 
-                                                                        focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                                        <div class="flex items-center lg:p-6 space-x-2 border-t border-orange-200 rounded-b ">
+                                            <button type="submit" class="btn btn-xs btn-neutral
                                                                         ">Add</button>
                                             <!--data-modal-hide="staticModal"-->
                                             <button type="button" @click="openModalForm($event)"
-                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg 
-                                                                        border border-gray-200 text-sm font-medium px-5 py-2.5 
-                                                                        hover:text-gray-900 focus:z-10 ">Decline</button>
+                                                class="btn btn-xs btn-error">Cancel</button>
                                         </div>
                                     </form>
 
@@ -267,7 +264,7 @@ onMounted(() => {
 
 
 
-            <div class="w-full flex gap-2">
+            <div class="w-full flex flex-col lg:flex-row gap-2">
                 <div class="relative overflow-x-auto z-0 h-96 grow bg-white drop-shadow-lg rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -305,7 +302,7 @@ onMounted(() => {
                         </tbody>
                     </table>
                 </div>
-                <div class="w-1/3 flex flex-col gap-2">
+                <div class="w-full lg:w-1/3 flex flex-col gap-2">
                     <div class="bg-white p-2 rounded-lg drop-shadow-lg flex justify-center">
                         <div v-if="isLoading">
                             <Loading></Loading>

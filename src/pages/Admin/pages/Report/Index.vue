@@ -11,7 +11,7 @@
                     <input type="text" class="input input-xs p-4 w-full input-accent" placeholder="search">
                 </div> -->
             </div>
-            <div class="grid grid-cols-3 grid-flow-row h-96 gap-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 grid-flow-row h-96 gap-10">
                 <router-link :to="{ name: 'transaction-report' }">
                     <div
                         class="flex items-center justify-center gap-2 w-full h-full shadow-lg rounded-2 rounded-lg bg-gray-50">
