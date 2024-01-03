@@ -314,11 +314,11 @@ onUnmounted(() => {
                 resizeable: false,
                 aspectRatio: 12 / 16
               }" :resize-image="{ adjustStencil: true }" image-restriction="stencil" ref="cropperRef"></cropper>
-              <div class="flex p-2">
+              <div class="flex p-2 gap-5">
                 <!-- <button @click="removeImage">x</button> -->
-                <button @click.prevent="cropImage" class="px-4 py-2 bg-orange-300 rounded-lg drop-shadow-lg">Crop</button>
+                <button @click.prevent="cropImage" class="btn btn-success">Crop</button>
                 <button @click.prevent="cancelCrop"
-                  class="px-4 py-2 bg-red-300 ml-5 rounded-lg drop-shadow-lg">Cancel</button>
+                  class="btn btn-error ">Cancel</button>
               </div>
             </div>
           </div>

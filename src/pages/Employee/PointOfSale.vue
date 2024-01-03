@@ -105,11 +105,17 @@ const changeQuantity = (data) => {
         },
         subtract() {
 
-            if (data.quantity === 0) {
+            data.quantity--;
+            
+            if (data.quantity <= 0) {
+                
+                transaction.value = {
+                    ...transaction.value,
+                    products : [...transaction.value.products.filter((item)=> item.id !== data.id)]
+                }
                 return
             }
 
-            data.quantity--;
         }
     }
 }
@@ -304,27 +310,28 @@ onMounted(() => {
                 </ol>
             </nav>
             <div class="grid grid-cols-4 gap-4">
-                <div v-for="product in getProducts" :key="product.id"
-                    class="w-full h-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
-                    <a href="#">
+                <template v-for="product in getProducts" :key="product.id">
+                    <button @click="addProducts(product)">
+                        <div class="w-full min-h-11 max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
+                            <!-- <a href="#">
                         <img class="p-8 rounded-t-lg h-[21rem] w-auto" :src="product.image.image_url" alt="product image" />
-                    </a>
-                    <div class="px-5 pb-5">
+                    </a> -->
+                            <div class="px-5 pb-5 h-auto w-full flex flex-col">
 
-                        <p class="text-xs text-orange-700">Category : {{ product.categories[0].name }}</p>
-                        <a href="#">
-                            <h5 class="text-xl font-semibold tracking-tight">{{ product.name }}</h5>
-                        </a>
+                                <p class="text-xs text-orange-700">Category : {{ product.categories[0].name }}</p>
 
-                        <div class="flex p-2 gap-2 text-xs">
+                                <h5 class="text-lg font-semibold tracking-tight">{{ product.name }}</h5>
+
+
+                                <!-- <div class="flex p-2 gap-2 text-xs">
                             <p>
                                 Sizes :
                             </p>
                             <template v-for="size in product.sizes" :key="size.id">
                                 <p class="text-gray-500">{{ size.name }}</p>
                             </template>
-                        </div>
-                        <div class="flex items-center justify-between">
+                        </div> -->
+                                <!-- <div class="flex items-center justify-between">
                             <span class="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
                             <button v-show="checkIfItemIsAdded(product, transaction.products)" @click="addProducts(product)"
                                 class="text-white bg-orange-300 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
@@ -334,9 +341,13 @@ onMounted(() => {
                                 @click="removeItem(product, transaction.products)"
                                 class="text-white bg-red-300 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
                                                                                                                                         ">Remove</button>
+                        </div> -->
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </button>
+
+
+                </template>
 
             </div>
         </div>
@@ -386,13 +397,13 @@ onMounted(() => {
                 <div class="flex flex-col gap-2 border-b-2" v-for="product in transaction.products" :key="product.id">
 
                     <div class="flex gap-2">
-                        <div class="p-2">
+                        <!-- <div class="p-2">
                             <img :src="product.image.image_url" alt="" srcset="" class="w-16">
-                        </div>
+                        </div> -->
 
 
                         <div class="flex flex-col gap-2 w-full capitalize">
-                            <div class="flex gap-2 text-sm">
+                            <div class="flex gap-2 text-sm items-center border-b-2">
                                 <h1 class="text-center p-2">
                                     {{ product.name }}
                                 </h1>
@@ -404,9 +415,9 @@ onMounted(() => {
                                     {{ product.quantity }}
                                 </h1>
 
-                                <div class="pt-2 gap-2">
-                                    <button class="" @click="changeQuantity(product).add()">+</button>
-                                    <button class="ml-2" @click="changeQuantity(product).subtract()">-</button>
+                                <div class="flex items-center gap-2">
+                                    <button class="btn btn-xs btn-ghost" @click="changeQuantity(product).add()">+</button>
+                                    <button class="btn btn-xs btn-ghost" @click="changeQuantity(product).subtract()">-</button>
                                 </div>
                             </div>
                             <div class="w-full text-sm font-light">

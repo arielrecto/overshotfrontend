@@ -690,10 +690,10 @@ onMounted(() => {
     <!-- custom product modal -->
     <div class="absolute top-0 lg:top-[15rem] lg:left-[20rem] w-full lg:w-1/2 bg-white drop-shadow-lg z-20 rounded-lg"
       v-if="customProduct.productData !== null">
-      <div class="w-full h-auto lg:h-[30rem] z-0 flex flex-col lg:flex-row gap-2 p-5">
+      <div class="w-full h-auto z-0 flex flex-col lg:flex-row gap-2 p-5">
         <div class="flex justify-center lg:flex-none lg:w-1/3">
           <img :src="customProduct.productData.image.image_url" alt="" srcset=""
-            class="rounded-lg md:w-1/2 lg:w-full lg:h-full">
+            class="rounded-lg md:w-1/2 lg:w-full lg:h-96">
         </div>
         <div class="grow flex flex-col gap-2">
           <div class="flex flex-col gap-2">
@@ -705,7 +705,7 @@ onMounted(() => {
             </p>
           </div>
 
-          <div class="h-auto lg:h-96 w-full ">
+          <div class="h-auto lg:h-32 w-full ">
             <p class="text-xs" v-html="customProduct.productData.description"></p>
           </div>
 
@@ -719,7 +719,7 @@ onMounted(() => {
               </template>
             </div>
           </div>
-          <div class="w-full flex flex-col gap-2 p-2 h-auto lg:h-64">
+          <div class="w-full flex flex-col gap-2 p-2 h-auto h-auto">
             <div class="capitalize">
               <p class="text-xs font-bold">sugar level : {{ customProduct.productData.levels[0].pivot.percent }} %</p>
             </div>
@@ -760,7 +760,7 @@ onMounted(() => {
                   </button>
                 </template>
               </div>
-              <div class="flex flex-wrap gap-2">
+              <div class="flex flex-wrap gap-2 overflow-auto h-12">
                 <template v-for="supply in supplies" :key="supply.id">
                   <button @click="addSelectedAddOns(supply)" class="bg-orange-200 rounded-lg text-xs py-1 px-2">
                     {{ supply.name }}
