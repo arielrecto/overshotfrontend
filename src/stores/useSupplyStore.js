@@ -7,13 +7,14 @@ export const useSupplyStore = defineStore("supplyStore", {
     isLoading: false,
     status: null,
     error: null,
-    messageResponse : null,
-    data : {
-       quantity : 0,
-       name : null,
-       unit : null,
-       
-    }
+    messageResponse: null,
+    data: {
+      quantity: 0,
+      expiry_date: "",
+      manufacturer: "",
+      name: null,
+      unit: null,
+    },
   }),
   getters: {
     getSuppliesData: (state) => (name) => {
@@ -57,7 +58,7 @@ export const useSupplyStore = defineStore("supplyStore", {
 
         this.isLoading = true;
         const response = await Api().post("/admin/supplies", data);
-        this.isLoading = false
+        this.isLoading = false;
         console.log(response);
         this.status = response.status;
       } catch (error) {
@@ -65,36 +66,38 @@ export const useSupplyStore = defineStore("supplyStore", {
         this.error = error.response.data;
       }
     },
-    async removeSupply(supply) {
+    async removeSupply(supplyId) {
       try {
-        const response = await Api().delete(`/admin/supplies/${supply.id}`);
+        const response = await Api().delete(`/admin/supplies/${supplyId}`);
 
-        if (response.status === 200) {
-          this.supplies.data = this.supplies.data.filter(
-            (item) => item.id !== supply.id
-          );
-        }
+        this.supplies = [...response.data.supplies]
         console.log(this.supplies);
       } catch (error) {}
     },
     async addStocks(data, id) {
-
       try {
-
-        const response = await Api().post(`/admin/supplies/stock/${id}/add`, data);
-        this.supplies = [...response.data.supplies]
-        this.status = response.status
-        this.messageResponse = response.data.message
+        const response = await Api().post(
+          `/admin/supplies/stock/${id}/add`,
+          data
+        );
+        this.supplies = [...response.data.supplies];
+        this.status = response.status;
+        this.messageResponse = response.data.message;
         this.data.quantity = 0;
 
+        this.data = {
+          quantity: 0,
+          expiry_date: "",
+          manufacturer: "",
+          name: null,
+          unit: null,
+        };
         
       } catch (error) {
+        this.status = error.response.status;
 
-        this.status = error.response.status
-
-        this.messageResponse = error.response.data.message
-
+        this.messageResponse = error.response.data.message;
       }
-    }
+    },
   },
 });

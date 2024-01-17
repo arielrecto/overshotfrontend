@@ -16,7 +16,9 @@ const supplies = ref([
         amount: '',
         unit: '',
         quantity: '',
-        category: ''
+        category: '',
+        expiry_date:  '', 
+        manufacturer : ''
     }
 ])
 const addNewField = () => {
@@ -25,7 +27,9 @@ const addNewField = () => {
         amount: '',
         unit: '',
         quantity: '',
-        category: ''
+        category: '',
+        expiry_date:  '', 
+        manufacturer : ''
     }
 
     supplies.value.push(field)
@@ -34,7 +38,10 @@ const addNewField = () => {
 
 const submitSupplyDAta = async () => {
 
-    await addSupplies(addSupplies(supplies.value));
+
+    console.log(supplies.value);
+
+    await addSupplies(supplies.value);
 
     if (status.value == 200) {
         swal.fire({
@@ -45,8 +52,8 @@ const submitSupplyDAta = async () => {
             timer: 1500
         })
 
-        window.location.reload();
-        supplyForm.value.reset();
+        // window.location.reload();
+        // supplyForm.value.reset();
     }
     if (error.value) {
         swal.fire({
@@ -73,26 +80,36 @@ const submitSupplyDAta = async () => {
                     <button @click.prevent="addNewField" class="btn btn-xs btn-neutral">Add More</button>
                 </div>
                 <template v-for="supply in supplies" :key="supply.id">
-                    <div class="capitalize flex flex-col gap-5 w-full lg:w-1/2 bg-white rounded-lg py-10 px-5 text-xs md:text-base">
+                    <div class="capitalize flex flex-col gap-5 w-full lg:w-1/2 bg-white shadow-lg rounded-lg py-10 px-5 text-xs md:text-base">
                         <div class="flex flex-col">
                             <label for="name">Name</label>
                             <input required type="text" v-model="supply.name"
-                                class="p-2 focus:outline-orange-100 rounded-lg">
+                                class="p-2 focus:outline-orange-100 rounded-lg border-2 border-neutral">
                         </div>
                         <div class="flex flex-col">
                             <label for="name">Amount</label>
                             <input required type="text" v-model="supply.amount"
-                                class="p-2 focus:outline-orange-100 rounded-lg">
+                                class="p-2 focus:outline-orange-100 rounded-lg border-2 border-neutral">
                         </div>
                         <div class="flex flex-col">
                             <label for="name">unit</label>
                             <input required type="text" v-model="supply.unit"
-                                class="p-2 focus:outline-orange-100 rounded-lg">
+                                class="p-2 focus:outline-orange-100 rounded-lg border-2 border-neutral">
                         </div>
                         <div class="flex flex-col">
                             <label for="name">quantity</label>
                             <input required type="text" v-model="supply.quantity"
-                                class="p-2 focus:outline-orange-100 rounded-lg">
+                                class="p-2 focus:outline-orange-100 rounded-lg border-2 border-neutral">
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="name">Expiry Date:</label>
+                            <input required type="date" v-model="supply.expiry_date"
+                                class="p-2 focus:outline-orange-100 rounded-lg border-2 border-neutral">
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="name">Manufacturer</label>
+                            <input required type="text" v-model="supply.manufacturer"
+                                class="p-2 focus:outline-orange-100 rounded-lg border-2 border-neutral">
                         </div>
                         <div class="flex flex-col text-xs md:text-base">
                             <label for="name">Select Category</label>

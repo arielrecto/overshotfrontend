@@ -16,20 +16,25 @@
     <nav class="w-full bg-secondary absolute z-10 flex justify-center">
         <div class="w-5/6 justify-between p-4 flex items-center">
             <router-link to="/" class="flex items-center gap-2">
-            <img src="/logo.jpg" alt="" srcset="" class="object object-center h-10 w-10 rounded-full">
-            <h1 class="text-lg uppercase font-bold text-accent">overshot </h1>
-        </router-link>
+                <img src="/logo.jpg" alt="" srcset="" class="object object-center h-10 w-10 rounded-full">
+                <h1 class="text-lg uppercase font-bold text-accent">overshot </h1>
+            </router-link>
 
-        <!-- <div class="w-1/2">
-
+            <div class="text-white text-sm flex items-center gap-5">
+                <a href="/#products" class="text-white hover:underline">Products</a>
+                <a href="/#bestProduct" class="text-white hover:underline">Best Seller</a>
+                <a href="/#mostPopular" class="text-white hover:underline">Most Popular</a>
+            </div>
+            <!-- <div class="w-1/2">
+                
         </div> -->
-        <div class="flex items-center justify-end space-x-2">
-            <router-link to="/login" class="btn btn-neutral btn-xs font-bold">Log in</router-link>
+            <div class="flex items-center justify-end space-x-2">
+                <router-link to="/login" class="btn btn-neutral btn-xs font-bold">Log in</router-link>
 
-            <!-- <button class="btn btn-neutral btn-xs font-bold">Order Now</button> -->
+                <!-- <button class="btn btn-neutral btn-xs font-bold">Order Now</button> -->
+            </div>
         </div>
-        </div>
-        
+
     </nav>
 
     <!-- <nav class="w-full">

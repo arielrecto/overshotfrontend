@@ -42,7 +42,7 @@ onMounted(() => {
                     orders
                 </h1>
 
-                <div class="hidden  lg:flex justify-between border-b-2 border-gray-100">
+                <!-- <div class="hidden  lg:flex justify-between border-b-2 border-gray-100">
                     <div class="lg:block w-1/3 p-2">
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
                         <div class="relative">
@@ -76,7 +76,7 @@ onMounted(() => {
                             <option selected>status</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
 
 
                 <div class="relative overflow-auto h-[30rem]">

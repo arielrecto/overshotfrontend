@@ -36,7 +36,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <section class="bg-secondary w-full flex justify-center md:flex-row md:items-center h-auto md:h-auto lg:h-screen">
+    <section class="bg-secondary w-full flex justify-center md:flex-row md:items-center h-auto md:h-auto lg:h-screen" id="bestProduct">
         <div class="w-5/6 h-full flex flex-col gap-2 bg-secondary py-2">
             <h1 class="text-sm md:text-lg lg:text-4xl text-accent font-bold py-2 md:py-5 lg:py-10 tracking-widest">
                 Best Seller
@@ -85,7 +85,7 @@ onMounted(() => {
 
         </div>
     </section>
-    <section class="bg-secondary w-full flex justify-center md:flex-row md:items-center h-auto md:h-auto lg:h-screen">
+    <section class="bg-secondary w-full flex justify-center md:flex-row md:items-center h-auto md:h-auto lg:h-screen" id="mostPopular">
         <div class="w-5/6 h-full flex flex-col gap-2 bg-secondary py-2">
             <h1 class="text-sm md:text-lg lg:text-4xl text-accent font-bold py-2 md:py-5 lg:py-10 tracking-widest">
                 Most Popular

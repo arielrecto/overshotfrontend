@@ -27,7 +27,7 @@ const formData = ref({
 
     <div class="flex pt-10 h-screen w-full">
       <div class="hidden lg:w-1/2 h-full bg-cover bg-center lg:flex items-center justify-end"
-        style="background-image: url('https://media.istockphoto.com/id/1255853688/photo/bubble-milk-tea-with-tapioca-pearl-topping-famous-taiwanese-drink-on-white-wooden-table.jpg?s=2048x2048&w=is&k=20&c=SN4cycp9_6wCssVbqFvhSTrCpwBSPTBE5zRFYSqPnHs=');">
+        style="background-image: url('/classic.jpg');">
         <div class="bg-secondary rounded-l-sm flex items-center space-x-10 p-2">
           <img src="/logo.jpg" alt="" srcset="" class="h-16 w-16 object object-center rounded-full">
           <h1 class="text-lg uppercase tracking-widest text-neutral font-bold">Overshot</h1>
