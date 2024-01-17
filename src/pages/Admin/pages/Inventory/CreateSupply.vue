@@ -10,6 +10,8 @@ const { status, error, isLoading } = storeToRefs(supplyStore);
 const supplyForm = ref(null);
 const swal = inject('$swal');
 
+const priceFieldToggle = ref(false);
+
 const supplies = ref([
     {
         name: '',
@@ -17,8 +19,9 @@ const supplies = ref([
         unit: '',
         quantity: '',
         category: '',
-        expiry_date:  '', 
-        manufacturer : ''
+        expiry_date: '',
+        manufacturer: '',
+        price: ''
     }
 ])
 const addNewField = () => {
@@ -28,13 +31,23 @@ const addNewField = () => {
         unit: '',
         quantity: '',
         category: '',
-        expiry_date:  '', 
-        manufacturer : ''
+        expiry_date: '',
+        manufacturer: '',
+        price: ''
     }
 
     supplies.value.push(field)
 }
 
+
+const showPriceField = (e) => {
+    if (e.target.value === 'Add On') {
+        priceFieldToggle.value = true;
+        return
+    }
+
+    priceFieldToggle.value = false
+}
 
 const submitSupplyDAta = async () => {
 
@@ -52,8 +65,8 @@ const submitSupplyDAta = async () => {
             timer: 1500
         })
 
-        // window.location.reload();
-        // supplyForm.value.reset();
+        window.location.reload();
+        supplyForm.value.reset();
     }
     if (error.value) {
         swal.fire({
@@ -80,7 +93,8 @@ const submitSupplyDAta = async () => {
                     <button @click.prevent="addNewField" class="btn btn-xs btn-neutral">Add More</button>
                 </div>
                 <template v-for="supply in supplies" :key="supply.id">
-                    <div class="capitalize flex flex-col gap-5 w-full lg:w-1/2 bg-white shadow-lg rounded-lg py-10 px-5 text-xs md:text-base">
+                    <div
+                        class="capitalize flex flex-col gap-5 w-full lg:w-1/2 bg-white shadow-lg rounded-lg py-10 px-5 text-xs md:text-base">
                         <div class="flex flex-col">
                             <label for="name">Name</label>
                             <input required type="text" v-model="supply.name"
@@ -113,7 +127,7 @@ const submitSupplyDAta = async () => {
                         </div>
                         <div class="flex flex-col text-xs md:text-base">
                             <label for="name">Select Category</label>
-                            <select id="countries_disabled" v-model="supply.category" class="bg-orange-50 border border-orange-300 text-gray-600 text-xs rounded-lg
+                            <select id="countries_disabled" @change="showPriceField($event)"  v-model="supply.category" class="bg-orange-50 border border-orange-300 text-gray-600 text-xs rounded-lg
                             focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 
                                            ">
                                 <option value="Add On">Add On</option>
@@ -121,6 +135,14 @@ const submitSupplyDAta = async () => {
                                 <option value="Flavors">Flavors</option>
                             </select>
                         </div>
+                        <template v-if="priceFieldToggle">
+                            <div class="flex flex-col">
+                                <label for="name">Price</label>
+                                <input type="text" v-model="supply.price"
+                                    class="p-2 focus:outline-orange-100 rounded-lg border-2 border-neutral">
+                            </div>
+                        </template>
+
                     </div>
                 </template>
 

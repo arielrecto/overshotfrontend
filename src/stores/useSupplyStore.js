@@ -14,6 +14,7 @@ export const useSupplyStore = defineStore("supplyStore", {
       manufacturer: "",
       name: null,
       unit: null,
+      price : 0,
     },
   }),
   getters: {

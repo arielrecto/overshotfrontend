@@ -277,6 +277,11 @@ const routes = [
         name: "employee-orders",
         component: EmployeeOrder,
       },
+      {
+        path : "daily/supply",
+        name : "daily-supply",
+        component : () => import('./pages/Employee/DailySupply.vue')
+      }
     ],
   },
   {

@@ -156,6 +156,9 @@ onMounted(() => {
                                 <th scope="col" class="px-6 py-3">
                                     Manufacturer
                                 </th>
+                                <!-- <th scope="col" class="px-6 py-3">
+                                   Price
+                                </th> -->
                                 <th scope="col" class="px-6 py-3">
                                     Category
                                 </th>
@@ -192,6 +195,9 @@ onMounted(() => {
                                     <td class="px-6 py-4">
                                         {{ supply.manufacturer }}
                                     </td>
+                                    <!-- <td class="px-6 py-4">
+                                        {{ supply.price }}
+                                    </td> -->
                                     <td class="px-6 py-4">
                                         {{ supply.category }}
                                     </td>
