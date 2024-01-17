@@ -64,7 +64,8 @@ onMounted(() => {
                                             &#8369 {{ product?.price }}
                                         </span>
                                     </h1>
-                                    <div class="relative flex items-center">
+                                    <div class="relative flex items-center gap-5">
+                                        <h1 class="lg:text-lg text-sm md:text-sm font-bold py-2">Rating</h1>
                                         <vueStarRating v-model="ratings"></vueStarRating>
                                         <div class="w-full absolute z-10 h-full top-0">
 
@@ -89,7 +90,6 @@ onMounted(() => {
 
                             </p>
                             <div class="flex flex-col gap-2">
-                                <h1 class="lg:text-xl text-sm md:text-lg font-bold py-2 w-full border-b-2">Rating</h1>
                                 <template v-for="feedback in  product?.ratings" :key="feedback.id">
                                     <div class="flex gap-2 border-2 border-gray-100 rounded-lg p-2">
                                         <h1 class="text-xs sm:text-sm font-bold capitalize border-r-2 border-gray-100 pr-2">anonymous
