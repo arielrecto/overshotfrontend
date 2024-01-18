@@ -112,13 +112,13 @@ onMounted(() => {
                     <template v-for="order in salesReport?.orders" :key="order.id">
                         <div class="grid grid-cols-3 grid-flow-row border-b-2">
                             <h1 class="border-r-2">{{ order.order_num }}</h1>
-                            <h1> {{ order.products_count }}</h1>
-                            <h1> &#8369 {{ order.total }}</h1>
+                            <h1> {{ order.cart.cart_products_count }}</h1>
+                            <h1> &#8369 {{ order.cart.total }}</h1>
                         </div>
                     </template>
                 </div>
 
-                <div class="w-full flex justify-end">
+                <div class="w-full flex justify-end mt-24">
                     <h1 class="border-b-2 border-gray-800 text-sm flex gap-2">
                         prepared by:
                         <span class="font-bold">

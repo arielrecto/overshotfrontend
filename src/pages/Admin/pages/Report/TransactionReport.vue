@@ -98,7 +98,7 @@ onMounted(() => {
                         </template>
                     </div>
                 </div>
-                <div class="w-full flex justify-end">
+                <div class="w-full flex justify-end mt-24">
                     <h1 class="border-b-2 border-gray-800 text-sm flex gap-2">
                         prepared by:
                         <span class="font-bold">
