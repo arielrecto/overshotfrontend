@@ -45,6 +45,7 @@ export const useClientOrderStore = defineStore('clientOrdersStore', {
 
                 this.order = {...response.data}
 
+                console.log(this.order);
 
                 this.isLoading = false
 

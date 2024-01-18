@@ -12,9 +12,9 @@ const { transactions, orders, total, getTotalWalkinTransaction, getTotalOnlineTr
 
 const sales = computed(() => {
         let sum = 0;
-
+        console.log(transactions.value);
         transactions.value.forEach(item => {
-                sum = sum + parseInt(item.order.total);
+                sum = sum + parseInt(item.order.cart.total);
         });
         return sum;
 })

@@ -123,7 +123,7 @@ const changeQuantity = (data) => {
 const openPaymentModal = () => {
 
 
-    if (transaction.value.products.length === 0 || transaction.value.supplies.length === 0) {
+    if (transaction.value.products.length === 0) {
 
         return
 
@@ -181,6 +181,8 @@ const sendTransaction = async () => {
             timer: 1500
         })
 
+        location.reload();
+
         transaction.value.supplies = [];
 
         transaction.value.products = [];
@@ -227,7 +229,7 @@ onMounted(() => {
 <template>
     <div class="flex w-full gap-4">
         <div class="w-[70rem] flex flex-col gap-5 px-2">
-            <h1 class="text-center w-full text-xl font-bold p-5">
+            <!-- <h1 class="text-center w-full text-xl font-bold p-5">
                 Supplies
             </h1>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-auto h-[15rem]">
@@ -281,7 +283,7 @@ onMounted(() => {
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div> -->
 
 
 
@@ -313,83 +315,21 @@ onMounted(() => {
                 <template v-for="product in getProducts" :key="product.id">
                     <button @click="addProducts(product)">
                         <div class="w-full min-h-11 max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
-                            <!-- <a href="#">
-                        <img class="p-8 rounded-t-lg h-[21rem] w-auto" :src="product.image.image_url" alt="product image" />
-                    </a> -->
+                         
                             <div class="px-5 pb-5 h-auto w-full flex flex-col">
 
                                 <p class="text-xs text-orange-700">Category : {{ product.categories[0].name }}</p>
 
                                 <h5 class="text-lg font-semibold tracking-tight">{{ product.name }}</h5>
-
-
-                                <!-- <div class="flex p-2 gap-2 text-xs">
-                            <p>
-                                Sizes :
-                            </p>
-                            <template v-for="size in product.sizes" :key="size.id">
-                                <p class="text-gray-500">{{ size.name }}</p>
-                            </template>
-                        </div> -->
-                                <!-- <div class="flex items-center justify-between">
-                            <span class="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
-                            <button v-show="checkIfItemIsAdded(product, transaction.products)" @click="addProducts(product)"
-                                class="text-white bg-orange-300 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-                                                                                                                                        ">Add
-                                to cart</button>
-                            <button v-show="!checkIfItemIsAdded(product, transaction.products)"
-                                @click="removeItem(product, transaction.products)"
-                                class="text-white bg-red-300 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-                                                                                                                                        ">Remove</button>
-                        </div> -->
                             </div>
                         </div>
                     </button>
-
-
                 </template>
-
             </div>
         </div>
         <div class="bg-gray-100 drop-shadow-lg w-[20rem] p-2">
             <h1 class="w-full p-2 text-lg font-bold text-center">Point of Sale</h1>
-            <div>
-                <h1 class="text-center text-sm font-semibold p-2">Supplies</h1>
-            </div>
-
-            <div class="relative overflow-y-auto shadow-md sm:rounded-lg h-[14rem]">
-                <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                name
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Quantity
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-white border-b" v-for="supply in transaction.supplies" :key="supply.id">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{ supply.name }}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ supply.quantity }}
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex gap-2">
-                                    <button @click="changeQuantity(supply).add()">+</button>
-                                    <button @click="changeQuantity(supply).subtract()">-</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+          
             <div class="flex flex-col gap-2 p-2 bg-gray-100 drop-shadow-lg mt-4 h-[25rem]">
                 <h1 class="capitalize text-center text-lg font-bold p-2">
                     products
@@ -429,9 +369,9 @@ onMounted(() => {
                                     avaible Sizes
                                 </p>
                                 <div class="flex gap-2">
-                                    <button class="text-xs font-light" @click="selectSize('regular', product)">
+                                    <!-- <button class="text-xs font-light" @click="selectSize('regular', product)">
                                         regular
-                                    </button>
+                                    </button> -->
                                     <template v-for="size in product.sizes" :key="size.id">
                                         <button class="text-xs font-light" @click="selectSize(size, product)">
                                             {{ size.name }}

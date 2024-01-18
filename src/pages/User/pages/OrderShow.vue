@@ -55,14 +55,14 @@ const setRating = (product) => {
 
 }
 
-const getOrderData = async() => {
+const getOrderData = async () => {
 
     await getOrder(orderID)
 
 
-    if (order.value.status == 'on_deliver'){
+    if (order.value.status == 'on_deliver') {
 
-      const riderID =  order.value.transaction.delivery.rider_location_id
+        const riderID = order.value.transaction.delivery.rider_location_id
 
         getRiderLocationData(riderID);
 
@@ -90,11 +90,11 @@ const getRiderLocationData = async (id) => {
 
         order.value = {
             ...order.value,
-            transaction : {
+            transaction: {
                 ...order.value.transaction,
-                delivery : {
+                delivery: {
                     ...order.value.transaction.delivery,
-                    rider_location : {...riderLocation.value}
+                    rider_location: { ...riderLocation.value }
                 }
             }
         }
@@ -148,7 +148,7 @@ onUnmounted(() => {
                                 </h1>
                                 <h1 class="flex w-full text-xs lg:text-sm font-bold gap-2 capitalize">
                                     <span class="font-normal">Total:</span>
-                                    <span> &#8369 {{ order.total }}</span>
+                                    <span> &#8369 {{ order.cart?.total }}</span>
                                 </h1>
                                 <h1 class="flex w-full text-xs lg:text-sm font-bold gap-2 capitalize">
                                     <span class="font-normal">Type:</span>
@@ -161,30 +161,30 @@ onUnmounted(() => {
                             </div>
 
                             <div class="w-full h-full">
-                                <template v-for="product in order.products" :key="product.id">
-                                    <div class="collapse collapse-arrow bg-gray-100 overflow-auto">
-                                        <router-link :to="{ name: 'product-rate', params: { productID: product.id } }"
+                                <template v-for="c_product in order.cart?.cart_products">
+                                    <div class="collapse collapse-arrow bg-gray-100">
+                                        <router-link
+                                            :to="{ name: 'product-rate', params: { productID: c_product.product.id } }"
                                             class="btn btn-xs btn-neutral">
                                             Rate ★
                                         </router-link>
                                         <input type="radio" name="my-accordion-2" checked="checked" />
-                                        <div
-                                            class="collapse-title text-xl font-medium flex justify-between items-center gap-2 border-b-2 border-gray-200 w-full
+                                        <div class="collapse-title text-xl font-medium flex justify-between items-center gap-2 border-b-2 border-gray-200 w-full
                                             ">
                                             <div class="flex gap-5">
                                                 <div class="h-16 w-16">
-                                                    <img :src="product.image.image_url" alt="" srcset=""
+                                                    <img :src="c_product.product.image.image_url" alt="" srcset=""
                                                         class="w-full h-full object object-center object-cover">
                                                 </div>
                                                 <h1 class="flex items-center gap-10">
                                                     <span class="text-sm lg:text-base">
-                                                        {{ product.name }}
+                                                        {{ c_product.product.name }}
                                                     </span>
-                                                    <template v-if="'ratings_avg_rate' in product">
+                                                    <template v-if="'ratings_avg_rate' in c_product.product">
                                                         <span class="flex items-center gap-2">
                                                             <starRating v-model="rating" read-only="true"></starRating>
                                                             <span class="text-xs lg:text-base">
-                                                                {{ setRating(product) }}
+                                                                {{ setRating(c_product.product) }}
                                                             </span>
                                                         </span>
 
@@ -194,7 +194,7 @@ onUnmounted(() => {
                                                 </h1>
                                             </div>
                                             <p class="text-xs lg:text-base flex items-center w-16 md:w-none justify-end">
-                                                &#8369 {{ product.price }}
+                                                &#8369 {{ c_product.price }}
                                             </p>
 
                                         </div>
@@ -202,10 +202,10 @@ onUnmounted(() => {
                                             <div class="flex gap-5 p-5">
                                                 <h1 class="flex text-sm font-bold gap-2 capitalize">
                                                     <span class="font-normal">
-                                                        size:
+                                                        {{ JSON.parse(c_product.size).name }}
                                                     </span>
                                                     <span>
-                                                        {{ product.pivot.size }}
+                                                        &#8369 {{ JSON.parse(c_product.size).pivot.price }}
                                                     </span>
                                                 </h1>
                                                 <h1 class="flex text-sm font-bold gap-2 capitalize">
@@ -213,29 +213,38 @@ onUnmounted(() => {
                                                         quantity:
                                                     </span>
                                                     <span>
-                                                        {{ product.pivot.quantity }}
+                                                        {{ c_product.quantity }}
+                                                    </span>
+                                                </h1>
+                                                <h1 class="flex text-sm font-bold gap-2 capitalize">
+                                                    <span class="font-normal">
+                                                        Sugar
+                                                    </span>
+                                                    <span>
+                                                        {{ c_product.sugar_level }} %
                                                     </span>
                                                 </h1>
                                             </div>
-                                            <template v-if="product.customizes.length !== 0">
-                                               <template v-for="customize in product.customizes" :key="customize.id">
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-center gap-5 text-xs">
-                                                        <p>Sugar level</p>
-                                                        <p>
-                                                            {{ customize.sugar_level }} %
-                                                        </p>
-                                                    </div>
-                                                    <div class="flex flex-col gap-2 text-xs w-1/5">
+                                            <p class="text-sm font-bold">Add ons</p>
+                                            <template v-if="JSON.parse(c_product.addons).length !== 0">
+                                                <template v-for="addon in JSON.parse(c_product.addons)" :key="addon.id">
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="flex items-center gap-5 text-xs">
+                                                            <p>{{ addon.name }}</p>
+                                                            <p>
+                                                                &#8369 {{ addon.price }}
+                                                            </p>
+                                                        </div>
+                                                        <!-- <div class="flex flex-col gap-2 text-xs w-1/5">
                                                         <h1 class="font-bold">Addons</h1>
                                                         <template v-for="addon in JSON.parse(customize.addons)" >
                                                             <p>
                                                                 {{ addon.name }}
                                                             </p>
                                                         </template>
+                                                    </div> -->
                                                     </div>
-                                                </div>
-                                               </template>
+                                                </template>
                                             </template>
                                             <template v-else>
                                                 <div class="w-full flex justify-center">
@@ -310,13 +319,13 @@ onUnmounted(() => {
                                         <h1 class="w-full text-sm font-bold flex gap-2">
                                             <span class="font-normal">Total:</span>
                                             <span>
-                                                &#8369 {{ order.total }}
+                                                &#8369 {{ order.cart?.total }}
                                             </span>
                                         </h1>
                                         <h1 class="w-full text-sm font-bold flex gap-2">
                                             <span class="font-normal">Quantity :</span>
                                             <span>
-                                                {{ order.quantity }}
+                                                {{ order.cart?.quantity }}
                                             </span>
                                         </h1>
                                         <h1 class="w-full text-sm font-bold flex gap-2">
@@ -335,13 +344,32 @@ onUnmounted(() => {
                                     <div class="flex flex-col gap-2 overflow-x-auto ">
 
                                         <h1 class="font-bold text-sm">Products</h1>
-                                        <template v-for="product in order.products">
+                                        <template v-for="c_product in order.cart?.cart_products">
                                             <div
-                                                class="grid grid-cols-4 grid-flow-row gap-2 text-xs border-2 rounded-lg p-2 w-[20rem] md:w-full ">
-                                                <h1 class="font-bold text-xs md:text-sm border-r-2">{{ product.name }}</h1>
-                                                <h1 class="font-bold text-xs md:text-sm border-r-2">{{ product.pivot.size }}</h1>
-                                                <h1 class="font-bold text-xs md:text-sm border-r-2">{{ product.pivot.quantity }} x</h1>
-                                                <h1 class="font-bold text-xs md:text-sm">&#8369 {{ product.price }}</h1>
+                                                class="grid grid-cols-5 grid-flow-row gap-2 text-xs border-2 rounded-lg p-2 w-[20rem] md:w-full ">
+                                                <h1 class="font-bold text-xs md:text-sm border-r-2">
+                                                    {{ c_product.product.name }}</h1>
+                                                <h1 class="font-bold text-xs md:text-sm border-r-2"><span>{{
+                                                    JSON.parse(c_product.size).name }}</span> 
+                                                    <span>&#8369 {{
+        JSON.parse(c_product.size).pivot.price }}</span></h1>
+                                                <h1 class="font-bold text-xs md:text-sm border-r-2"> {{ c_product.quantity
+                                                }}
+                                                    x</h1>
+                                                <template v-if="JSON.parse(c_product.addons).length !== 0">
+                                                    <h1 class="flex flex-wrap">
+                                                        <template v-for="addon in JSON.parse(c_product.addons)">
+                                                        <span class="flex items-center gap-2">
+                                                            <span>{{ addon.name }}</span>
+                                                            <span>(&#8369  {{ addon.price }})</span>
+                                                        </span>
+                                                    </template>
+                                                    </h1>
+                                                   
+
+                                                </template>
+
+                                                <h1 class="font-bold text-xs md:text-sm">&#8369 {{ c_product.price }}</h1>
                                             </div>
                                         </template>
                                     </div>

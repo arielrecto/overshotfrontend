@@ -108,7 +108,7 @@ const submitOrderTransaction = async () => {
     const data = {
         order: orderPreviewData.value,
         supplies: selectedSupply.value,
-        riderId : selectedRiderId.value
+        riderId: selectedRiderId.value
     }
 
     await sendOrderTransaction(data);
@@ -215,10 +215,10 @@ onMounted(() => {
                                     {{ order.user.name }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ order.quantity }}
+                                    {{ order.cart?.quantity }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    ₱ {{ order.total }}
+                                    ₱ {{ order.cart?.total }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ order.type }}
@@ -226,14 +226,15 @@ onMounted(() => {
                                 <td class="px-6 py-4">
                                     <button class="bg-orange-300 px-4 py-2 rounded-lg drop-shadow-sm"
                                         @click="getItem(order.id)">View</button>
-                                    <button class="bg-red-300 px-4 py-2 ml-2 rounded-lg drop-shadow-sm">Cancel</button>
+                                    <button class="bg-red-300 px-4 py-2 ml-2 rounded-lg drop-shadow-sm"
+                                        @click="orderPreviewData = null">Cancel</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="bg-gray-100 w-[50rem] flex flex-col p-2 mt-2 h-full">
+            <div class="bg-gray-100 w-[50rem] flex flex-col p-2 mt-2 h-full overflow-y-auto">
                 <h1 class="text-center font-semibold text-lg p-2"> Order Data</h1>
                 <template v-if="orderPreviewData != null">
                     <div class="border-2 w-full h-[32rem] bg-gray-50 drop-shadow-lg p-2">
@@ -260,7 +261,7 @@ onMounted(() => {
                                     Total Item :
                                 </span>
 
-                                {{ orderPreviewData.quantity }} pcs
+                                {{ orderPreviewData.cart.quantity }} pcs
                             </h1>
                         </div>
                         <div class="p-2">
@@ -269,7 +270,7 @@ onMounted(() => {
                                     Total payment :
                                 </span>
                                 ₱
-                                {{ orderPreviewData.total }}
+                                {{ orderPreviewData.cart.total }}
                             </h1>
                         </div>
                         <div class="p-2 flex space-x-2">
@@ -285,7 +286,96 @@ onMounted(() => {
                         </div>
 
                         <div class="relative overflow-y-auto h-auto max-h-[13rem]">
-                            <table class="w-full text-sm text-left text-gray-500">
+                            <template v-for="product in orderPreviewData.cart.cart_products" :key="product.id">
+                                <div class="flex gap-5 h-auto border-b-2 p-2">
+                                    <img :src="product.product.image.image_url" alt="" srcset=""
+                                        class="object h-14 w-14 object-center">
+                                    <div class="w-full flex flex-col gap-2">
+                                        <div class="flex justify-between p-2">
+                                            <h1 class="font-bold text-sm flex flex-col gap-2">
+                                                <span>
+                                                    {{ product.product.name }}
+                                                </span>
+                                                <!-- <span class="text-gray-500 text-xs">
+                                                    {{ product.product.categories[0].name }}
+                                                </span> -->
+
+                                            </h1>
+                                            <h1 class="text-sm font-bold">
+                                                ₱ {{ product.price }}
+                                            </h1>
+                                        </div>
+
+                                        <div class="flex flex-col font-bold">
+                                            <h1 class="text-xs">Sugar Level</h1>
+                                            <p class="flex justify-between gap-2 text-xs font-normal">
+                                                <span>
+                                                    Percent
+                                                </span>
+                                                <span>
+                                                    {{ product.sugar_level }} %
+                                                </span>
+                                            </p>
+                                        </div>
+
+
+                                        <div class="flex flex-col font-bold">
+                                            <h1 class="text-xs">Size</h1>
+                                            <p class="flex justify-between gap-2 text-xs font-normal">
+                                                <span>
+                                                    {{ JSON.parse(product.size).name }}
+                                                </span>
+                                                <span>
+                                                    ₱ {{ JSON.parse(product.size).pivot.price }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col font-bold">
+                                            <h1 class="text-xs">Addons</h1>
+                                            <template v-if="JSON.parse(product.addons).length !== 0">
+                                                <template v-for="addon in JSON.parse(product.addons)" :key="addon.id">
+                                                    <p class="flex justify-between gap-2 text-xs font-normal">
+                                                        <span>
+                                                            {{ addon.name }}
+                                                        </span>
+                                                        <span>
+                                                            ₱ {{ addon.price }}
+                                                        </span>
+                                                    </p>
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <p class="text-xs font-normal">
+                                                    No Addons
+                                                </p>
+                                            </template>
+
+                                        </div>
+                                        <div class="flex flex-col font-bold">
+                                            <p class="flex justify-between gap-2 text-xs font-normal">
+                                                <span>
+                                                    Quantity
+                                                </span>
+                                                <span>
+                                                    {{ product.quantity }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col font-bold border-t-2 border-gray-400">
+                                            <p class="flex justify-between gap-2 text-xs ">
+                                                <span>
+                                                    Total
+                                                </span>
+                                                <span class="font-normal">
+                                                    ₱ {{ product.price }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- <table class="w-full text-sm text-left text-gray-500">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
@@ -325,7 +415,7 @@ onMounted(() => {
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
                         </div>
 
 
@@ -342,9 +432,9 @@ onMounted(() => {
                             </select>
                         </div>
 
-                        
+
                         <div class="w-full mt-10">
-                            <button @click="openOrderModel" class="w-full bg-orange-300 p-2 rounded-lg ">Proceed</button>
+                            <button @click="submitOrderTransaction" class="w-full bg-orange-300 p-2 rounded-lg ">Proceed</button>
                         </div>
 
                     </div>
@@ -355,7 +445,7 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-        <div class="left-[10rem] top-[10rem] h-[22rem] w-[60rem] z-10 absolute bg-gray-100 drop-shadow-lg"
+        <!-- <div class="left-[10rem] top-[10rem] h-[22rem] w-[60rem] z-10 absolute bg-gray-100 drop-shadow-lg"
             v-show="orderModal">
             <div>
 
@@ -445,8 +535,8 @@ onMounted(() => {
                 </div>
                 <div class="w-full flex flex-row-reverse">
                     <div class="p-5 mr-5 flex space-x-10">
-                        <button @click="submitOrderTransaction" :disabled="isSending" class="bg-orange-300 px-4 py-2 rounded-lg"
-                            v-if="selectedSupply.length !== 0">
+                        <button @click="submitOrderTransaction" :disabled="isSending"
+                            class="bg-orange-300 px-4 py-2 rounded-lg" v-if="selectedSupply.length !== 0">
                             Process
                         </button>
                         <button @click="openOrderModel" class="bg-red-300 px-4 py-2 rounded-lg">
@@ -455,7 +545,7 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="left-[30rem] top-[5rem] h-[30rem] w-[20rem] z-10 absolute bg-gray-100 drop-shadow-lg p-2"
             v-show="paymentModal">
 

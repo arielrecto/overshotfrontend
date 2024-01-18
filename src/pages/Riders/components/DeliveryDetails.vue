@@ -181,7 +181,7 @@ onMounted(() => {
                         <span class="text-xs text-gray-400">{{ viewData.data.transaction.order.order_num }}</span>
                     </h1>
                     <h1 class="text-primary font-bold bg-neutral px-4 py-2 rounded-lg">Total : &#8369 {{
-                        viewData.data.transaction.order.total }}</h1>
+                        viewData.data.transaction.order.cart.total }}</h1>
                 </div>
                 <div class="w-full flex flex-col gap-2 p-2 rounded-lg border-2 border-gray-200">
                     <h1 class="text-sm font-semibold">Payment Details</h1>
@@ -213,21 +213,21 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="product in viewData.data.transaction.order.products" :key="product.id">
+                            <template v-for="c_product in viewData.data.transaction.order.cart.cart_products" :key="c_product.id">
                                 <tr>
 
                                     <td>
                                         <div class="flex items-center space-x-3">
                                             <div class="avatar">
                                                 <div class="mask mask-squircle w-12 h-12">
-                                                    <a class="delivery-image" :href="product.image.image_url">
-                                                        <img :src="product.image.image_url"
+                                                    <a class="delivery-image" :href="c_product.product.image.image_url">
+                                                        <img :src="c_product.product.image.image_url"
                                                             alt="Avatar Tailwind CSS Component" />
                                                     </a>
                                                 </div>
                                             </div>
                                             <div>
-                                                <div class="font-bold">{{ product.name }}</div>
+                                                <div class="font-bold">{{ c_product.product.name }}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -235,8 +235,8 @@ onMounted(() => {
                                     <p v-html="product.description"
                                         class="truncate duration-700 w-32"></p>
                                 </td> -->
-                                    <td>{{ product.pivot.quantity }}</td>
-                                    <td>&#8369 {{ product.price }}</td>
+                                    <td>{{ c_product.quantity }}</td>
+                                    <td>&#8369 {{ c_product.price }}</td>
 
                                 </tr>
                             </template>

@@ -9,6 +9,7 @@ export const useClientProductStore = defineStore("clientProdcutStore", {
     status: null,
     orders: [],
     categories : [],
+    cart : null,
     supplies : [],
     category : '',
     isSending : false
@@ -63,5 +64,27 @@ export const useClientProductStore = defineStore("clientProdcutStore", {
         console.log(response.data);
       } catch (error) {}
     },
+    async addProductToCart(data){
+      try {
+
+        const response = await Api().post("/client/cart/addtocart", data);
+        this.status = response.status;
+        this.cart = response.data.cart;
+        
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getCartData (){
+      try {
+
+        const response = await Api().get("/client/cart/",);
+        this.status = response.status;
+        this.cart = response.data.cart;
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
 });

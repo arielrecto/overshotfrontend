@@ -9,7 +9,7 @@ import { useGeolocation } from '../utilities/useGeolocation.js'
 const coordinates = defineProps({
     latitude: 0,
     longitude: 0,
-    riderCoordinates : null
+    riderCoordinates: null
 })
 
 console.log(coordinates.riderCoordinates)
@@ -80,17 +80,48 @@ onMounted(() => {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(myMap);
 
+    const myIcon = L.icon({
+        iconUrl: '/map-icons/delivery.png',
+        iconSize: [30, 32],
+        shadowAnchor: [4, 62]
+    })
 
-    L.marker([coordinates.latitude, coordinates.longitude]).addTo(myMap)
+    const houseIcon = L.icon({
+        iconUrl: '/map-icons/house.png',
+        iconSize: [30, 32],
+        shadowAnchor: [4, 62]
+    })
 
-    L.Routing.control({
+    // L.marker([coordinates.latitude, coordinates.longitude],{ icon: myIcon }).addTo(myMap)
+
+
+
+    const control = L.Routing.control({
         waypoints: [
             L.latLng(coordinates.riderCoordinates.lat, coordinates.riderCoordinates.lng),
             L.latLng(coordinates.latitude, coordinates.longitude),
         ],
-        routeWhileDragging: true
+        routeWhileDragging: true,
+        createMarker: function (i, waypoint, number) {
+        var markerOptions = {
+            draggable: true,
+            icon: houseIcon
+        };
+
+        // Apply the custom icon only to the start point marker
+        if (i === 0) {
+            markerOptions.icon = myIcon;
+        }
+
+        var marker = L.marker(waypoint.latLng, markerOptions);
+        return marker;
+    }
     }).addTo(myMap);
+
+
 })
+
+
 
 
 // const myIcon = L.icon({
