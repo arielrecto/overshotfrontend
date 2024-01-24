@@ -558,9 +558,9 @@ onMounted(() => {
           <img src="/loading-9.gif" alt="" srcset="">
         </div>
       </div>
-      <div class="container px-5 py-24 mx-auto z-0" v-show="!isLoading">
-        <div class="flex flex-wrap -m-4 gap-4 justify-center lg:justify-normal">
-
+      <div class="container px-5 py-24 mx-auto z-0 flex justify-center" v-show="!isLoading">
+        <!-- <div class="flex flex-wrap -m-4 gap-4 justify-center lg:justify-normal"> -->
+        <div class="grid grid-cols-6 grid-flow-row gap-5">
           <template v-for="product in getAllProducts" :key="product.id">
 
             <div class="w-64 md:w-52 h-auto bg-accent flex flex-col gap-2 shadow-lg relative">
@@ -571,13 +571,20 @@ onMounted(() => {
                       product.categories[0].name }}</span></h3>
                 <h2 class="text-primary title-font text-sm lg:text-lg font-bold tracking-widest capitalize">{{
                   product.name }}</h2>
-                <p class="text-xs font-bold flex gap-2">
+                <p class="text-xs font-bold flex flex-col gap-2">
                   <span>
-                    Sizes :
+                    Sizes
                   </span>
-                  <span class="flex gap-2 items-center">
+                  <span class="flex flex-col gap-2">
                     <template v-for="size in product.sizes" :key="size.id">
-                      <p class="text-xs rounded-lg text-center">{{ size.name }}</p>
+                      <p class="text-xs rounded-lg text-center flex items-center justify-between border-b-2 border-gray-200">
+                        <span>
+                          {{ size.name }}
+                        </span>
+                        <span>
+                          ₱ {{ size.pivot.price }}
+                        </span>
+                      </p>
                     </template>
                   </span>
                 </p>
@@ -621,9 +628,10 @@ onMounted(() => {
         class="fixed right-0 top-0 h-full w-full lg:w-[32rem] bg-base-100 p-5 drop-shadow-lg z-10 overflow-y-auto">
         <template v-if="cart?.cart_products.length !== 0">
           <div class="flex flex-col w-full">
-            <button class="btn btn-ghost btn-sm" @click="open">X</button>
-            <div class="w-full border-b-2 border-theme-secondary -my-2">
-              <h1 class="text-center text-lg lg:text-3xl font-bold p-4">Cart</h1>
+           
+            <div class="w-full border-b-2 border-theme-secondary -my-2 flex items-center justify-between">
+              <h1 class="text-lg lg:text-3xl font-bold p-4">Cart</h1>
+              <button class="btn btn-error btn-sm" @click="open">X</button>
             </div>
             <div class="capitalize w-full flex justify-between py-2">
               <h1 class="p-4 font-semibold">total: ₱ {{ cart?.total }}</h1>
