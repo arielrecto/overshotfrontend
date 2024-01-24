@@ -32,16 +32,19 @@
                         </div>
                         <h1 class="text-xl font-bold uppercase tracking-wide">Products Report</h1>
                     </div>
-                </div>
-                <div class="flex items-center justify-center gap-2 w-full h-full shadow-lg rounded-2 rounded-lg bg-gray-50">
+                </div>-->
+                <router-link :to="{name : 'order-report'}">
+                    <div class="flex items-center justify-center gap-2 w-full h-full shadow-lg rounded-2 rounded-lg bg-gray-50">
                     <div class="w-auto h-auto flex flex-col gap-2 p-5">
                         <div class="w-full flex justify-center">
                             <img src="/sticker/inventory.png" alt="" srcset=""
                                 class="object object-center object-cover h-14 w-14">
                         </div>
-                        <h1 class="text-xl font-bold uppercase tracking-wide">Inventory Report</h1>
+                        <h1 class="text-xl font-bold uppercase tracking-wide">Order Report</h1>
                     </div>
-                </div> -->
+                </div> 
+                </router-link>
+               
                 <router-link :to="{ name: 'sales-report' }">
                     <div
                         class="flex items-center justify-center gap-2 w-full h-full shadow-lg rounded-2 rounded-lg bg-gray-50">

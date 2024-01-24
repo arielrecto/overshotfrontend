@@ -7,11 +7,11 @@ const reportStore = useReportStore();
 
 const user = JSON.parse(localStorage.getItem('user'));
 
-const { salesReport } = storeToRefs(reportStore)
-const { getSales } = reportStore
+const { salesReport, reportType, dateIssued, total } = storeToRefs(reportStore)
+const { getSales, getSalesFilter } = reportStore
 
 const monthlySalesData = ref([])
-const total = ref(0)
+
 
 
 const pdf = window.html2pdf();
@@ -62,6 +62,10 @@ onMounted(() => {
         <div class="h-auto bg-white w-full shadow-lg p-4 rounded-lg flex flex-col gap-2">
             <div class="p-2 w-full flex justify-between items-center">
                 <h1 class="text-lg font-bold ">Sales Report</h1>
+                <div class="flex items-center gap-5">
+                    <button class="btn btn-success btn-xs" @click="getSalesFilter('weekly')">weekly</button>
+                    <button class="btn btn-warning btn-xs" @click="getSales">Monthly</button>
+                </div>
                 <button class="btn btn-xs btn-neutral" @click="printTransactionPDF">
                     <i class="fi fi-rr-print"></i>
                 </button>
@@ -79,8 +83,8 @@ onMounted(() => {
 
                     </div>
                 </div>
-                <div class="grid grind-cols-3 grid-flow-row gap-10">
-                    <h1 class="w-full flex items-center font-bold tracking-wide gap-2">
+                <div class="flex items-center justify-between">
+                    <h1 class="flex items-center font-bold tracking-wide gap-2">
                         <span>
                             Total:
                         </span>
@@ -88,21 +92,29 @@ onMounted(() => {
                             &#8369 {{ total }}
                         </span>
                     </h1>
+                    <h1 class="flex items-center font-bold tracking-wide gap-2">
+                        <span>
+                            Date Issued:
+                        </span>
+                        <span>
+                           {{ dateIssued }}
+                        </span>
+                    </h1>
                 </div>
                 <div class="grid grid-cols-1 grid-flow-row gap-5">
                     <div class="w-full flex flex-col gap-2 border-2 text-xs p-2">
-                        <h1 class="w-full text-center border-b-2 font-bold">Monthly Sales</h1>
+                        <h1 class="w-full text-center border-b-2 font-bold">{{ reportType }}</h1>
 
-                        <template v-for="(monthly, index) in  monthlySalesData" :key="index">
+                        <template v-for="(sale, index) in  salesReport" :key="index">
                             <div class="grid grid-cols-2 grid-flow-row border-b-2">
-                                <h1 class="border-r-2">{{ monthly.month }}</h1>
-                                <h1> &#8369 {{ monthly.sales }}</h1>
+                                <h1 class="border-r-2">{{ sale.name }}</h1>
+                                <h1> &#8369 {{ sale.totalTransactions }}</h1>
                             </div>
                         </template>
                     </div>
                 </div>
 
-                <div class="w-full flex flex-col gap-2 border-2 text-xs p-2">
+                <!-- <div class="w-full flex flex-col gap-2 border-2 text-xs p-2">
                     <h1 class="w-full text-center border-b-2 font-bold">Orders</h1>
                     <div class="grid grid-cols-3 grid-flow-row border-b-2">
                             <h1 class="border-r-2">Order #</h1>
@@ -116,7 +128,7 @@ onMounted(() => {
                             <h1> &#8369 {{ order.cart.total }}</h1>
                         </div>
                     </template>
-                </div>
+                </div> -->
 
                 <div class="w-full flex justify-end mt-24">
                     <h1 class="border-b-2 border-gray-800 text-sm flex gap-2">

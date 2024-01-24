@@ -216,6 +216,11 @@ const routes = [
             name: "sales-report",
             component: () => import('./pages/Admin/pages/Report/SalesReport.vue'),
           },
+          {
+            path: "order",
+            name: "order-report",
+            component: () => import('./pages/Admin/pages/Report/OrderReport.vue'),
+          },
         ],
       },
     ],
